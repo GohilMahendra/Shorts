@@ -1,4 +1,4 @@
-import React ,{useState,useRef}from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Platform, Pressable } from "react-native"
 import { StyleSheet, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
@@ -8,85 +8,40 @@ import { launchImageLibrary } from "react-native-image-picker"
 import auth from "@react-native-firebase/auth"
 
 
-import { VideoHTMLAttributes } from "vi"
+import Modal from 'react-native-modal'
+
 import Animated from "react-native-reanimated"
+import VideoUpload from "../components/VideoUpload"
 const Welcome = () => {
 
 
 
     const animationVariable = useRef(new Animated.Value(0)).current;
 
-    const scaleValue = useRef(0);
-    let date=new Date()
+    let date = new Date()
 
-    const todaysDate=date.toUTCString().split('T')[0]
-
-    const TimeStamp=date.valueOf()
+    const todaysDate = date.toISOString()
     
+    console.log(todaysDate)
+
+    const [visible, setVisble] = useState(false)
+
+
+
+    const TimeStamp = date.valueOf()
+
 
     const runAnimationOnClick = () => {
 
-        scaleValue.current=scaleValue.current==0?1:0
+        console.log("called")
+
         Animated.spring(animationVariable, {
-            toValue: scaleValue.current,
+            toValue: 2,
             useNativeDriver: false,
         }).start();
-     }
-  
-    const readPermission=()=>
-    
-    {
-        
     }
 
-    const [uploadTask, setUploadTask] = useState();
-
-    const launchMedia=async()=>
-    {
-
-        const options={
-            
-            
-        }
-        launchImageLibrary(
-            {
-
-                mediaType:'video',
-                videoQuality:(Platform.OS=='android'?'low':'medium'),
-                selectionLimit:1,
-                
-
-            },
-            response=>
-            {
-                if(response.didCancel)
-                {
-                    console.log('canccel')
-                }
-                else if(!response.didCancel)
-                {
-
-
-                    console.log(response.assets[0].uri)
-                    console.log(response.assets[0].duration)
-                    console.log(response.fileName)
-
-
-                    let videoRef='/Videos/'+todaysDate+'/'+
-                    auth().currentUser.uid+'-'+TimeStamp
-                    const ref=storage().ref(videoRef)
-                    const task = ref.putFile(response.assets[0].uri);
-                    task.on('state_changed', (taskSnapshot) => {
-                        console.log(taskSnapshot);
-                      });
-                    setUploadTask(task);
-
-                }
-
-            }
-
-        )
-    }
+   
 
     return (
         <View
@@ -101,8 +56,32 @@ const Welcome = () => {
         >
             <Text>Welcome</Text>
             <TouchableOpacity
+                onPress={() => runAnimationOnClick()}
+            >
+                <Animated.View
+                    style={{
+                        top: 150,
+                        backgroundColor: '#fff',
+                        height: 100,
+                        width: 100,
+                        transform: [
+                            {
+                                scale: animationVariable.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [1, 5],
+                                }),
+                            },
+                        ],
+                    }}
 
-            onPress={()=>launchMedia()}
+                >
+
+                </Animated.View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+
+                onPress={() => setVisble(true)}
                 style={
                     {
                         backgroundColor: 'blue',
@@ -125,29 +104,12 @@ const Welcome = () => {
                 >Upload Video</Text>
             </TouchableOpacity>
 
-            <Pressable
-            onPress={()=>runAnimationOnClick()}
+            <Modal
+                onBackButtonPress={()=>setVisble(false)}
+                isVisible={visible}
             >
-            <Animated.View
-             style = {{
-                 top:250,
-                 backgroundColor:'#fff',
-                 height:100,
-                 width:100,
-                transform: [
-                              {
-                                 scale : animationVariable.interpolate({
-                                            inputRange: [0, 1],
-                                            outputRange: [1, 2],
-                                         }),
-                              },
-                           ],
-           }}
-
-            >
-
-            </Animated.View>
-            </Pressable>
+                <VideoUpload></VideoUpload>
+            </Modal>
         </View>
     )
 

@@ -9,6 +9,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Login from '../screens/auth/Login'
 import SignUp from '../screens/auth/SignUp'
 import Welcome from '../screens/Welcome '
+import Home from '../screens/Home'
+import comments from '../screens/Comments'
+import Comments from '../screens/Comments'
+import HomeTabs from '../screens/HomeTabs'
 const RootStackNavigator = () => {
 
     const RootStack = createStackNavigator()
@@ -18,13 +22,14 @@ const RootStackNavigator = () => {
         <NavigationContainer>
             <RootStack.Navigator
               
+
                 initialRouteName="Login"
             >
                 <RootStack.Screen
 
                     options={
                         {
-                            headerShown:false
+                            headerShown: false
                         }
                     }
                     name="Login"
@@ -32,29 +37,53 @@ const RootStackNavigator = () => {
 
                 />
 
+                <RootStack.Screen
+
+                    options={
+                        {
+                            headerShown: false
+                        }
+                    }
+                    name="HomeTabs"
+                    component={HomeTabs}
+
+                />
+                
+
+<RootStack.Screen
+
+options={
+    {
+        headerShown: false
+    }
+}
+name="Comments"
+component={Comments}
+
+/>
 
                 <RootStack.Screen
 
                     options={
                         {
-                            headerShown:false
+                            headerShown: false
                         }
                     }
                     name="Welcome"
                     component={Welcome}
 
                 />
-                 <RootStack.Screen
+                <RootStack.Screen
 
-options={
-    {
-        headerShown:false
-    }
-}
-name="SignUp"
-component={SignUp}
+                    options={
+                        {
+                            headerShown: false
+                        }
+                    }
+                    name="SignUp"
+                    component={SignUp}
 
-/>
+                />
 
             </RootStack.Navigator>
 

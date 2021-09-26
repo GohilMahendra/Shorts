@@ -7,23 +7,19 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+
+import { Provider } from 'react-redux';
 import RootStackNavigator from './src/navigation/RootStackNavigator';
+
 
 const App= () => {
   
   return (
-    <RootStackNavigator>
-      
-    </RootStackNavigator>
+
+  
+     <RootStackNavigator/>
+ 
+   
   );
 };
 

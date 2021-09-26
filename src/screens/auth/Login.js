@@ -22,7 +22,7 @@ const Login = ({navigation}) => {
                 (user)=>
                 {
                     if(user)
-                    navigation.navigate('Welcome')
+                    navigation.navigate('HomeTabs')
                 }
             )
 
