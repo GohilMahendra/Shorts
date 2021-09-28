@@ -46,13 +46,15 @@ const {height,width}= Dimensions.get('window')
             resizeMode={"cover"}
 
             paused={paused}
-            
+           
+            playInBackground={false}
 
             preventsDisplaySleepDuringVideoPlayback={true}
             filterEnable={true}
             
 
 
+       
             onReadyForDisplay={()=>setloading(false)}
            // onLoadStart={()=>setloading(true)}
             onVideoLoadStart={(e)=>console.log(e)}

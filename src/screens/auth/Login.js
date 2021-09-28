@@ -16,13 +16,19 @@ const Login = ({navigation}) => {
     (
         ()=>
         {
+            
 
             const subscription=auth().onAuthStateChanged
             (
                 (user)=>
                 {
-                    if(user)
-                    navigation.navigate('HomeTabs')
+                
+                    console.log(user)
+                   
+                    if(user!=null)
+                    {
+                        navigation.navigate("HomeTabs")
+                    }
                 }
             )
 

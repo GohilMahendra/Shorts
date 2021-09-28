@@ -12,6 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Home from '../screens/Home'
 
 import Profile from '../screens/Profile/Profile'
+import MakeVideo from "../screens/MakeVideo"
 const HomeTabNavigator=()=>
 {
 
@@ -55,6 +56,29 @@ const HomeTabNavigator=()=>
 
 
            </HomeTab.Screen>
+           <HomeTab.Screen
+          
+
+        
+          options={
+              {
+                
+              
+                tabBarIcon:({size,focused,color})=>   
+                  
+                <FontAwesome5 size={size}  color={color} name="plus">
+     
+                </FontAwesome5>
+              }
+          }
+
+           name="MakeVideo"
+           component={MakeVideo}
+           >
+
+
+           </HomeTab.Screen>
+ 
            <HomeTab.Screen
           
 

@@ -1,36 +1,103 @@
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { StyleSheet, Text, View } from "react-native"
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
 import LinearGradient from "react-native-linear-gradient"
 
+import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
 const SignUp = ({navigation}) => {
 
 
 
-    const [userName,setuserName]=useState()
-    const [email,setEmail]=useState()
-    const [password,setPassword]=useState()
-    
+    const [userName,setuserName]=useState("")
+    const [userID,setUserID]=useState("")
+    const [email,setEmail]=useState("")
+    const [password,setPassword]=useState("")
+    const [IsAvalibleUserID,setISAvalibleUserID]=useState(false)
+
+
+
+    useEffect
+    (
+        ()=>
+        
+        {
+
+            GetIfIDisAvalible()
+
+        },
+        [userID]
+    )
+
+
+    const UploadINDatabase=()=>
+    {
+        const ref=firestore().collection('Users').add
+        (
+            {
+                userName:userName,
+                userID:userID,
+                varified:false,
+                Followers:0,
+                photoUrl:"",
+                Following:0,
+                Likes:0,
+            }
+        )
+    }
+
+
+    const GetIfIDisAvalible=async()=>
+    {
+
+
+        const qry= firestore().collection('Users').where('userID',
+        '==',userID)
+
+        const user=await qry.get()
+
+        if(!user.exists)
+        {
+            setISAvalibleUserID(true)
+        
+        }
+    }
+
     
     const onSignUp=()=>
     {
 
+        if(IsAvalibleUserID)
+        {
+
         auth().createUserWithEmailAndPassword(email,password).then
         (
-            (user)=>console.log(user)
+            (user)=>{console.log(user)
+
+            auth().currentUser.updateProfile(
+                {
+                    displayName:userName,
+                }
+            )
+            UploadINDatabase()
+
+            navigation.navigate('Login')
+            }
         )
         .catch(err=>console.log(err))
+
+        }
+        else
+        (
+            alert("The UserID alredy Taken")
+        )
     }
     return (
 
         <View style={styles.Container}>
 
-
-
-    
             <View style={styles.greetingsContainer}>
             <Text
                 style={styles.greetings}
@@ -46,9 +113,23 @@ const SignUp = ({navigation}) => {
                 clearButtonMode={"always"}
                 placeholderTextColor="#fff"
                 maxLength={50}
-                placeholder="UserName.."
+                placeholder="UserName...(displayName)"
 
                 style={styles.textInput}
+            />
+           <TextInput
+                value={userID}
+                
+                onChangeText={(text)=>setUserID(text)}
+                clearButtonMode={"always"}
+                placeholderTextColor="#fff"
+                maxLength={20}
+            
+                
+                
+                placeholder="UserID..(Unique Name)"
+
+                style={[styles.textInput,{color:(IsAvalibleUserID)?'green':'red'}]}
             >
 
             </TextInput>
@@ -59,18 +140,19 @@ const SignUp = ({navigation}) => {
                 placeholderTextColor="#fff"
                 maxLength={50}
                 textContentType="emailAddress"
-                placeholder="Email.."
+                placeholder="Email..  (For Varification)"
 
                 style={styles.textInput}
             >
 
             </TextInput>
             <TextInput
+                
                 value={password}
                 onChangeText={(text)=>setPassword(text)}
                 maxLength={50}
                 placeholderTextColor="#fff"
-                placeholder="Password"
+                placeholder="Password  [one Lower one Upper digit length 8]"
                 textContentType="password"
                 passwordRules="required: upper; 
                 required: lower;
@@ -125,9 +207,11 @@ const styles = StyleSheet.create
 
                 color: '#fff',
                 backgroundColor: "#282C35",
-                height: 70,
-                margin: 20,
-                padding:20,
+                height: 50,
+                textAlign:'center',
+                marginVertical: 10,
+                marginHorizontal:20,
+                padding:10,
                 borderRadius: 15
 
             },
@@ -135,8 +219,9 @@ const styles = StyleSheet.create
             {
 
                 backgroundColor: 'blue',
-                height: 70,
+                height: 50,
                 width: 100,
+                margin:20,
                 borderRadius: 20,
                 alignSelf: "center",
                 justifyContent: 'center',
@@ -146,7 +231,7 @@ const styles = StyleSheet.create
             btnText:
             {
                 color: '#fff',
-                fontSize: 18
+                fontSize: 15
 
             },
             greetingsContainer:

@@ -1,14 +1,63 @@
 
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {Image, StyleSheet, Text,View} from 'react-native'
 
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { catchClause } from '@babel/types'
 const Profile=()=>
 {
 
+
+
+    const [userDetails,setUserDetails]=useState(
+        {
+            userName:"",
+            userID:"",
+            photoURL:"",
+            varified:false,
+            Follwing:0,
+            Follwers:0,
+            Likes:0,
+        }
+    )
+
+
+
+    
+
+    const getUserDetails=async()=>
+    {
+       
+
+        try
+        {
+        const user=await firestore().collection('Users').get()
+
+
+        console.log(user.docs.data()+"datta")
+        setUserDetails(user.docs.data())
+
+        }
+        catch(err)
+        {
+
+        }
+    }
+
+    useEffect
+    (
+        ()=>
+
+        {
+            getUserDetails()
+
+        },
+        []
+    )
     
 
     return(
@@ -30,6 +79,16 @@ const Profile=()=>
             }}
                 
             >
+                <TouchableOpacity
+                style={{
+                    heigh:100,
+                    width:100,
+                    borderRadius:100,
+                    alignItems:'center',
+                    alignSelf:'center',
+                    margin:20
+                }}
+                >
                 <Image
                 source={
                     {
@@ -37,15 +96,28 @@ const Profile=()=>
                     }
                 }
                 style={{
+                  
+                    backgroundColor:'#fff',
+                
                     height:100,
                     width:100,
                     borderRadius:100,
-                    alignSelf:'center',
-                    margin:20
+                   
                 }}
                 >
 
                 </Image>
+                <Text
+                style={{
+                    position:"absolute",
+                  
+                    top:2,
+                    right:10,
+                    fontSize:18
+                   
+                }}
+                >+</Text>
+                </TouchableOpacity>
 
                 <Text
                 style={{
@@ -54,7 +126,7 @@ const Profile=()=>
                     alignSelf:'center'
                 }}
                 >
-                    @Tony_Stark
+                {auth().currentUser.displayName}
                 </Text>
                 <View
                 style={{
@@ -73,7 +145,7 @@ const Profile=()=>
                             Follwing
                         </Text>
                         <Text style={styles.text}>
-                            0
+                            {userDetails.Follwing}
                         </Text>
                     </View>
                     <View style={styles.profileDetailsContainer}>
@@ -85,7 +157,7 @@ const Profile=()=>
                             Follwers
                         </Text>
                         <Text style={styles.text}>
-                            0
+                            {userDetails.Follwers}
                         </Text>
                     </View>
                     <View style={styles.profileDetailsContainer}>
@@ -97,11 +169,12 @@ const Profile=()=>
                             Likes
                         </Text>
                         <Text style={styles.text}>
-                            0
+                            {userDetails.Likes}
                         </Text>
                     </View>
                 </View>
                 <TouchableOpacity
+                onPress={()=>AddProfile()}
                 style={{
                     alignSelf:'center',
                     alignItems:'center',

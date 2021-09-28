@@ -150,7 +150,7 @@ const VideoReview = (props) => {
                             height: 70,
                             width: 70,
                             borderRadius: 15,
-                            opacity: 0.5
+                            opacity: 0.2
                         }}
                     >
 
@@ -170,7 +170,7 @@ const VideoReview = (props) => {
                             solid={(liked) ? true : false}
                             size={30}
                             color={
-                                "#fff"
+                                "red"
                             }
                         >
 

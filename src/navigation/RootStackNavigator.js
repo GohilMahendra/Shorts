@@ -8,8 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Login from '../screens/auth/Login'
 import SignUp from '../screens/auth/SignUp'
-import Welcome from '../screens/Welcome '
-import Home from '../screens/Home'
+
 import comments from '../screens/Comments'
 import Comments from '../screens/Comments'
 import HomeTabs from '../screens/HomeTabs'
@@ -62,17 +61,6 @@ component={Comments}
 
 />
 
-                <RootStack.Screen
-
-                    options={
-                        {
-                            headerShown: false
-                        }
-                    }
-                    name="Welcome"
-                    component={Welcome}
-
-                />
                 <RootStack.Screen
 
                     options={

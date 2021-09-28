@@ -12,7 +12,7 @@ import Modal from 'react-native-modal'
 
 import Animated from "react-native-reanimated"
 import VideoUpload from "../components/VideoUpload"
-const Welcome = () => {
+const MakeVideo = () => {
 
 
 
@@ -54,7 +54,7 @@ const Welcome = () => {
                 }
             }
         >
-            <Text>Welcome</Text>
+            <Text>MakeVideo</Text>
             <TouchableOpacity
                 onPress={() => runAnimationOnClick()}
             >
@@ -121,4 +121,4 @@ const styles = StyleSheet.create
 
         }
     )
-export default Welcome
+export default MakeVideo
