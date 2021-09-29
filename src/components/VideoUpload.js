@@ -29,6 +29,8 @@ const VideoUpload = () => {
 
     const [discription,setdeiscription]=useState("")
     const [Duration, setDuration] = useState("")
+
+    const [Tags,setTags]=useState([])
     const [SongName, setSongName] = useState("")
     const [VideoUrl, setVideoUrl] = useState("")
     const [SongCover,setsongCover] = useState("")
@@ -109,7 +111,7 @@ const VideoUpload = () => {
             },
             response => {
                 if (response.didCancel) {
-                    console.log('canccel')
+                    console.log('cancel')
                 }
                 else if (!response.didCancel) {
 
@@ -133,7 +135,7 @@ const VideoUpload = () => {
 
                     setVideoUrl(ref.getDownloadURL())
 
-                    UploadOnServer()
+                   // UploadOnServer()
 
 
 
