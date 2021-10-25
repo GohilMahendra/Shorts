@@ -19,7 +19,7 @@ const HomeTabNavigator=()=>
     const HomeTab=createBottomTabNavigator()
     return(
        <HomeTab.Navigator
-       initialRouteName="Home"
+       initialRouteName="makeVideo"
 
       
        screenOptions={

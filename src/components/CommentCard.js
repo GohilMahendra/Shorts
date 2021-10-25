@@ -4,116 +4,112 @@
 
 import React from "react";
 
-import {View ,Text, Image} from 'react-native'
-const CommentCard=(props)=>
-{
+import { View, Text, Image } from 'react-native'
+const CommentCard = (props) => {
 
 
 
-    const {data}=props
+    const { data } = props
 
     console.log(data.profilePick)
-   // console.log(childern)
+    // console.log(childern)
 
-    return(
+    return (
         <View
-        style={{
-           
-            maxHeight:200,
-            height:150,
-            margin:20,
-         
-            
-        }}
-        collapsable={true}
+            style={{
+
+                maxHeight: 200,
+                height: 150,
+                margin: 20,
+
+
+            }}
+            collapsable={true}
         >
 
-        <View
-        style={
-            {
-                flex:1,
-                opacity:0.1,
-                backgroundColor:'#fff',
-                borderRadius:20
+            <View
+                style={
+                    {
+                        flex: 1,
+                        opacity: 0.1,
+                        backgroundColor: '#fff',
+                        borderRadius: 20
+                    }
+                }
+            >
+            </View>
+            <View
+                style={
+                    {
+                        flex: 1,
+                        position: "absolute",
+                        alignItems: "center",
+                        backgroundColor: "transparent"
 
-            }
-        }
-        >
 
-        </View>
+                    }
+                }
+            >
+                <View
+                    style={
+                        {
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: "center"
+                        }
+                    }
+                >
+                    <Image
+                        source={{uri:data.profilePick}}
 
-       <View
-       style={
-           {
-               flex:1,
-               position:"absolute",
-               alignItems:"center",
-               backgroundColor:"transparent"
-            
+                        resizeMode={'cover'}
+                        style={
+                            {
+                                height: 50,
+                                width: 50,
+                                backgroundColor: '#fff',
+                                borderRadius: 70,
+                                margin: 10
+                            }
+                        }
 
-            }
-       }
-       >
-           <View
-           style={
-               {
-                   flexDirection:'row',
-                   justifyContent:'center',
-                   alignItems:"center"
-               }
-           }
-           >
-           <Image
-           source={data.profilePick}
+                    />
+                    <View>
+                        <Text
+                            style={
+                                {
+                                    color: "#fff",
+                                    fontSize: 20
+                                }
+                            }
+                        >
+                            {data.name}
+                        </Text>
+                        <Text
+                            style={
+                                {
+                                    color: "#fff",
+                                    fontSize: 15
+                                }
+                            }
+                        >
+                            {data.Date}
+                        </Text>
 
-           resizeMode={'cover'}
-           style={
-               {
-                   height:50,
-                   width:50,
-                   backgroundColor:'#fff',
-                   borderRadius:70,
-                   margin:10
-               }
-           }
+                    </View>
+                </View>
 
-           />
-           <View>
-           <Text
-           style={
-               {
-                   color:"#fff",
-                   fontSize:20
-               }
-           }
-           >
-               {data.name}
-           </Text>
-           <Text
-           style={
-               {
-                   color:"#fff",
-                   fontSize:15
-               }
-           }
-           >
-               {data.Date}
-           </Text>
 
-           </View>
-           </View>
+                <Text
 
-    
-           <Text
-           
-           style={{
-               color:'#fff',
-               fontSize:17,
-               alignSelf:'flex-start',
-               marginHorizontal:20
-           }}
-           >{data.comment}</Text>
-     </View> 
+                    style={{
+                        color: '#fff',
+                        fontSize: 17,
+                        alignSelf: 'flex-start',
+                        marginHorizontal: 20
+                    }}
+                >{data.comment}</Text>
+            </View>
 
 
         </View>

@@ -1,4 +1,5 @@
 
+import { tsNullKeyword } from "@babel/types"
 import firestore from "@react-native-firebase/firestore"
 import React, { useEffect, useState } from "react"
 
@@ -24,6 +25,7 @@ const Home = () =>
 
     const renderItem=({item,index})=>
     {
+        console.log(item)
         return(
             <VideoPlayer
             
@@ -37,20 +39,23 @@ const Home = () =>
         try
         {
         const videoDetails=firestore().collection('Videos').limit(10)
-    
-        
-        videoDetails.onSnapshot
 
+        videoDetails.onSnapshot
         (
             
             (snapshot)=>
             {
+               
                 let posts=[]
+
+
 
                 snapshot.forEach
                 (
                     function(child)
                     {
+
+
                         const post=
                         {
                             id:child.id,
@@ -74,8 +79,10 @@ const Home = () =>
 
             }
         )
-       
      
+        ,
+    
+        err=>console.log(err)
     
       
     }

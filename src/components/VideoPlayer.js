@@ -39,7 +39,7 @@ const {height,width}= Dimensions.get('window')
             <Video
             source={
                 {
-                    uri:"https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FuTGNH7noFcR9ndWLs4q1g3HBFmA3%2FuTGNH7noFcR9ndWLs4q1g3HBFmA3-1632390731438?alt=media&token=9c73b3ca-5c9f-4075-bbcb-4d22e9d8d690"
+                    uri:data.VideoUrl
                 }
             }
             repeat={true}
@@ -94,6 +94,7 @@ const {height,width}= Dimensions.get('window')
             >
 
             </ActivityIndicator>
+            
 
            {paused && <FontAwesome5Icon
 
