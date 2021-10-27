@@ -21,24 +21,38 @@ const VideoReview = (props) => {
 
     const [liked, setliked] = useState(false)
 
-   
+
+
+    const IsLiked=async()=>
+    {
+
+        try
+        {
+        const res= await firestore()
+        .collection('Likes')
+        .doc(data.id)
+        .collection('lookups')
+        .doc(auth().currentUser.uid)
+        .get()
+
+
+        if(res.exists)
+        {
+        setliked(true)
+        }
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
+    }
 
     useEffect
     (
         async()=>
         {
-            const res= await firestore()
-            .collection('Likes')
-            .doc(data.id)
-            .collection('lookups')
-            .doc(auth().currentUser.uid)
-            .get()
-
-
-            if(res.exists)
-            {
-            setliked(true)
-            }
+                await IsLiked();
+           
         }
         ,
         []
@@ -187,6 +201,9 @@ const VideoReview = (props) => {
 
                 </View>
             </TouchableOpacity>
+            <TouchableOpacity
+             onPress={() => navigation.navigate('Comments', { key: data.id })}
+            >
             <View
                 style={{
                     alignItems: 'center',
@@ -241,10 +258,10 @@ const VideoReview = (props) => {
 
 
             </View>
-
+            </TouchableOpacity>
 
             <Pressable
-                onPress={() => navigation.navigate('Comments', { key: data.id })}
+               
             >
                 <View
                     style={{

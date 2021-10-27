@@ -37,6 +37,8 @@ const {height,width}= Dimensions.get('window')
             onPress={()=>setpaused(!paused)}
             >
             <Video
+
+            key={data.id}
             source={
                 {
                     uri:data.VideoUrl
@@ -52,14 +54,15 @@ const {height,width}= Dimensions.get('window')
             preventsDisplaySleepDuringVideoPlayback={true}
             filterEnable={true}
             
+            poster={data.VideoThumb}
 
 
        
             onReadyForDisplay={()=>setloading(false)}
-           // onLoadStart={()=>setloading(true)}
+           onLoadStart={()=>setloading(true)}
             onVideoLoadStart={(e)=>console.log(e)}
-            onVideoProgress={(e)=>console.log(e)}
-            onProgress={(e)=>console.log(e)}
+            //onVideoProgress={(e)=>console.log(e)}
+           // onProgress={(e)=>console.log(e)}
             onVideoError={(err)=>console.log(err)}
             style={{
                 

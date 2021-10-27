@@ -13,6 +13,7 @@ import Home from '../screens/Home'
 
 import Profile from '../screens/Profile/Profile'
 import MakeVideo from "../screens/MakeVideo"
+import Search from "../screens/Search/Search"
 const HomeTabNavigator=()=>
 {
 
@@ -66,7 +67,37 @@ const HomeTabNavigator=()=>
               
                 tabBarIcon:({size,focused,color})=>   
                   
-                <FontAwesome5 size={size}  color={color} name="plus">
+                <FontAwesome5 size={size}  color={color} name="search">
+     
+                </FontAwesome5>
+              }
+          }
+
+           name="Search"
+           component={Search}
+           >
+
+
+           </HomeTab.Screen>
+           <HomeTab.Screen
+          
+
+        
+          options={
+              {
+                
+              
+                tabBarIcon:({size,focused,color})=>   
+                  
+                <FontAwesome5 size={size}  color={color} name="plus"
+                style={
+                    {
+                        backgroundColor:'red',
+                        borderRadius:20,
+                        padding:5
+                    }
+                }
+                >
      
                 </FontAwesome5>
               }

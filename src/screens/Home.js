@@ -61,8 +61,15 @@ const Home = () =>
                             id:child.id,
                             Title:child.data().Title,
                             SongName:child.data().SongName,
+                            SongCover:child.data().SongCover,
+                            SongId:child.data().SongId,
+                            Tags:child.data().Tags,
                             VideoUrl:child.data().VideoUrl,
-                            Channel:child.data().Channel,
+                            ChannelId:child.data().ChannelId,
+                            
+                            ChannelName:child.data().ChannelName,
+                            ChannelThumbnail:child.data().ChannelThumbnail,
+                            
                             duration:child.data().duration,
                             likes:child.data().likes,
                             share:child.data().share,
@@ -70,6 +77,8 @@ const Home = () =>
                         }
                         
                         posts.push(post)
+
+                        console.log(post)
                     }
 
 
@@ -106,7 +115,8 @@ const Home = () =>
 
         <View
         style={{
-            flex:1
+            flex:1,
+            backgroundColor:'#fff'
         }}
         >
 

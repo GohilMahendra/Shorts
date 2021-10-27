@@ -8,6 +8,11 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { catchClause } from '@babel/types'
+
+import {
+    FlatList
+} from 'react-native-gesture-handler'
+import VideoPreviewCard from '../../components/VideoPreviewCard'
 const Profile=()=>
 {
 
@@ -26,8 +31,69 @@ const Profile=()=>
     )
 
 
+    const [videos,setvideos]=useState([])
 
     
+    const getUserVideos=async()=>
+
+    {
+
+        try
+        {
+        const qry=firestore().collection('Videos').where('channelID','==',auth().currentUser.uid)
+        const results=await qry.get()
+
+        let posts=[]
+
+       
+        results.docs.forEach
+        (
+            function(child)
+            {
+                posts.push({id:child.id,...child.data()})
+            }
+        )
+
+
+        console.log(posts)
+        setvideos(posts)
+
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+
+    }
+    const renderItem=({item,index})=>
+    {
+        return(
+            <TouchableOpacity
+            
+            
+            >
+              <VideoPreviewCard
+              data={
+                  item
+              }
+              >
+
+              </VideoPreviewCard>
+
+            </TouchableOpacity>
+        )
+
+    }
+
+    useEffect
+    (
+        ()=>
+        {
+
+            getUserVideos()
+        },
+        []
+    )
 
     const getUserDetails=async()=>
     {
@@ -36,7 +102,6 @@ const Profile=()=>
         try
         {
         const user=await firestore().collection('Users').get()
-
 
         console.log(user.docs.data()+"datta")
         setUserDetails(user.docs.data())
@@ -73,20 +138,20 @@ const Profile=()=>
 
             <View
             style={{
-                height:'30%',
-                backgroundColor:'black',
+                height:'40%',
+                backgroundColor:'transparent',
               
             }}
                 
             >
                 <TouchableOpacity
                 style={{
-                    heigh:100,
-                    width:100,
-                    borderRadius:100,
+                    height:70,
+                    width:70,
+                    borderRadius:70,
                     alignItems:'center',
                     alignSelf:'center',
-                    margin:20
+                    margin:10
                 }}
                 >
                 <Image
@@ -99,24 +164,15 @@ const Profile=()=>
                   
                     backgroundColor:'#fff',
                 
-                    height:100,
-                    width:100,
-                    borderRadius:100,
+                    height:70,
+                    width:70,
+                    borderRadius:70,
                    
                 }}
                 >
 
                 </Image>
-                <Text
-                style={{
-                    position:"absolute",
-                  
-                    top:2,
-                    right:10,
-                    fontSize:18
-                   
-                }}
-                >+</Text>
+            
                 </TouchableOpacity>
 
                 <Text
@@ -133,7 +189,7 @@ const Profile=()=>
                     height:50,
                     flexDirection:"row",
                     justifyContent:'space-around',
-                    marginVertical:20
+                    marginVertical:10
                 }}
                 >
                     <View style={styles.profileDetailsContainer}>
@@ -186,7 +242,32 @@ const Profile=()=>
                     <Text style={[styles.text,{color:'black'}]}>EDIT PROFILE</Text>
                 </TouchableOpacity>
             </View>
-            
+           
+           <View
+           style={
+               {
+                height:'70%'
+               }
+           }
+           >
+            <FlatList
+        style={
+            {
+                margin:10,
+               
+            }
+        }
+
+        data={videos}
+        renderItem={renderItem}
+        numColumns={3}
+        keyExtractor={item=>item.id}
+
+        >
+
+        </FlatList>
+        </View>
+        
         </View>
     )
 }

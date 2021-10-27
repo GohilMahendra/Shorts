@@ -10,6 +10,7 @@ import {StyleSheet, Text,View} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import AddComments from '../components/AddComment'
 import CommentCard from '../components/CommentCard'
+import { RefreshControl } from 'react-native';
 
 
 const Comments=()=>
@@ -17,12 +18,16 @@ const Comments=()=>
 
     const p=useRoute()
 
+
+    const [refr,setrefr]=useState(false)
     const [comments,setcomments]=useState([])
 
-    useEffect
-    (
-        async()=>
-        {
+
+    const fetchComments=async()=>
+    {
+
+        setrefr(true)
+
         const comments=await firestore().collection(
             'Comments'
         )
@@ -54,7 +59,15 @@ const Comments=()=>
         )
 
 
+        setrefr(false)
         setcomments(list)
+    }
+    useEffect
+    (
+        ()=>
+        {
+            fetchComments()
+        
         }
    ,[] )
 
@@ -77,7 +90,20 @@ const Comments=()=>
         <FlatList
         
 
+        refreshControl={
+            <RefreshControl
+            onRefresh={fetchComments}
+            refreshing={refr}
+            >
+
+            </RefreshControl>
+        }
+
         data={comments}
+
+        
+
+
         renderItem={renderItem}
         keyExtractor={item=>item.id}
 

@@ -7,19 +7,20 @@ import React from "react";
 
 import auth from '@react-native-firebase/auth'
 import {View ,Text, TouchableOpacity} from 'react-native'
+import { tan } from "react-native-reanimated";
 const VideoDetails=(props)=>
 {
 
     const {data}=props
 
-   // console.log(childern)
+  
 
     return(
         <View
         style={{
             position:'absolute',
             left:15,
-            bottom:100,
+            bottom:50,
         
         }}
         >
@@ -62,7 +63,7 @@ const VideoDetails=(props)=>
             <TouchableOpacity
             style={
                 {
-                    backgroundColor:'red',
+                    backgroundColor:'#000133',
                     borderRadius:5,
                     padding:10,
                     alignSelf:'flex-end',
@@ -77,10 +78,33 @@ const VideoDetails=(props)=>
                         color:"#fff"
                     }
                 }
-                >SUBSCRIBE</Text>
+                >Follow +</Text>
             </TouchableOpacity>
             </View>
         
+            <View
+           
+            >
+               {
+                   data.Tags.map(tag => {
+                     console.log(tag)
+                    return(
+                    <TouchableOpacity>
+                    <Text
+
+                    key={tag}
+                    style={
+                        {
+                            color:"blue",
+                            fontSize:18
+                        }
+                    }
+                    >{tag}</Text>
+                    </TouchableOpacity>
+                    )
+                   })
+               }
+            </View>
        
         </View>
     )

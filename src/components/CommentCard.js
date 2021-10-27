@@ -59,7 +59,7 @@ const CommentCard = (props) => {
                         }
                     }
                 >
-                    <Image
+                   {(data.profilePick!="") ? <Image
                         source={{uri:data.profilePick}}
 
                         resizeMode={'cover'}
@@ -73,7 +73,21 @@ const CommentCard = (props) => {
                             }
                         }
 
+                    />:
+                    <View
+                     
+                        style={
+                            {
+                                height: 50,
+                                width: 50,
+                                backgroundColor: '#fff',
+                                borderRadius: 70,
+                                margin: 10
+                            }
+                        }
+
                     />
+                    }
                     <View>
                         <Text
                             style={

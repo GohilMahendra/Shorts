@@ -14,49 +14,32 @@ const AddComments = () => {
 
     const [comment, setcomment] = useState("")
 
-
     const date = new Date()
 
     const p = useRoute()
     const todaysDateTime = date.toISOString()
 
-
-
-    const ReviewRef=useRef()
+    const ReviewRef = useRef()
 
     const submitComment = async () => {
 
-        ReviewRef.current.set
 
+
+
+        try
+
+        {
         if (comment != "") {
 
-
-            const res = await firestore()
-                .collection('Comments')
-                .doc(
-                    p.params.key
-                ).collection('reviews')
-                .doc(auth().currentUser.uid)
-                .set
-                (
-                    {
-                        comment: comment,
-                        name: "Mahendra Gohil",
-                        Date: todaysDateTime,
-                        profilePick: (auth().currentUser.photoURL == null) ? "" : auth().currentUser.photoURL,
-                    }
-                )
-
             const exists = await firestore()
-                .collection('Comments')
-                .doc(
-                    p.params.key
-                )
-                .collection('reviews')
-                .doc(auth().currentUser.uid)
-                .get()
+            .collection('Comments')
+            .doc(
+                p.params.key
+            )
+            .collection('reviews')
+            .doc(auth().currentUser.uid)
+            .get()
 
-            console.log(exists.exists)
             if (!exists.exists) {
                 await firestore()
                     .collection('Videos')
@@ -72,6 +55,36 @@ const AddComments = () => {
                     )
             }
         }
+
+            
+            const res = await firestore()
+                .collection('Comments')
+                .doc(
+                    p.params.key
+                ).collection('reviews')
+                .doc(auth().currentUser.uid)
+                .set
+                (
+                    {
+                        comment: comment,
+                        name: auth().currentUser.displayName,
+                        Date: todaysDateTime,
+                        profilePick: (auth().currentUser.photoURL == null) ? "" : auth().currentUser.photoURL,
+                    }
+            )
+
+
+
+                setcomment("")
+
+        
+                }
+
+                catch(err)
+                {
+                    console.log(ErrorUtils)
+                }
+        
     }
 
     return (

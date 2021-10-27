@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
     View, TextInput,
-    Text, StyleSheet, TouchableOpacity, Pressable, Image
+    Text, StyleSheet, TouchableOpacity,PermissionsAndroid, Pressable, Image
 } from 'react-native'
 
 import firestore from '@react-native-firebase/firestore'
@@ -24,7 +24,7 @@ const VideoUpload = () => {
 
 
     let date = new Date()
-    console.log(VideoUrl)
+   
 
     const todaysDate = date.toISOString()
 
@@ -69,26 +69,42 @@ const VideoUpload = () => {
 
     }
 
-    const TagMaker = (value) => {
 
+    // useEffect
+    // (
+    //     ()=>
+    //     {
 
-        const re = new RegExp('#', 'g');
-
-
-
-        if (value != null && value != "") {
-
-            if (value[value.length - 1] == ',') {
-                value += '#'
+    //         requestCameraPermission()
+    //     },
+    //     []
+    // )
+    const requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.MANAGE_EXTERNAL_STORAGE,
+                {
+                  title: "Cool Photo App Camera Permission",
+                  message:
+                    "Cool Photo App needs access to your camera " +
+                    "so you can take awesome pictures.",
+                  buttonNeutral: "Ask Me Later",
+                  buttonNegative: "Cancel",
+                  buttonPositive: "OK"
+                }
+              );
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use the camera");
+              } else {
+                console.log("Camera permission denied");
+              }
+            } catch (err) {
+              console.log(err);
             }
-
-
-
-            // const count = value.match(re).length;
-            // if(count>5)
-            // return
-        }
-
+          }
+      
+      
+    const TagMaker = (value) => {
         setTags(value)
     }
 
@@ -111,9 +127,35 @@ const VideoUpload = () => {
 
     }
 
+
+    const UploadVideoFull=async(response)=>
+    {
+        let videoRef = 'Videos/'
+        + auth().currentUser.uid
+        + '/'
+        + auth().currentUser.uid
+        + '-'
+        + TimeStamp
+
+    const ref = storage().ref(videoRef)
+
+   
+    let VideDownloadUrl = ""
+    let task =await ref.putFile(response);
+
+
+    VideDownloadUrl=await ref.getDownloadURL()
+
+
+    setVideoUrl(VideDownloadUrl)
+
+
+    }
+
     const UploadThumbOnServer = async (uri) => {
-        const ref = '/Thumbs/' +
-            auth().currentUser.uid + '/'
+        const ref = 'Thumbs/' +
+            auth().currentUser.uid + 
+            '/'
             + auth().currentUser.uid
             + '-'
             + TimeStamp
@@ -171,6 +213,8 @@ const VideoUpload = () => {
 
 
 
+
+
         try {
 
             setLoading(true)
@@ -182,38 +226,18 @@ const VideoUpload = () => {
                 return
             }
 
+  
+            
+
+            
             await captureTumbnail()
 
+
             await UploadSongOnServer()
-            let videoRef = 'Videos/'
-                + auth().currentUser.uid
-                + '/'
-                + auth().currentUser.uid
-                + '-'
-                + TimeStamp
-
-            // const ref = storage().ref(videoRef)
-
-
-            // let VideDownloadUrl = null
-            // let task = ref.putFile(VideoLoaction);
-            // task.on('state_changed', (taskSnapshot) => {
-
-            //     console.log(100 * taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            //     settaskShot(taskSnapshot)
-
-            //     if (taskSnapshot.state == 'success') {
-            //         VideDownloadUrl = ref.getDownloadURL()
-            //     }
-
-            // });
-
-
-
-            setVideoUrl("https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FxjMaom4w9FTLHh5rGxDucusUeQa2%2FxjMaom4w9FTLHh5rGxDucusUeQa2-1632903169321?alt=media&token=26a0facb-6f00-42b7-aeca-361a5a1ae29b")
-
-
+            
              await UploadOnServer()
+
+             setLoading(false)
 
         }
 
@@ -236,7 +260,10 @@ const VideoUpload = () => {
 
             const tags = maketags(Tags)
 
-            if (Title != "" && Duration != "" && SongName != "" && VideoUrl != "") {
+            await UploadVideoFull(VideoLoaction)
+          
+
+            if (Title != "" && Duration != "" && SongName != "" && VideoUrl != "" && VideoUrl!=null) {
 
 
 
@@ -261,13 +288,12 @@ const VideoUpload = () => {
                     duration: Duration,
                     VideoUrl: VideoUrl,
                     VideoThumb: VideoThumb,
-
                     Date: todaysDate,
 
                     //Uploaders Channal Details
                     channelID: auth().currentUser.uid,
                     channelName: auth().currentUser.displayName,
-                    channelThumbNail: auth().currentUser.photoURL,
+                    channelThumbNail: auth().currentUser.photoURL!=null?auth().currentUser.photoURL:"",
 
 
                     //                          _______
@@ -282,13 +308,13 @@ const VideoUpload = () => {
                 }
 
 
-
-
                 const res = await firestore()
                     .collection('Videos')
                     .add
                     (doc)
 
+
+                    console.log(res)
 
 
                 setLoading(false)
@@ -322,9 +348,6 @@ const VideoUpload = () => {
                 else if (!response.didCancel) {
 
                     console.log(response.assets[0])
-
-
-
 
 
                     setVideoLocation(response.assets[0].uri)
@@ -526,7 +549,7 @@ const VideoUpload = () => {
 
             </ScrollView>
 
-            {/* {loading && <UploadingLoad></UploadingLoad>} */}
+            {loading && <UploadingLoad></UploadingLoad>}
 
         </View>
     )
