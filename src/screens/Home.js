@@ -11,6 +11,7 @@ import {
 
 } from 'react-native'
 import { FlatList } from "react-native-gesture-handler"
+import EmptyComponent from "../components/EmptyComponent"
 import VideoPlayer from "../components/VideoPlayer"
 
 
@@ -56,29 +57,8 @@ const Home = () =>
                     {
 
 
-                        const post=
-                        {
-                            id:child.id,
-                            Title:child.data().Title,
-                            SongName:child.data().SongName,
-                            SongCover:child.data().SongCover,
-                            SongId:child.data().SongId,
-                            Tags:child.data().Tags,
-                            VideoUrl:child.data().VideoUrl,
-                            ChannelId:child.data().ChannelId,
-                            
-                            ChannelName:child.data().ChannelName,
-                            ChannelThumbnail:child.data().ChannelThumbnail,
-                            
-                            duration:child.data().duration,
-                            likes:child.data().likes,
-                            share:child.data().share,
-                            comments:child.data().comments,
-                        }
-                        
-                        posts.push(post)
-
-                        console.log(post)
+                      
+                        posts.push({id:child.id,...child.data()})
                     }
 
 
@@ -93,6 +73,8 @@ const Home = () =>
     
         err=>console.log(err)
     
+
+        return ()=>videoDetails()
       
     }
         catch(err)
@@ -126,7 +108,14 @@ const Home = () =>
                 
               flex:1
             }}
+
+            contentContainerStyle={
+                {
+                    flex:1,
+                }
+            }
            
+            ListEmptyComponent={EmptyComponent}
             data={Videos}
             keyExtractor={(item)=>item.id}
 

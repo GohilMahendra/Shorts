@@ -8,9 +8,12 @@ import React, { useEffect, useState } from 'react'
 import { useRoute } from "@react-navigation/native";
 import {StyleSheet, Text,View} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import AddComments from '../components/AddComment'
+
 import CommentCard from '../components/CommentCard'
 import { RefreshControl } from 'react-native';
+import AddComments from '../components/AddComment';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchComments } from '../redux/Actions/CommentActions';
 
 
 const Comments=()=>
@@ -18,61 +21,32 @@ const Comments=()=>
 
     const p=useRoute()
 
-
-    const [refr,setrefr]=useState(false)
-    const [comments,setcomments]=useState([])
+    const dispatch=useDispatch()
 
 
-    const fetchComments=async()=>
+    const refr=useSelector(state=>state.Comment.commentsLoad)
+    const comments=useSelector(state=>state.Comment.comments)
+  
+    const getComments=async()=>
     {
 
-        setrefr(true)
+        
+        dispatch(FetchComments(p.params.key))
 
-        const comments=await firestore().collection(
-            'Comments'
-        )
-        .doc(p.params.key)
-        .collection(
-            'reviews'
-        )
-        .limit(10)
-        .get()
-
-        var list=[]
-
-        comments.forEach
-        (
-            function(child)
-            {
-            const comment={
-                id:child.id,
-                comment:child.data().comment,
-                name:child.data().name,
-                Date:child.data().Date,
-                profilePick:child.data().profilePick
-
-            }
-
-            list.push(comment)
-
-        }
-        )
-
-
-        setrefr(false)
-        setcomments(list)
     }
     useEffect
     (
         ()=>
         {
-            fetchComments()
+            getComments()
         
         }
    ,[] )
 
     const renderItem=({item,index})=>
     {
+
+        console.log(item)
         return(
             <CommentCard
             data={item}
@@ -92,7 +66,7 @@ const Comments=()=>
 
         refreshControl={
             <RefreshControl
-            onRefresh={fetchComments}
+            onRefresh={getComments}
             refreshing={refr}
             >
 
@@ -111,7 +85,13 @@ const Comments=()=>
 
 
 
-        <AddComments>
+        <AddComments
+        
+
+
+        videoID={p.params.key}
+
+        >
 
         </AddComments>
 

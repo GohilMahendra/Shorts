@@ -12,9 +12,12 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth'
 import firestore from "@react-native-firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import RoundImage from "./RoundImage";
 const { height, width } = Dimensions.get('screen')
 const VideoReview = (props) => {
 
+
+    
     const { data } = props
 
     const navigation = useNavigation()
@@ -127,24 +130,23 @@ const VideoReview = (props) => {
         >
 
 
-            <Image
-            
-            style={
-                {
-                    height:70,
-                    width:70,
-                    alignSelf:'center',
-                    borderRadius:50
-                }
+            <TouchableOpacity
+            onPress={
+                ()=>navigation.navigate('userDetails',{
+                    channelThumbnail:data.channelThumbnail,
+                    channelID:data.channelID,
+                    chanalName:data.channelName
+                })
             }
-            source={
-                {
-                    uri:auth().currentUser.photoURL
-                }
-            }
-            
-            />
- 
+            >
+                <RoundImage
+                
+                imageURL={data.channelThumbnail}
+
+                >
+
+                </RoundImage>
+            </TouchableOpacity>    
            <TouchableOpacity
                 onPress={() => LikeAction()}
             >

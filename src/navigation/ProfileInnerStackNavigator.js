@@ -4,12 +4,11 @@ import { StyleSheet, Text, View } from "react-native"
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import Home from '../screens/Home'
-import userDetails from '../screens/userDetails'
 
 
+import Profile from '../screens/Profile/Profile'
 
-const HomeInnerStackNavigator = () => {
+const ProfileInnerStackNavigator = () => {
 
     const HomeStack = createStackNavigator()
 
@@ -18,22 +17,17 @@ const HomeInnerStackNavigator = () => {
             <HomeStack.Navigator
               
 
-                initialRouteName="HomeScreen"
+                initialRouteName="Profile"
             >
 
             <HomeStack.Screen
-            name="HomeScreen"
+            name="Profile"
             options={
                 {
                     headerShown:false
                 }
             }
-            component={Home}
-            ></HomeStack.Screen>
-
-            <HomeStack.Screen
-            name="userDetails"
-            component={userDetails}
+            component={Profile}
             ></HomeStack.Screen>
 
 
@@ -54,4 +48,4 @@ const styles = StyleSheet.create
 
         }
     )
-export default HomeInnerStackNavigator
+export default ProfileInnerStackNavigator

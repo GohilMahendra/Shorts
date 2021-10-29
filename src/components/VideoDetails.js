@@ -15,6 +15,8 @@ const VideoDetails=(props)=>
 
   
 
+
+
     return(
         <View
         style={{

@@ -9,11 +9,10 @@ import HomeTabs from "../screens/HomeTabs"
 
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Home from '../screens/Home'
-
-import Profile from '../screens/Profile/Profile'
 import MakeVideo from "../screens/MakeVideo"
 import Search from "../screens/Search/Search"
+import HomeInnerStackNavigator from "./HomeInnerStackNavigator"
+import ProfileInnerStackNavigator from "./ProfileInnerStackNavigator"
 const HomeTabNavigator=()=>
 {
 
@@ -52,7 +51,7 @@ const HomeTabNavigator=()=>
           }
 
            name="Home"
-           component={Home}
+           component={HomeInnerStackNavigator}
            >
 
 
@@ -117,17 +116,24 @@ const HomeTabNavigator=()=>
           options={
               {
                 
+
+            
               
                 tabBarIcon:({size,focused,color})=>   
                   
                 <FontAwesome5 size={size}  color={color} name="user">
      
                 </FontAwesome5>
+
+                ,
+             title:"Profile"
+
               }
           }
 
-           name="Profile"
-           component={Profile}
+           name="ProfileTab"
+        
+           component={ProfileInnerStackNavigator}
            >
 
 

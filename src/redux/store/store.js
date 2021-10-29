@@ -10,7 +10,7 @@ createStore
 
 
 import thunk from "redux-thunk";
-import CommentReducer from "../reducers/CommentReducer";
+import CommentReducer from "../Reducers/CommentReducer";
 
  const rootReducer=combineReducers
  (

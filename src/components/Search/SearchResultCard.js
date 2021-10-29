@@ -33,7 +33,7 @@ const SearchResultCard=(props)=>
                 color:'#fff'
             }}
             >
-                {data.userID}
+                @{data.userID}
 
             </Text>
 

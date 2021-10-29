@@ -1,90 +1,34 @@
 
 
-import firestore from '@react-native-firebase/firestore'
-import auth, { firebase } from '@react-native-firebase/auth'
-import { useRoute } from '@react-navigation/core'
 import React, { useRef, useState } from 'react'
 
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { MakeComment } from '../redux/Actions/CommentActions'
+import { useDispatch } from 'react-redux'
 
 
-const AddComments = () => {
+const AddComments = (videoID) => {
 
+
+    console.log(videoID)
+
+    const dispatch=useDispatch()
     const [comment, setcomment] = useState("")
 
     const date = new Date()
 
-    const p = useRoute()
+
+    const [height,setheight]=useState(0)
     const todaysDateTime = date.toISOString()
 
     const ReviewRef = useRef()
 
-    const submitComment = async () => {
-
-
-
-
-        try
-
-        {
-        if (comment != "") {
-
-            const exists = await firestore()
-            .collection('Comments')
-            .doc(
-                p.params.key
-            )
-            .collection('reviews')
-            .doc(auth().currentUser.uid)
-            .get()
-
-            if (!exists.exists) {
-                await firestore()
-                    .collection('Videos')
-                    .doc(p.params.key)
-                    .update
-                    (
-                        {
-                            comments: firebase
-                                .firestore
-                                .FieldValue
-                                .increment(1)
-                        }
-                    )
-            }
-        }
-
-            
-            const res = await firestore()
-                .collection('Comments')
-                .doc(
-                    p.params.key
-                ).collection('reviews')
-                .doc(auth().currentUser.uid)
-                .set
-                (
-                    {
-                        comment: comment,
-                        name: auth().currentUser.displayName,
-                        Date: todaysDateTime,
-                        profilePick: (auth().currentUser.photoURL == null) ? "" : auth().currentUser.photoURL,
-                    }
-            )
-
-
-
-                setcomment("")
-
-        
-                }
-
-                catch(err)
-                {
-                    console.log(ErrorUtils)
-                }
-        
+    const submitComment = () => {
+    dispatch( MakeComment(comment,todaysDateTime,videoID))
+    //setcomment("")
     }
 
     return (
@@ -93,18 +37,25 @@ const AddComments = () => {
         <View
 
 
+        
             style={{
                 backgroundColor: "transparent",
-                height: 100,
                 position: 'absolute',
-                bottom: 5
+                bottom: 5,
+            
+                maxHeight:150,
+
+
+
             }}
 
         >
+            <ScrollView>
             <View
                 style={{
-                    flexDirection: 'row'
-
+                    flexDirection: 'row',
+                    flex:1
+                  
                 }}
             >
                 <TextInput
@@ -112,24 +63,32 @@ const AddComments = () => {
                     selectTextOnFocus={true}
 
                     value={comment}
+                    
+                    onContentSizeChange={
+                        e=>setheight(e.nativeEvent.contentSize.height)
+                    }
                     onChangeText={(text) => setcomment(text)}
                     style={{
 
 
                         margin: 20,
                         borderWidth: 0.5,
+                        maxHeight:150,
                         borderRadius: 15,
-                        height: 50,
+                        height: Math.max(50,height),
                         width: '70%',
                         backgroundColor: '#A9A9A9'
                     }}
                     multiline={true}
 
+                    numberOfLines={5}
+                    maxLength={150}
                     returnKeyType="done"
                     returnKeyLabel="submit"
                     clearButtonMode={"always"}
 
                 />
+
 
                 <TouchableOpacity
                     onPress={
@@ -163,6 +122,7 @@ const AddComments = () => {
 
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </View>
     )
 }
