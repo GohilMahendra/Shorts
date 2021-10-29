@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 
 import {
     Dimensions,
+    SegmentedControlIOSComponent,
     Text,
     TextBase,
     View,
@@ -49,8 +50,6 @@ const Home = () =>
                
                 let posts=[]
 
-
-
                 snapshot.forEach
                 (
                     function(child)
@@ -64,17 +63,16 @@ const Home = () =>
 
                   
                 )
-                setVideos(posts)
 
-            }
+                console.log(posts)
+               setVideos(posts)
+
+            },
+            err=>console.log(err)
         )
-     
-        ,
-    
-        err=>console.log(err)
     
 
-        return ()=>videoDetails()
+       // return ()=>videoDetails()
       
     }
         catch(err)
@@ -109,13 +107,13 @@ const Home = () =>
               flex:1
             }}
 
-            contentContainerStyle={
-                {
-                    flex:1,
-                }
-            }
+            // contentContainerStyle={
+            //     {
+            //         flex:1,
+            //     }
+            // }
            
-            ListEmptyComponent={EmptyComponent}
+          //  ListEmptyComponent={EmptyComponent}
             data={Videos}
             keyExtractor={(item)=>item.id}
 

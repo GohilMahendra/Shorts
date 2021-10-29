@@ -32,9 +32,27 @@ const SignUp = ({navigation}) => {
     )
 
 
+    const setUpUserID=(value)=>
+    {
+
+
+        if(value!="")
+        {
+            if(value[0]!='@')
+            {
+                value+='@'
+            }
+
+        }
+
+        setUserID(value)
+    }
+
     const UploadINDatabase=()=>
     {
-        const ref=firestore().collection('Users').add
+
+        
+        const ref= firestore().collection('Users').add
         (
             {
                 userName:userName,
@@ -66,7 +84,7 @@ const SignUp = ({navigation}) => {
     }
 
     
-    const onSignUp=()=>
+    const onSignUp=async()=>
     {
 
         if(IsAvalibleUserID)
@@ -79,6 +97,7 @@ const SignUp = ({navigation}) => {
             auth().currentUser.updateProfile(
                 {
                     displayName:userName,
+
                 }
             )
             UploadINDatabase()
@@ -120,7 +139,7 @@ const SignUp = ({navigation}) => {
            <TextInput
                 value={userID}
                 
-                onChangeText={(text)=>setUserID(text)}
+                onChangeText={(text)=>setUpUserID(text)}
                 clearButtonMode={"always"}
                 placeholderTextColor="#fff"
                 maxLength={20}

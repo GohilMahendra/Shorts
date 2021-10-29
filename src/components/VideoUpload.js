@@ -70,19 +70,19 @@ const VideoUpload = () => {
     }
 
 
-    // useEffect
-    // (
-    //     ()=>
-    //     {
+    useEffect
+    (
+        ()=>
+        {
 
-    //         requestCameraPermission()
-    //     },
-    //     []
-    // )
+            requestCameraPermission()
+        },
+        []
+    )
     const requestCameraPermission = async () => {
         try {
             const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.MANAGE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 {
                   title: "Cool Photo App Camera Permission",
                   message:
@@ -221,6 +221,7 @@ const VideoUpload = () => {
             const { varified, error } = varify()
             if (!varified) {
                 setLoading(false)
+
                 alert(error)
 
                 return
@@ -237,7 +238,6 @@ const VideoUpload = () => {
             
              await UploadOnServer()
 
-             setLoading(false)
 
         }
 
@@ -260,8 +260,13 @@ const VideoUpload = () => {
 
             const tags = maketags(Tags)
 
-            await UploadVideoFull(VideoLoaction)
+
+            // const VideoLocation=VideoLoaction
+            // setVideoLocation("")
+            // await UploadVideoFull(VideoLoaction)
           
+
+            setVideoUrl("https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2-1635320186171?alt=media&token=fb489f90-10ca-4abd-950f-4f424afa1617")
 
             if (Title != "" && Duration != "" && SongName != "" && VideoUrl != "" && VideoUrl!=null) {
 
@@ -338,6 +343,7 @@ const VideoUpload = () => {
                 videoQuality: (Platform.OS == 'android' ?
                     'low' : 'medium'),
                 selectionLimit: 1,
+                includeBase64:true
             },
 
             response => {

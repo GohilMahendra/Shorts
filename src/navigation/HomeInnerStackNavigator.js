@@ -33,6 +33,11 @@ const HomeInnerStackNavigator = () => {
 
             <HomeStack.Screen
             name="userDetails"
+            options={
+                {
+                    headerShown:false
+                }
+            }
             component={userDetails}
             ></HomeStack.Screen>
 

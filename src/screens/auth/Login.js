@@ -5,12 +5,16 @@ import { StyleSheet, Text, View } from "react-native"
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
 import LinearGradient from "react-native-linear-gradient"
 import auth from "@react-native-firebase/auth"
+import ForgotPassword from "../../components/Auth/ForgotPassword"
 
 const Login = ({navigation}) => {
 
     const [email,setEmail]=useState()
     const [password,setPassword]=useState()
 
+
+
+    const [passwordForgot,setPasswordForgot]=useState(false)
 
     useEffect
     (
@@ -92,25 +96,44 @@ const Login = ({navigation}) => {
 
             </TextInput>
 
+
+
+
             <TouchableOpacity
                 onPress={()=>onSignIn()}
                 style={styles.btnContainer}
             >
+
                 <Text
                     style={styles.btnText}
                 >Sign In</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+            onPress={()=>setPasswordForgot(true)}
+            >
+            <Text style={[styles.signuptext,{marginHorizontal:20,
+                marginTop:10,alignSelf:'center'}]}>
+                    FORGOT PASSWORD ?</Text>
             </TouchableOpacity>
             <View
             style={styles.signupContainer}
             >
                 <Text style={styles.signuptext}>
-                    DONT HAVE ACCOUNT YET</Text>
+                    DONT HAVE ACCOUNT YET?</Text>
                 <TouchableOpacity
                 onPress={()=>navigation.navigate('SignUp')}
                 >
                     <Text style={styles.signupbtn}>Sign Up here!</Text>
                 </TouchableOpacity>
             </View>
+
+            {passwordForgot &&
+
+                <ForgotPassword/>
+            }
+
+            
         </View>
     )
 

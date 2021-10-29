@@ -18,13 +18,16 @@ const EmptyComponent=()=>
         <View
         style={{
             flex:1,
-            backgroundColor:'black'
+            backgroundColor:'black',
+            justifyContent:'center'
         }}
         >
             <View
             style={{
                 borderWidth:1,
-                borderColor:'#fff'
+                borderColor:'#fff',
+                
+                margin:25,
             }}
             >
                 <Text
@@ -37,7 +40,7 @@ const EmptyComponent=()=>
                     fontWeight:"bold"
                 }}
                 >
-                    NO Videos Found
+                    NO Videos Found......
                 </Text>
             </View>
 
