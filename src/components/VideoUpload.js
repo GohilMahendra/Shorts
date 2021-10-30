@@ -17,6 +17,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import ViewShot, { captureRef } from "react-native-view-shot";
 
 import Slider from "react-native-slider";
+
+
+import getpath from '@flyerhq/react-native-android-uri-path'
 import UploadingLoad from "./UploadingLoad";
 const VideoUpload = () => {
 
@@ -70,6 +73,13 @@ const VideoUpload = () => {
     }
 
 
+
+    const getVideopath=(uriString)=>
+    {
+        const path=getpath(uriString)
+
+        return path
+    }
     useEffect
     (
         ()=>
@@ -81,23 +91,14 @@ const VideoUpload = () => {
     )
     const requestCameraPermission = async () => {
         try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                {
-                  title: "Cool Photo App Camera Permission",
-                  message:
-                    "Cool Photo App needs access to your camera " +
-                    "so you can take awesome pictures.",
-                  buttonNeutral: "Ask Me Later",
-                  buttonNegative: "Cancel",
-                  buttonPositive: "OK"
-                }
-              );
-              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("You can use the camera");
-              } else {
-                console.log("Camera permission denied");
-              }
+            const granted =await PermissionsAndroid.requestMultiple
+            (
+                [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, 
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
+            )
+
+            console.log(granted)
+           
             } catch (err) {
               console.log(err);
             }
@@ -141,8 +142,11 @@ const VideoUpload = () => {
 
    
     let VideDownloadUrl = ""
-    let task =await ref.putFile(response);
 
+    const path=getVideopath(response)
+    let task =await ref.putFile(path);
+
+    console.log(task)
 
     VideDownloadUrl=await ref.getDownloadURL()
 
@@ -261,9 +265,7 @@ const VideoUpload = () => {
             const tags = maketags(Tags)
 
 
-            // const VideoLocation=VideoLoaction
-            // setVideoLocation("")
-            // await UploadVideoFull(VideoLoaction)
+            await UploadVideoFull(VideoLoaction)
           
 
             setVideoUrl("https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2-1635320186171?alt=media&token=fb489f90-10ca-4abd-950f-4f424afa1617")

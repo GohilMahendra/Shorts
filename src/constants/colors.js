@@ -16,5 +16,8 @@ export const Colors={
     Navy:'#141E61',
     grey:'#787A91',
     silver:'#EEEEEE'
+    ,
+
+    White:'#fff'
 
 }

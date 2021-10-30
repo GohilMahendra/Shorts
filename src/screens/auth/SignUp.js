@@ -48,11 +48,11 @@ const SignUp = ({navigation}) => {
         setUserID(value)
     }
 
-    const UploadINDatabase=()=>
+    const UploadINDatabase=(uid)=>
     {
 
         
-        const ref= firestore().collection('Users').add
+        const ref= firestore().collection('Users').doc(uid).set
         (
             {
                 userName:userName,
@@ -100,7 +100,9 @@ const SignUp = ({navigation}) => {
 
                 }
             )
-            UploadINDatabase()
+            UploadINDatabase(
+            auth().currentUser.uid
+            )
 
             navigation.navigate('Login')
             }
