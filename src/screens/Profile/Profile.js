@@ -13,11 +13,9 @@ import {
     FlatList
 } from 'react-native-gesture-handler'
 import VideoPreviewCard from '../../components/VideoPreviewCard'
-const Profile=()=>
+import { NavigationContainer } from '@react-navigation/native'
+const Profile=({navigation})=>
 {
-
-
-
     const [userDetails,setUserDetails]=useState(
         {
             userName:"",
@@ -230,7 +228,7 @@ const Profile=()=>
                     </View>
                 </View>
                 <TouchableOpacity
-                onPress={()=>AddProfile()}
+                onPress={()=>navigation.navigate('Edit')}
                 style={{
                     alignSelf:'center',
                     alignItems:'center',

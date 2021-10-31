@@ -9,9 +9,9 @@ import React, { Profiler } from "react"
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MakeVideo from "../screens/MakeVideo"
-import Search from "../screens/Search/Search"
 import HomeInnerStackNavigator from "./HomeInnerStackNavigator"
 import ProfileInnerStackNavigator from "./ProfileInnerStackNavigator"
+import SearchInnerStackNavigator from "./SearchInnerStackNavigator"
 const HomeTabNavigator=()=>
 {
 
@@ -72,7 +72,7 @@ const HomeTabNavigator=()=>
           }
 
            name="Search"
-           component={Search}
+           component={SearchInnerStackNavigator}
            >
 
 

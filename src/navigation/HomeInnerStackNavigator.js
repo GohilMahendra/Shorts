@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
 import userDetails from '../screens/userDetails'
+import TagList from '../screens/TagList'
 
 
 
@@ -39,6 +40,17 @@ const HomeInnerStackNavigator = () => {
                 }
             }
             component={userDetails}
+            ></HomeStack.Screen>
+
+            
+<HomeStack.Screen
+            name="TagList"
+            options={
+                {
+                    headerShown:false
+                }
+            }
+            component={TagList}
             ></HomeStack.Screen>
 
 

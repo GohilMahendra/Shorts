@@ -48,11 +48,11 @@ const SignUp = ({navigation}) => {
         setUserID(value)
     }
 
-    const UploadINDatabase=(uid)=>
+    const UploadINDatabase=async(uid)=>
     {
 
         
-        const ref= firestore().collection('Users').doc(uid).set
+        const ref= await firestore().collection('Users').doc(uid).set
         (
             {
                 userName:userName,
@@ -71,16 +71,16 @@ const SignUp = ({navigation}) => {
     {
 
 
-        const qry= firestore().collection('Users').where('userID',
-        '==',userID)
+        // const qry= firestore().collection('Users').where('userID',
+        // '==',userID)
 
-        const user=await qry.get()
+        // const user=await qry.get()
 
-        if(!user.exists)
-        {
-            setISAvalibleUserID(true)
+        // if(!user.exists)
+        // {
+        //     setISAvalibleUserID(true)
         
-        }
+        // }
     }
 
     

@@ -151,6 +151,7 @@ const VideoUpload = () => {
     VideDownloadUrl=await ref.getDownloadURL()
 
 
+    console.log(VideDownloadUrl)
     setVideoUrl(VideDownloadUrl)
 
 
@@ -215,10 +216,6 @@ const VideoUpload = () => {
     }
     const UploadVideoOnServer = async () => {
 
-
-
-
-
         try {
 
             setLoading(true)
@@ -235,12 +232,14 @@ const VideoUpload = () => {
             
 
             
-            await captureTumbnail()
-
-
+           await captureTumbnail()
+            await UploadVideoFull(VideoLoaction)
+           
+            console.log(VideoUrl)
             await UploadSongOnServer()
-            
-             await UploadOnServer()
+
+      
+           await UploadOnServer()
 
 
         }
@@ -262,19 +261,15 @@ const VideoUpload = () => {
                 return
             }
 
+            
             const tags = maketags(Tags)
 
 
-            await UploadVideoFull(VideoLoaction)
           
 
-            setVideoUrl("https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2%2FYLfMcQca3qf53Y9KM0ceyT4sUCF2-1635320186171?alt=media&token=fb489f90-10ca-4abd-950f-4f424afa1617")
-
-            if (Title != "" && Duration != "" && SongName != "" && VideoUrl != "" && VideoUrl!=null) {
 
 
-
-                const doc = {
+                let doc = {
 
 
                     //video text details
@@ -315,19 +310,11 @@ const VideoUpload = () => {
                 }
 
 
-                const res = await firestore()
-                    .collection('Videos')
-                    .add
-                    (doc)
+             console.log(doc)
 
-
-                    console.log(res)
-
-
-                setLoading(false)
-
-
-            }
+             await firestore().collection('Videos').add
+             (doc)
+            setLoading(false)
 
         }
         catch (err) {

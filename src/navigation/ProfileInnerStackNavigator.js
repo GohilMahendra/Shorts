@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 
 import Profile from '../screens/Profile/Profile'
+import EditProfile from '../screens/Profile/EditProfile'
+import UserVideoPlayer from '../screens/UserVideoPlayer'
 
 const ProfileInnerStackNavigator = () => {
 
@@ -29,6 +31,26 @@ const ProfileInnerStackNavigator = () => {
             }
             component={Profile}
             ></HomeStack.Screen>
+              <HomeStack.Screen
+            name="Edit"
+            options={
+                {
+                    headerShown:false
+                }
+            }
+            component={EditProfile}
+            ></HomeStack.Screen>
+
+<HomeStack.Screen
+            name="UserVideoPlayer"
+            options={
+                {
+                    headerShown:false
+                }
+            }
+            component={UserVideoPlayer}
+            ></HomeStack.Screen>
+
 
 
            

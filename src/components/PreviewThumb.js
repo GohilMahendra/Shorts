@@ -2,8 +2,10 @@
 
 
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View,Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native-paper";
+
 
 import Video from 'react-native-video'
 
@@ -15,8 +17,6 @@ const PreviewThumb=(props)=>
 
     const {VideoUrl,seekTime}=props
 
-  
-   
 
     return(
         <View
@@ -27,6 +27,12 @@ const PreviewThumb=(props)=>
             }
         }
         >
+
+         
+
+         
+        
+
             <Video
             
 
@@ -50,8 +56,6 @@ const PreviewThumb=(props)=>
     //        repeat={true}
           //  muted={true}
             paused={false}
-
-          //  seek={seek}
          
 
 

@@ -5,9 +5,11 @@
 import React from "react"
 
 import { Image, View } from 'react-native'
-export default RoundImage=(imageURL)=>
+export default RoundImage=({imageURL})=>
 {
 
+
+    console.log(imageURL)
 
     return(
         <View
@@ -21,24 +23,26 @@ export default RoundImage=(imageURL)=>
             }
         }
         >
-{/* 
+
         {
+
+
             (imageURL!=null && imageURL!="")?
             <Image
             source={
                 {
-                    uri:imageURL
+                    uri:imageURL==null?"":imageURL
                 }
             }
             style={
                 {
-                    flex:1
-                }
+                    flex:1,
+                                  }
             }
             >
 
-            </Image> */}
-            
+            </Image>
+            :
             <View
             style={
                 {
@@ -50,6 +54,7 @@ export default RoundImage=(imageURL)=>
             />
         
 
+        }
 
         </View>
 
