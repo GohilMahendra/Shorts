@@ -18,6 +18,8 @@ const PreviewThumb=(props)=>
     const {VideoUrl,seekTime}=props
 
 
+   
+
     return(
         <View
         style

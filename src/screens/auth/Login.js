@@ -7,6 +7,9 @@ import LinearGradient from "react-native-linear-gradient"
 import auth from "@react-native-firebase/auth"
 import ForgotPassword from "../../components/Auth/ForgotPassword"
 
+
+import firestore from "@react-native-firebase/firestore";
+import { useValue } from "react-native-reanimated"
 const Login = ({navigation}) => {
 
     const [email,setEmail]=useState()
@@ -15,6 +18,7 @@ const Login = ({navigation}) => {
 
 
     const [passwordForgot,setPasswordForgot]=useState(false)
+
 
     useEffect
     (
@@ -45,6 +49,8 @@ const Login = ({navigation}) => {
     {
         const user=await auth().signInWithEmailAndPassword(email,password)
 
+
+      
         if(user)
         {
             navigation.navigate('HomeTabs')

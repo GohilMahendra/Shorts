@@ -115,8 +115,11 @@ const Home = () =>
            
           //  ListEmptyComponent={EmptyComponent}
             data={Videos}
+
+            maxToRenderPerBatch={2}
             keyExtractor={(item)=>item.id}
 
+            snapToInterval={height}
             renderItem={renderItem}
 
             >

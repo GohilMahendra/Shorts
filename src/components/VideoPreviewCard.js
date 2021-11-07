@@ -29,6 +29,7 @@ const VideoPreviewCard=(props)=>
             style={
                 {
                     flex:1,
+                    backgroundColor:'#fff'
 
                 }
             }

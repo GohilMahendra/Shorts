@@ -11,12 +11,14 @@ createStore
 
 import thunk from "redux-thunk";
 import CommentReducer from "../Reducers/CommentReducer";
+import TagReducer from "../Reducers/TagReducer";
 
  const rootReducer=combineReducers
  (
      {
        
          Comment:CommentReducer,
+         Tags:TagReducer
       
      }
  )

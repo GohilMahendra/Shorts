@@ -1,6 +1,6 @@
 import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
 
 import { View,Image, Text, StyleSheet, Dimensions, Pressable } from 'react-native'
 import CustomBlueView from "./CustomBlurView";
@@ -25,6 +25,36 @@ const VideoReview = (props) => {
     const [liked, setliked] = useState(false)
 
 
+
+    const [channal,setchannal]=useState(
+        {
+                userName:"",
+                userID:"",
+                varified:false,
+                Followers:0,
+                photoUrl:"",
+                Following:0,
+                Likes:0,
+        }
+    )
+
+    const getUserDetails=async(
+
+    )=>
+    {
+        const userDetails=await firestore()
+        .collection('Users')
+        .doc(data.channelID).get()
+
+
+
+        console.log(userDetails.data())
+
+     
+        setchannal(userDetails.data())
+
+
+    }
 
     const IsLiked=async()=>
     {
@@ -55,6 +85,8 @@ const VideoReview = (props) => {
         async()=>
         {
                 await IsLiked();
+
+                await getUserDetails()
            
         }
         ,
@@ -131,6 +163,16 @@ const VideoReview = (props) => {
 
 
             <TouchableOpacity
+
+            
+            // style={
+            //     {
+            //         height:100,
+            //         width:100,
+            //         backgroundColor:'#fff',
+                    
+            //     }
+            // }
             onPress={
                 ()=>navigation.navigate('userDetails',{
                     channelThumbnail:data.channelThumbnail,
@@ -139,9 +181,11 @@ const VideoReview = (props) => {
                 })
             }
             >
+
+
                 <RoundImage
                 
-                imageURL={data.channelThumbnail}
+                imageURL={channal.photoUrl}
 
                 >
 

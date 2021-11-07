@@ -31,12 +31,15 @@ export default RoundImage=({imageURL})=>
             <Image
             source={
                 {
-                    uri:imageURL==null?"":imageURL
+                    uri:imageURL
                 }
             }
             style={
                 {
                     flex:1,
+                    borderRadius:70,
+                    resizeMode:'cover',
+                    backgroundColor:'#fff'
                                   }
             }
             >

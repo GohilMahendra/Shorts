@@ -53,7 +53,7 @@ const Profile=({navigation})=>
         )
 
 
-        console.log(posts)
+       // console.log(posts)
         setvideos(posts)
 
         }
@@ -68,6 +68,15 @@ const Profile=({navigation})=>
         return(
             <TouchableOpacity
             
+            onPress={
+                ()=>navigation.navigate(
+                    "UserVideoPlayer",
+                    {
+                        id:item.id,
+                        index:index
+                    }
+                )
+            }
             
             >
               <VideoPreviewCard
@@ -88,6 +97,8 @@ const Profile=({navigation})=>
         ()=>
         {
 
+            getUserDetails()
+
             getUserVideos()
         },
         []
@@ -99,10 +110,12 @@ const Profile=({navigation})=>
 
         try
         {
-        const user=await firestore().collection('Users').get()
+        const user=await firestore().collection('Users').doc(
+            auth().currentUser.uid
+        ).get()
 
-        console.log(user.docs.data()+"datta")
-        setUserDetails(user.docs.data())
+        console.log(user.data().photoURL+"datta")
+        setUserDetails(user.data())
 
         }
         catch(err)
@@ -116,8 +129,7 @@ const Profile=({navigation})=>
         ()=>
 
         {
-            getUserDetails()
-
+         
         },
         []
     )
@@ -152,10 +164,12 @@ const Profile=({navigation})=>
                     margin:10
                 }}
                 >
-                <Image
+                {
+                    userDetails.photoURL!="" &&
+                    <Image
                 source={
                     {
-                        uri:auth().currentUser.photoURL
+                        uri:userDetails.photoURL
                     }
                 }
                 style={{
@@ -171,6 +185,7 @@ const Profile=({navigation})=>
 
                 </Image>
             
+                }
                 </TouchableOpacity>
 
                 <Text

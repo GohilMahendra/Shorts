@@ -1,6 +1,6 @@
 import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {View,Text,StyleSheet, Dimensions, Pressable} from 'react-native'
 
@@ -22,34 +22,61 @@ const {height,width}= Dimensions.get('window')
 
     const [paused,setpaused]=useState(false)
 
+    const VideoRef=useRef()
 
     const [loading,setloading]=useState(false)
 
     const uri=storage().ref(data.VideoUrl)
+
+
+    useEffect
+    (
+        ()=>
+        {
+
+
+           
+        
+
+
+        },
+        []
+    )
 
     return(
         <View
         style={styles.Container}
         >
 
-    
             <Pressable
             onPress={()=>setpaused(!paused)}
+
+            ontap
             >
             <Video
+            
+
+            ref={VideoRef}
+
+            onAudioFocusChanged={
+                ()=>setpaused(!paused)
+            }
 
             key={data.id}
             source={
                 {
-                    uri:data.VideoUrl
+                    uri:data.VideoUrl,
+                    cache:true,
+                    
                 }
             }
-            repeat={true}
-            resizeMode={"cover"}
 
+            repeat={false}
+            resizeMode={"cover"}
+            
             paused={paused}
-           
             playInBackground={false}
+
 
             preventsDisplaySleepDuringVideoPlayback={true}
             filterEnable={true}

@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
 import userDetails from '../screens/userDetails'
 import TagList from '../screens/TagList'
+import Tags from '../screens/Tags/Tags'
 
 
 
@@ -44,13 +45,13 @@ const HomeInnerStackNavigator = () => {
 
             
 <HomeStack.Screen
-            name="TagList"
+            name="Tags"
             options={
                 {
                     headerShown:false
                 }
             }
-            component={TagList}
+            component={Tags}
             ></HomeStack.Screen>
 
 

@@ -2,19 +2,75 @@
 
 
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 
 import auth from '@react-native-firebase/auth'
 import {View ,Text, TouchableOpacity} from 'react-native'
+
+
+import firestore from '@react-native-firebase/firestore'
 import { tan } from "react-native-reanimated";
+import { combineReducers } from "redux";
+import { useNavigation } from "@react-navigation/core";
 const VideoDetails=(props)=>
 {
 
     const {data}=props
 
-  
+    const navigation=useNavigation()
 
+  
+    const [follwing,setfollwing]=useState(
+        false
+    )
+
+
+    const isFollwing=async()=>
+    {
+        const isExist=await firestore().collection('Follwing').
+        doc(auth().currentUser.uid)
+        .collection('LookUps')
+        .doc(data.channelID)
+        .get()
+
+
+        console.log(isExist.exists)
+        setfollwing(isExist.exists)
+
+    }
+    useEffect
+    (
+        ()=>
+        {
+
+            
+            isFollwing()
+
+               },
+        []
+    )
+
+    const onFolloW=async()=>
+    {
+
+        const qry=
+       await firestore().collection('Followers').
+       doc(data.channelID)
+       .collection('LookUps')
+       .doc(auth().currentUser.uid)
+       .set({})
+
+       const follwoing=await firestore().collection('Follwing').
+       doc(auth().currentUser.uid)
+       .collection('LookUps')
+       .doc(data.channelID)
+       .set({})
+        
+
+
+
+    }
 
 
     return(
@@ -63,6 +119,10 @@ const VideoDetails=(props)=>
             }
             >THUG LIFE</Text>
             <TouchableOpacity
+
+            onPress={
+              ()=>  onFolloW()
+            }
             style={
                 {
                     backgroundColor:'#000133',
@@ -80,7 +140,8 @@ const VideoDetails=(props)=>
                         color:"#fff"
                     }
                 }
-                >Follow +</Text>
+                >{follwing?
+                "follwing":"Follow+"}</Text>
             </TouchableOpacity>
             </View>
         
@@ -89,9 +150,18 @@ const VideoDetails=(props)=>
             >
                {
                    data.Tags.map(tag => {
-                     console.log(tag)
+                    // console.log(tag)
                     return(
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={
+                        ()=>navigation.navigate(
+                            "Tags",
+                            {
+                                Tags:tag
+                            }
+                        )
+                    }
+                    >
                     <Text
 
                     key={tag}

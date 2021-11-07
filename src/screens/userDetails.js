@@ -4,161 +4,264 @@ import { useRoute } from "@react-navigation/core"
 import React, { useEffect, useState } from "react"
 
 
-import
- { View,Image,Text, StyleSheet }
- from 'react-native'
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
+import { View, Image, Text, StyleSheet }
+    from 'react-native'
+import { TextInput, TouchableOpacity, FlatList } from "react-native-gesture-handler"
 import { useDispatch } from "react-redux"
 import RoundImage from "../components/RoundImage"
 import InfoBox from "../components/UserDetails/InfoBox"
 
 
+
+
+import VideoPreviewCard from '../components/VideoPreviewCard'
+
 import { Colors } from "../constants/colors"
 import firestore from '@react-native-firebase/firestore'
-const userDetails=()=>
-{
+import { conditionalExpression } from "@babel/types"
+import { getVersion } from "@jest/core"
+const userDetails = () => {
 
-    const p=useRoute()
+    const p = useRoute()
 
     console.log(p.params.channelID)
 
 
 
-    const [userDetails,setUserDetails]=useState(
-        {
-        Followers:0,
-        Following:0,
-        Likes:0,
-        photoUrl:"",
-        userID:"",
-        userName:"",
-        varified:false
-    })
+    const [videos, setvideos] = useState([])
 
-    
-    const getUserDetails=async()=>
+    const [userDetails, setUserDetails] = useState(
+        {
+            Followers: 0,
+            Following: 0,
+            Likes: 0,
+            photoUrl: "",
+            userID: "",
+            userName: "",
+            varified: false
+        })
+
+    const renderItem = ({ item, index }) => {
+     
+        console.log(item)
+        return (
+            <TouchableOpacity
+
+                onPress={
+                    () => navigation.navigate(
+                        "UserVideoPlayer",
+                        {
+                            id: item.id,
+                            index: index
+                        }
+                    )
+                }
+
+            >
+                  <Image
+                
+                style={
+                    {
+                        height:50,
+                        width:100,
+                        backgroundColor:"green",
+                    }
+                }
+
+                source={
+                    {
+                    uri:userDetails.photoUrl
+                    }
+                }
+                />
+                <VideoPreviewCard
+                    data={
+                        item
+                    }
+                >
+
+                </VideoPreviewCard>
+
+            </TouchableOpacity>
+        )
+
+    }
+
+
+
+
+    const getuserVideos=async()=>
     {
         try
         {
-        const userDetails=await firestore()
-        .collection('Users')
-        .doc(p.params.channelID)
-        .get()
 
-        console.log(userDetails)
-       // setUserDetails(userDetails.data())
+            const userVideos=await firestore().collection(
+                'Videos'
+            )
+            .where('channelID','==',p.params.channelID).get()
+
+
+            let list=[]
+
+
+            userVideos.docs.forEach
+            (
+                function(child)
+                {
+                    list.push({id:child.id,...child.data()})
+                }
+            )
+
+        
+            setvideos(list)
         }
         catch(err)
         {
             console.log(err)
         }
     }
+    const getUserDetails = async () => {
+        try {
+            const userDetails = await firestore()
+                .collection('Users')
+                .doc(p.params.channelID)
+                .get()
+
+          
+             setUserDetails(userDetails.data())
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     useEffect(
-        ()=>
-        {
+        () => {
 
-            getUserDetails()
-        },[]
+            getUserDetails(),
+            getuserVideos()
+        }, []
     )
 
 
 
-    return(
+    return (
         <View
-        style={
-            {
-                flex:1
+            style={
+                {
+                    flex: 1
+                }
             }
-        }
         >
 
             <View
-            style={{
-                height:"40%",
-                backgroundColor:Colors.Teal,
-                justifyContent:'center'
-            }}
+                style={{
+                    height: "40%",
+                    backgroundColor: Colors.Teal,
+                    justifyContent: 'center'
+                }}
             >
 
-            
-              <RoundImage
-              style={
-                  {
-                      alignSelf:'center'
-                  }
-              }
-              ></RoundImage>
-              <View
-              style={{
-                  margin:10,
-                  alignItems:"center",
-                  justifyContent:"center"
-              }}
-              >
-                  <Text
-                  style={{
-                      backgroundColor:Colors.silver
-                  }}
 
-                  >
-                      {userDetails.userName}
-                  </Text>
-                  <Text
-                  style={{
-                      backgroundColor:Colors.silver
-                  }}
+                <RoundImage
+                    style={
+                        {
+                            alignSelf: 'center'
+                        }
+                    }
 
-                  >
-                      {userDetails.userID}
-                  </Text>
-              </View>
-           
-              <InfoBox
-              followers={userDetails.Followers}
-              following={userDetails.Following}
-              likes={userDetails.Likes}
-              >
+                    imageURL={userDetails.photoUrl}
+                ></RoundImage>
 
-              </InfoBox>
+               
+                <View
+                    style={{
+                        margin: 10,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                >
+                    <Text
+                        style={{
+                            backgroundColor: Colors.silver
+                        }}
 
-              <TouchableOpacity
-              style={
-                  {
-                      backgroundColor:"#002366",
-                      padding:10,
-                      width:100,
-                      alignSelf:'center',
-                      justifyContent:'center',
-                      alignItems:'center',
-                      borderRadius:20
-                      
-                  }
-              }
-              >
-                  <Text
-                  style={
-                      {
-                        
-                        textAlign:'center',
-                        color:Colors.White,
-                          width:100,
+                    >
+                        {userDetails.userName}
+                    </Text>
+                    <Text
+                        style={{
+                            backgroundColor: Colors.silver
+                        }}
 
-                      }
-                  }
-                  >Follow</Text>
-              </TouchableOpacity>
+                    >
+                        {userDetails.userID}
+                    </Text>
+                </View>
+
+                <InfoBox
+                    followers={userDetails.Followers}
+                    following={userDetails.Following}
+                    likes={userDetails.Likes}
+                >
+
+                </InfoBox>
+
+                <TouchableOpacity
+                    style={
+                        {
+                            backgroundColor: "#002366",
+                            padding: 10,
+                            width: 100,
+                            alignSelf: 'center',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 20
+
+                        }
+                    }
+                >
+                    <Text
+                        style={
+                            {
+
+                                textAlign: 'center',
+                                color: Colors.White,
+                                width: 100,
+
+                            }
+                        }
+                    >Follow</Text>
+                </TouchableOpacity>
             </View>
 
 
             <View
-            style={{
-                height:'60%',
-                backgroundColor:Colors.black
-            }}
+                style={{
+                    height: '60%',
+                    backgroundColor: Colors.black
+                }}
             >
+                <FlatList
+                    style={
+                        {
+                            margin: 10,
+                            flex: 1,
+
+                        }
+                    }
+
+                    data={videos}
+                    renderItem={renderItem}
+                    numColumns={3}
+                    keyExtractor={item => item.id}
+
+                >
+
+                </FlatList>
 
             </View>
+          
 
         </View>
     )

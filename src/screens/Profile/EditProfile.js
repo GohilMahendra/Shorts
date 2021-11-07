@@ -49,14 +49,14 @@ const EditProfile=()=>
         try
         {
 
-        // const changeUser=await firestore().collection('Users').doc(
-        //     auth().currentUser.uid
-        // ).update
-        // (
-        //     {
-        //         photoURL:newUrl
-        //     }
-        // )
+        const changeUser=await firestore().collection('Users').doc(
+            auth().currentUser.uid
+        ).update
+        (
+            {
+                photoURL:newUrl
+            }
+        )
 
         const changeAuth=await auth().currentUser.updateProfile(
         {
@@ -85,16 +85,7 @@ const EditProfile=()=>
         try
         {
 
-        if(auth().currentUser.photoURL!=null &&
-        auth().currentUser.photoURL!=""
-        )
-        {
         
-        const conf =await   storage().ref('/Profile/'+auth().currentUser.uid).delete()
-
-
-        }
-
         const path='Profile/'+auth().currentUser.uid+'/'+auth().currentUser.uid
 
 
@@ -104,6 +95,8 @@ const EditProfile=()=>
 
         let task= await ref.putFile(uri)
 
+
+        console.log(task)
         let storagepath=await ref.getDownloadURL()
 
 
@@ -220,6 +213,7 @@ const EditProfile=()=>
             <TextInput
 
             value={userName}
+            onChangeText={text=>setuserName(text)}
             style={{
                 backgroundColor:Colors.White,
                 flex:1,
