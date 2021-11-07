@@ -4,9 +4,9 @@
 import React, { useState,useEffect } from "react";
 
 import {
-    View,Text
+    View,Text,FlatList
   } from "react-native";
-  import { FlatList } from "react-native-gesture-handler"
+  import {  } from "react-native-gesture-handler"
 import EmptyComponent from "../components/EmptyComponent"
 import VideoPlayer from "../components/VideoPlayer"
 
@@ -116,7 +116,7 @@ const UserVideoPlayer=({navigation})=>
             }}
 
 
-            scrollToIndex={1}
+            initialScrollIndex={1}
          
             data={Videos}
             keyExtractor={(item)=>item.id}

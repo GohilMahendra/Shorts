@@ -13,56 +13,31 @@ import {
     FlatList
 } from 'react-native-gesture-handler'
 import VideoPreviewCard from '../../components/VideoPreviewCard'
-import { NavigationContainer } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfileDetails, getProfileVideos } from '../../redux/Actions/ProfileActions'
+import RoundImage from '../../components/RoundImage'
 const Profile=({navigation})=>
+
 {
-    const [userDetails,setUserDetails]=useState(
-        {
-            userName:"",
-            userID:"",
-            photoURL:"",
-            varified:false,
-            Follwing:0,
-            Follwers:0,
-            Likes:0,
-        }
+
+    const dispatch=useDispatch()
+    let userDetails=useSelector(state=>state.Profile.userProfile)
+
+
+    useSelector(state=>console.log(state))
+    
+    const videos=useSelector(
+            state=>state.Profile.UserVideos
     )
 
-
-    const [videos,setvideos]=useState([])
+    console.log(videos,'videos')
+   const UserVideosLoad=useSelector(
+       state=>state.Profile.UserVideosLoad
+   )
 
     
-    const getUserVideos=async()=>
 
-    {
-
-        try
-        {
-        const qry=firestore().collection('Videos').where('channelID','==',auth().currentUser.uid)
-        const results=await qry.get()
-
-        let posts=[]
-
-       
-        results.docs.forEach
-        (
-            function(child)
-            {
-                posts.push({id:child.id,...child.data()})
-            }
-        )
-
-
-       // console.log(posts)
-        setvideos(posts)
-
-        }
-        catch(err)
-        {
-            console.log(err)
-        }
-
-    }
+    
     const renderItem=({item,index})=>
     {
         return(
@@ -97,42 +72,14 @@ const Profile=({navigation})=>
         ()=>
         {
 
-            getUserDetails()
-
-            getUserVideos()
+          dispatch(getProfileDetails())
+          dispatch(getProfileVideos())
         },
         []
     )
 
-    const getUserDetails=async()=>
-    {
-       
+    
 
-        try
-        {
-        const user=await firestore().collection('Users').doc(
-            auth().currentUser.uid
-        ).get()
-
-        console.log(user.data().photoURL+"datta")
-        setUserDetails(user.data())
-
-        }
-        catch(err)
-        {
-
-        }
-    }
-
-    useEffect
-    (
-        ()=>
-
-        {
-         
-        },
-        []
-    )
     
 
     return(
@@ -149,45 +96,16 @@ const Profile=({navigation})=>
             <View
             style={{
                 height:'40%',
+                margin:10,
                 backgroundColor:'transparent',
               
             }}
                 
             >
-                <TouchableOpacity
-                style={{
-                    height:70,
-                    width:70,
-                    borderRadius:70,
-                    alignItems:'center',
-                    alignSelf:'center',
-                    margin:10
-                }}
-                >
-                {
-                    userDetails.photoURL!="" &&
-                    <Image
-                source={
-                    {
-                        uri:userDetails.photoURL
-                    }
-                }
-                style={{
-                  
-                    backgroundColor:'#fff',
-                
-                    height:70,
-                    width:70,
-                    borderRadius:70,
-                   
-                }}
-                >
-
-                </Image>
-            
-                }
-                </TouchableOpacity>
-
+          
+                <RoundImage
+                imageURL={auth().currentUser.photoURL}
+                />
                 <Text
                 style={{
                     color:'#fff',

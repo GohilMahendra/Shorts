@@ -11,6 +11,7 @@ createStore
 
 import thunk from "redux-thunk";
 import CommentReducer from "../Reducers/CommentReducer";
+import ProfileReducer from "../Reducers/ProfileReducer";
 import TagReducer from "../Reducers/TagReducer";
 
  const rootReducer=combineReducers
@@ -18,7 +19,8 @@ import TagReducer from "../Reducers/TagReducer";
      {
        
          Comment:CommentReducer,
-         Tags:TagReducer
+         Tags:TagReducer,
+         Profile:ProfileReducer
       
      }
  )
