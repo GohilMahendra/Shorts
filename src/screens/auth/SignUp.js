@@ -7,6 +7,7 @@ import LinearGradient from "react-native-linear-gradient"
 
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
+import { launchImageLibrary } from "react-native-image-picker";
 const SignUp = ({navigation}) => {
 
 
@@ -14,10 +15,24 @@ const SignUp = ({navigation}) => {
     const [userName,setuserName]=useState("")
     const [userID,setUserID]=useState("")
     const [email,setEmail]=useState("")
+
+    const [photoUrl,setphotoUrl]=useState("")
+
+
     const [password,setPassword]=useState("")
     const [IsAvalibleUserID,setISAvalibleUserID]=useState(false)
 
 
+
+    const chooseImage=()=>
+    {
+
+        launchImageLibrary
+        (
+            
+        )
+
+    }
 
     useEffect
     (

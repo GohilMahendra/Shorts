@@ -19,8 +19,6 @@ const HomeTabNavigator=()=>
     return(
        <HomeTab.Navigator
        initialRouteName="Profile"
-
-      
        screenOptions={
            {
                headerShown:false,

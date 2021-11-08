@@ -52,14 +52,15 @@ const ProfileReducer=(state=initialstate,action)=>
 
         case GET_USER_VIDEOS_REQUEST:
             return {
-            ...state,
-            UserVideosLoad:true,
-            UserVideosLoadError:null    
+                ...state,
+                UserVideos:[],
+    
+                UserVideosLoad:false,
+                UserVideosLoadError:null,
+                
             }
         case GET_USER_VIDEOS_SUCCESS:
-         
-        
-        console.log(action.payload,'VideosRedcudee')
+       
         return {
                ...state,
                UserVideosLoad:false,
@@ -68,7 +69,11 @@ const ProfileReducer=(state=initialstate,action)=>
            }
         
         case GET_USER_VIDEOS_FAILED:
-            
+            return {
+                ...state,
+                UserVideosLoad:false,
+                UserVideosLoadError:action.payload
+            }
            
 
       

@@ -119,6 +119,7 @@ const EditProfile=()=>
                     mediaType: 'photo',
                     selectionLimit: 1,
                     
+                    quality:0.5,
                     includeBase64:false
                 },
     

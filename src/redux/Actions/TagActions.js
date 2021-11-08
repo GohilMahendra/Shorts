@@ -4,9 +4,7 @@
 import React from "react";
 
 import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth";
 import { FETCH_VIDEO_Tags_FAILED, FETCH_VIDEO_Tags_REQUEST, FETCH_VIDEO_Tags_SUCCESS } from "../Types/TagTypes";
-import { createIconSetFromFontello } from "react-native-vector-icons";
 
 const MAX_FETCH_LIMIT=1
 
@@ -26,7 +24,7 @@ export const getTagVideos=(tags)=>
             const userVideos=await firestore().collection(
                 'Videos'
             )
-            .where('Tags','array-contains',tags).get()
+            .where('Tags','array-contains',tags).limit(MAX_FETCH_LIMIT).get()
 
 
             let list=[]

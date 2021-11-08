@@ -4,28 +4,43 @@
 import React, { useState,useEffect } from "react";
 
 import {
-    View,Text,FlatList
+    View,Text,FlatList, Dimensions
   } from "react-native";
   import {  } from "react-native-gesture-handler"
-import EmptyComponent from "../components/EmptyComponent"
 import VideoPlayer from "../components/VideoPlayer"
 
+
+import { 
+    useDispatch,useSelector
+ } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import { useRoute } from "@react-navigation/core";
 
 import auth from "@react-native-firebase/auth";
 
 
+const {
+    height,width
+}=Dimensions.get('screen')
 
 const UserVideoPlayer=({navigation})=>
 {
-    const [Videos,setVideos]=useState({})
+    
 
 
 
     const route=useRoute()
 
 
+
+    const dispatch=useDispatch()
+  
+
+    useSelector(state=>console.log(state))
+    
+    const Videos=useSelector(
+            state=>state.Profile.UserVideos
+    )
 
 
 
@@ -89,15 +104,15 @@ const UserVideoPlayer=({navigation})=>
         }
         
     }
-    useEffect
-    (
-        ()=>
-        {
+    // useEffect
+    // (
+    //     ()=>
+    //     {
 
-            getVideos()
-        },
-        []
-    )
+    //         getVideos()
+    //     },
+    //     []
+    // )
    
     return(
 
@@ -115,15 +130,13 @@ const UserVideoPlayer=({navigation})=>
               flex:1
             }}
 
-
-            initialScrollIndex={1}
-         
+            initialScrollIndex={
+                Videos.length>0?route.params.index:0
+            }
             data={Videos}
             keyExtractor={(item)=>item.id}
-
-
             scrollEnabled={true}
-        
+            snapToInterval={height-50}
 
             //snapToInterval={curruntVideo}
             renderItem={renderItem}

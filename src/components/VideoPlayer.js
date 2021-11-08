@@ -77,7 +77,6 @@ const {height,width}= Dimensions.get('window')
             paused={paused}
             playInBackground={false}
 
-
             preventsDisplaySleepDuringVideoPlayback={true}
             filterEnable={true}
             

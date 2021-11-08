@@ -1,92 +1,40 @@
 
-import { tsNullKeyword } from "@babel/types"
-import firestore from "@react-native-firebase/firestore"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import {
     Dimensions,
-    SegmentedControlIOSComponent,
-    Text,
-    TextBase,
     View,
 
 } from 'react-native'
 import { FlatList } from "react-native-gesture-handler"
-import EmptyComponent from "../components/EmptyComponent"
+import { useDispatch, useSelector } from "react-redux"
 import VideoPlayer from "../components/VideoPlayer"
+import { getHomeFeedVideos } from "../redux/Actions/HomeActions"
 
 
 const {height,width}=Dimensions.get('screen')
 
 const Home = () =>
 {
+    const dispatch=useDispatch()
+    const Videos=useSelector(state=>state.Home.HomeVideos)
 
-    const [Videos,setVideos]=useState({})
-
-
+    const listRef=useRef()
 
     const renderItem=({item,index})=>
     {
-        console.log(item)
         return(
             <VideoPlayer
-            
             data={item}
             ></VideoPlayer>
         )
     }
 
-    const getVideos=async()=>
-    {
-        try
-        {
-        const videoDetails=firestore().collection('Videos').limit(10)
-
-        videoDetails.onSnapshot
-        (
-            
-            (snapshot)=>
-            {
-               
-                let posts=[]
-
-                snapshot.forEach
-                (
-                    function(child)
-                    {
-
-
-                      
-                        posts.push({id:child.id,...child.data()})
-                    }
-
-
-                  
-                )
-
-                console.log(posts)
-               setVideos(posts)
-
-            },
-            err=>console.log(err)
-        )
-    
-
-       // return ()=>videoDetails()
-      
-    }
-        catch(err)
-        {
-            console.log(err)
-        }
-        
-    }
     useEffect
     (
         ()=>
         {
-
-            getVideos()
+            dispatch(getHomeFeedVideos())
         },
         []
     )
@@ -101,24 +49,16 @@ const Home = () =>
         >
 
             <FlatList
-            
+            ref={listRef}
             style={{
                 
-              flex:1
+              flex:1,
+              backgroundColor:'black',
+              width:'100%'
             }}
 
-            // contentContainerStyle={
-            //     {
-            //         flex:1,
-            //     }
-            // }
-           
-          //  ListEmptyComponent={EmptyComponent}
             data={Videos}
-
-            maxToRenderPerBatch={2}
             keyExtractor={(item)=>item.id}
-
             snapToInterval={height}
             renderItem={renderItem}
 

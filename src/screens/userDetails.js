@@ -18,8 +18,7 @@ import VideoPreviewCard from '../components/VideoPreviewCard'
 
 import { Colors } from "../constants/colors"
 import firestore from '@react-native-firebase/firestore'
-import { conditionalExpression } from "@babel/types"
-import { getVersion } from "@jest/core"
+
 const userDetails = () => {
 
     const p = useRoute()

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-import {Image, StyleSheet, Text,View} from 'react-native'
+import {Image, RefreshControl, StyleSheet, Text,View} from 'react-native'
 
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
@@ -67,13 +67,21 @@ const Profile=({navigation})=>
 
     }
 
+
+    const getVideosList=()=>
+    {
+        dispatch(getProfileVideos())
+
+    }
+
     useEffect
     (
         ()=>
         {
 
           dispatch(getProfileDetails())
-          dispatch(getProfileVideos())
+         
+          getVideosList()
         },
         []
     )
@@ -189,7 +197,20 @@ const Profile=({navigation})=>
             }
         }
 
+
+        refreshControl={
+            <RefreshControl
+            refreshing={UserVideosLoad}
+            onRefresh={
+                ()=>getVideosList()
+            }
+            
+            ></RefreshControl>
+        }
+
         data={videos}
+
+    
         renderItem={renderItem}
         numColumns={3}
         keyExtractor={item=>item.id}
