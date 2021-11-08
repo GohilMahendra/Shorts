@@ -4,71 +4,69 @@
 
 
 
-import 
-{
+import {
 
-    ADD_COMMENTS_FAILED,
-    ADD_COMMENTS_REQUEST,
-    ADD_COMMENTS_SUCCESS,
-    FETCH_COMMENTS_FAILED,
-    FETCH_COMMENTS_REQUEST,
-    FETCH_COMMENTS_SUCCESS
+ADD_COMMENTS_FAILED,
+ADD_COMMENTS_REQUEST,
+ADD_COMMENTS_SUCCESS,
+FETCH_COMMENTS_FAILED,
+FETCH_COMMENTS_REQUEST,
+FETCH_COMMENTS_SUCCESS
 }
 
-from '../Types/CommentTypes'
+    from '../Types/CommentTypes'
 
-const initialstate={
-
-
-    comments:[],
-    
-    commentsLoad:false,
-    commentsLoadError:null,
-    
+const initialstate = {
 
 
+    comments: [],
 
-    commentsMoreLoad:false,
-    commentsMoreLoadError:null,
+    commentsLoad: false,
+    commentsLoadError: null,
+    commentsMoreLoad: false,
+    commentsMoreLoadError: null,
 
 
-    lastKeyComments:null,
+    lastKeyComments: null,
 
 }
 
 
-const CommentReducer=(state=initialstate,action)=>
-{
+const CommentReducer = (state = initialstate, action) => {
 
-    switch(action.type)
-    {
+    switch (action.type) {
 
         case ADD_COMMENTS_REQUEST:
-            return {...state}
+            return { ...state }
         case ADD_COMMENTS_SUCCESS:
-            return {...state}
+            return { ...state }
         case ADD_COMMENTS_FAILED:
-            return {...state}
+            return { ...state }
 
         case FETCH_COMMENTS_REQUEST:
-                return {...state,
-                commentsLoad:true,
-                commentsLoadError:null
+            return {
+                ...state,
+                commentsLoad: true,
+                commentsLoadError: null
             }
         case FETCH_COMMENTS_SUCCESS:
 
-            return {...state,
-                lastKeyComments:action.payload.lastkey
-                ,commentsLoad:false
-                ,comments:action.payload.data}
+            return {
+                ...state,
+                lastKeyComments: action.payload.lastkey
+                , commentsLoad: false
+                , comments: action.payload.data
+            }
         case FETCH_COMMENTS_FAILED:
-            return{...state,commentsLoad:false,
-                commentsLoadError:action.payload}
-           
+            return {
+                ...state, commentsLoad: false,
+                commentsLoadError: action.payload
+            }
+
 
 
         default:
-        return state
+            return state
 
     }
 
