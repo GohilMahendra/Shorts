@@ -1,9 +1,12 @@
 
+import { useFocusEffect } from "@react-navigation/core"
 import React, { useEffect, useRef, useState } from "react"
 
 import {
     Dimensions,
     View,
+    BackHandler,
+    Alert
 
 } from 'react-native'
 import { FlatList } from "react-native-gesture-handler"
@@ -16,6 +19,11 @@ const {height,width}=Dimensions.get('screen')
 
 const Home = () =>
 {
+
+
+ 
+    
+
     const dispatch=useDispatch()
     const Videos=useSelector(state=>state.Home.HomeVideos)
 
@@ -30,6 +38,8 @@ const Home = () =>
         )
     }
 
+
+ 
     useEffect
     (
         ()=>
@@ -38,7 +48,7 @@ const Home = () =>
         },
         []
     )
-   
+       
     return(
 
         <View
@@ -57,6 +67,8 @@ const Home = () =>
               width:'100%'
             }}
 
+
+            maxToRenderPerBatch={2}
             data={Videos}
             keyExtractor={(item)=>item.id}
             snapToInterval={height}

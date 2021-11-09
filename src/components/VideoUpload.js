@@ -268,6 +268,11 @@ const VideoUpload = () => {
           
 
 
+            if(VideoUrl=="")
+            {
+                console.log("Invalid Videos URL")
+                return
+            }
 
                 let doc = {
 

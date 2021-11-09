@@ -80,6 +80,8 @@ const styles=StyleSheet.create
         text:
         {
             color:'#fff',
+            fontWeight:'bold',
+            fontSize:20
         },
         profileDetailsContainer:
         {

@@ -25,8 +25,7 @@ const initialstate = {
     commentsLoadError: null,
     commentsMoreLoad: false,
     commentsMoreLoadError: null,
-
-
+    
     lastKeyComments: null,
 
 }

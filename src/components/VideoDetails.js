@@ -117,7 +117,7 @@ const VideoDetails=(props)=>
                     marginRight:20
                 }
             }
-            >THUG LIFE</Text>
+            >{data.channelName}</Text>
             <TouchableOpacity
 
             onPress={

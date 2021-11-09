@@ -10,55 +10,20 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
 
 import firestore from '@react-native-firebase/firestore'
 import SearchResultCard from "../../components/Search/SearchResultCard"
+import { useDispatch, useSelector } from "react-redux"
+import { SearchUser } from "../../redux/Actions/SearchActions"
 const Search=({navigation})=>
 {
 
 
     const [search,setsearch]=useState("")
 
-    const [results,setresults]=useState([])
-
-
-    const searchCreater=async()=>
-    {
-
-        if(search=="" || search==null)
-        return
-
-        try
-        {
-        const qry=firestore()
-        .collection('Users').
-        where('userName','>=',search)
-        .where('userName','<=',search+'\uf8ff')
-        .limit(10)
-        const result=await qry.get()
+    const dispatch=useDispatch()
+    const results=useSelector(state=>state.Search.searchResults)
 
 
 
-
-
-        let list=[]
-
-        result.docs.forEach
-        (
-            function(child)
-            {
-                list.push({id:child.id,...child.data()})
-            }
-        )
-
-
-        console.log(list)
-        setresults(list)
-        }
-        catch(err)
-        {
-            console.log(err)
-        }
-
-
-    }
+  
     const renderItem=({item,index})=>
     {
         return(
@@ -84,7 +49,11 @@ const Search=({navigation})=>
         ()=>
         {
 
-            searchCreater()
+            if(search=="" || search==null)
+            return
+    
+
+            dispatch(SearchUser(search))
         },
         [search]
     )

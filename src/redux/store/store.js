@@ -13,12 +13,14 @@ import thunk from "redux-thunk";
 import CommentReducer from "../Reducers/CommentReducer";
 import HomeFeedReducer from "../Reducers/HomeFeedReducer";
 import ProfileReducer from "../Reducers/ProfileReducer";
+import SearchReducer from "../Reducers/SearchReducer";
 import TagReducer from "../Reducers/TagReducer";
 
  const rootReducer=combineReducers
  (
      {
        
+         Search:SearchReducer,
          Home:HomeFeedReducer,
          Comment:CommentReducer,
          Tags:TagReducer,

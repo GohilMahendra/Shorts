@@ -6,7 +6,7 @@ import {Image, RefreshControl, StyleSheet, Text,View} from 'react-native'
 
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { catchClause } from '@babel/types'
 
 import {
@@ -23,6 +23,7 @@ const Profile=({navigation})=>
     const dispatch=useDispatch()
     let userDetails=useSelector(state=>state.Profile.userProfile)
 
+    const [selected,setselected]=useState([])
 
     useSelector(state=>console.log(state))
     
@@ -35,14 +36,49 @@ const Profile=({navigation})=>
        state=>state.Profile.UserVideosLoad
    )
 
+
+   const isPartOflist=(id)=>
+   {
+
+
+    console.log(selected)
+     const found=selected.includes(id)
+
+   
+     return found
+   }
     
 
-    
+
+   const [refreashProfile,setRefreashProfile]=useState(false)
+ 
+   useEffect
+   (
+       ()=>
+       {
+
+        console.log(selected)
+       },
+       [selected]
+   )
+   
+
     const renderItem=({item,index})=>
     {
+
+       let found= isPartOflist(item.id)
         return(
             <TouchableOpacity
             
+            
+            style={
+                {
+                    opacity:found?0.1:1
+                }
+            }
+            onLongPress={
+                ()=>setselected(...selected,item.id)
+            }
             onPress={
                 ()=>navigation.navigate(
                     "UserVideoPlayer",
@@ -101,6 +137,7 @@ const Profile=({navigation})=>
         >
 
 
+            
             <View
             style={{
                 height:'40%',
@@ -110,6 +147,16 @@ const Profile=({navigation})=>
             }}
                 
             >
+                <ScrollView
+                
+                refreshControl={
+                    <RefreshControl
+                    
+                    refreshing={refreashProfile}
+                    onRefresh={()=>getProfileDetails()}
+                    ></RefreshControl>
+                }
+                >
           
                 <RoundImage
                 imageURL={auth().currentUser.photoURL}
@@ -180,6 +227,7 @@ const Profile=({navigation})=>
                 >
                     <Text style={[styles.text,{color:'black'}]}>EDIT PROFILE</Text>
                 </TouchableOpacity>
+            </ScrollView>
             </View>
            
            <View
@@ -210,7 +258,9 @@ const Profile=({navigation})=>
 
         data={videos}
 
+        showsVerticalScrollIndicator={true}
     
+       // zoomScale={5}
         renderItem={renderItem}
         numColumns={3}
         keyExtractor={item=>item.id}

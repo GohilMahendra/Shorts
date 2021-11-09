@@ -3,11 +3,15 @@
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native"
-import React, { Profiler } from "react"
+import React, { Profiler, useEffect } from "react"
 
 
+import {
+    Alert,BackHandler
+} from 'react-native'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { Colors } from "../constants/colors"
 import MakeVideo from "../screens/MakeVideo"
 import HomeInnerStackNavigator from "./HomeInnerStackNavigator"
 import ProfileInnerStackNavigator from "./ProfileInnerStackNavigator"
@@ -15,6 +19,8 @@ import SearchInnerStackNavigator from "./SearchInnerStackNavigator"
 const HomeTabNavigator=()=>
 {
 
+
+    
     const HomeTab=createBottomTabNavigator()
     return(
        <HomeTab.Navigator
@@ -86,20 +92,37 @@ const HomeTabNavigator=()=>
                 tabBarIcon:({size,focused,color})=>   
                   
                 <FontAwesome5 size={size}  color={color} name="plus"
+               
+                
                 style={
                     {
-                        backgroundColor:'red',
-                        borderRadius:20,
+                        backgroundColor:(focused)?Colors.vintage:Colors.midNightBlue,
+                        borderRadius:30,
+                        width:50,
+                        height:50,
+                       // color:'#fff',
+                        textAlignVertical:'center',
+                        textAlign:'center',
+                        alignItems:'center',
+                        justifyContent:'center',
+                       transform:[
+                       {
+                        translateY:-10
+                       }
+                       ],
+                        bottom:15,
                         padding:5
                     }
                 }
                 >
      
-                </FontAwesome5>
+                </FontAwesome5>,
+                title:""
               }
           }
 
            name="MakeVideo"
+           
            component={MakeVideo}
            >
 
@@ -113,9 +136,6 @@ const HomeTabNavigator=()=>
           options={
               {
                 
-
-            
-              
                 tabBarIcon:({size,focused,color})=>   
                   
                 <FontAwesome5 size={size}  color={color} name="user">

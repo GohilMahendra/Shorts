@@ -34,7 +34,7 @@ const userDetails = () => {
             Followers: 0,
             Following: 0,
             Likes: 0,
-            photoUrl: "",
+            photoURL: "",
             userID: "",
             userName: "",
             varified: false
@@ -57,22 +57,7 @@ const userDetails = () => {
                 }
 
             >
-                  <Image
-                
-                style={
-                    {
-                        height:50,
-                        width:100,
-                        backgroundColor:"green",
-                    }
-                }
-
-                source={
-                    {
-                    uri:userDetails.photoUrl
-                    }
-                }
-                />
+                 
                 <VideoPreviewCard
                     data={
                         item
@@ -156,7 +141,7 @@ const userDetails = () => {
             <View
                 style={{
                     height: "40%",
-                    backgroundColor: Colors.Teal,
+                    backgroundColor: Colors.black,
                     justifyContent: 'center'
                 }}
             >
@@ -169,7 +154,7 @@ const userDetails = () => {
                         }
                     }
 
-                    imageURL={userDetails.photoUrl}
+                    imageURL={userDetails.photoURL}
                 ></RoundImage>
 
                

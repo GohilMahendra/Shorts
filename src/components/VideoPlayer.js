@@ -2,7 +2,7 @@ import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 
-import {View,Text,StyleSheet, Dimensions, Pressable} from 'react-native'
+import {View,Text,StyleSheet,Image, Dimensions, Pressable} from 'react-native'
 
 
 import storage from "@react-native-firebase/storage";
@@ -140,6 +140,8 @@ const {height,width}= Dimensions.get('window')
             >
 
             </FontAwesome5Icon>}
+
+
         </View>
     )
 

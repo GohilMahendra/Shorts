@@ -9,8 +9,6 @@ export default RoundImage=({imageURL})=>
 {
 
 
-    console.log(imageURL)
-
     return(
         <View
         style={
@@ -27,7 +25,7 @@ export default RoundImage=({imageURL})=>
         {
 
 
-            (imageURL!=null && imageURL!="")?
+            (imageURL!="" )&&
             <Image
             source={
                 {
@@ -38,24 +36,13 @@ export default RoundImage=({imageURL})=>
                 {
                     flex:1,
                     borderRadius:70,
-                    resizeMode:'cover',
-                    backgroundColor:'#fff'
+                    resizeMode:'contain',
                                   }
             }
             >
 
             </Image>
-            :
-            <View
-            style={
-                {
-                    flex:1,
-                    backgroundColor:'#fff',
-                    borderRadius:70
-                }
-            }
-            />
-        
+           
 
         }
 

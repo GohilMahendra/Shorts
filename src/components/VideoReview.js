@@ -25,14 +25,23 @@ const VideoReview = (props) => {
     const [liked, setliked] = useState(false)
 
 
+    const [dynamic,setdynamic]=useState
+    (
+        {
+            likes:data.likes,
+            comments:data.comments,
 
+        }
+    )
+
+    console.log(dynamic)
     const [channal,setchannal]=useState(
         {
                 userName:"",
                 userID:"",
                 varified:false,
                 Followers:0,
-                photoUrl:"",
+                photoURL:"",
                 Following:0,
                 Likes:0,
         }
@@ -69,6 +78,8 @@ const VideoReview = (props) => {
         .get()
 
 
+        
+
         if(res.exists)
         {
         setliked(true)
@@ -84,6 +95,8 @@ const VideoReview = (props) => {
     (
         async()=>
         {
+
+            console.log("refresged")
                 await IsLiked();
 
                 await getUserDetails()
@@ -94,8 +107,7 @@ const VideoReview = (props) => {
     )
 
     const LikeAction = async () => {
-        setliked(!liked)
-
+     
         
         const res = await firestore()
             .collection('Likes')
@@ -104,8 +116,13 @@ const VideoReview = (props) => {
             .doc(auth().currentUser.uid)
             .get()
 
-        console.log(res)
         if (res.exists) {
+
+            setliked(false)
+
+
+
+            setdynamic({...dynamic,likes:dynamic.likes-1})
 
             await firestore()
                 .collection('Likes')
@@ -126,9 +143,24 @@ const VideoReview = (props) => {
                     .increment(-1)
                 }
             )
+
+            await firestore()
+            .collection('Users')
+            .doc(auth().currentUser.uid)
+            .update
+            (
+                {
+                    likes:firebase
+                    .firestore
+                    .FieldValue
+                    .increment(-1)
+                }
+            )
         }
         else {
-            if (!liked) {
+                setdynamic({...dynamic,likes:dynamic.likes+1})
+
+                setliked(true)
                 await firestore()
                     .collection('Likes')
                     .doc(data.id)
@@ -149,7 +181,7 @@ const VideoReview = (props) => {
             )
             }
 
-        }
+        
     }
 
 
@@ -183,13 +215,16 @@ const VideoReview = (props) => {
             >
 
 
-                <RoundImage
+              {
+                channal.photoURL!="" &&
+              
+              <RoundImage
                 
-                imageURL={channal.photoUrl}
+                imageURL={channal.photoURL}
 
                 >
 
-                </RoundImage>
+                </RoundImage>}
             </TouchableOpacity>    
            <TouchableOpacity
                 onPress={() => LikeAction()}
@@ -241,7 +276,7 @@ const VideoReview = (props) => {
                                 color: "#fff",
                                 textAlign: 'center'
                             }}
-                        >{data.likes}</Text>
+                        >{dynamic.likes}</Text>
                     </View>
 
 
@@ -296,7 +331,7 @@ const VideoReview = (props) => {
                             color: "#fff",
                             textAlign: 'center'
                         }}
-                    >{data.comments}</Text>
+                    >{dynamic.comments}</Text>
 
                 </View>
 
