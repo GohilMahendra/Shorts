@@ -40,7 +40,7 @@ const TagList = ({tags}) => {
 
                 onPress={
                     () => navigation.navigate(
-                        "UserVideoPlayer",
+                        "TagsVideoPlayer",
                         {
                             id: item.id,
                             index: index

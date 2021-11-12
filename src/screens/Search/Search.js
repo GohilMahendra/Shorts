@@ -29,6 +29,14 @@ const Search=({navigation})=>
         return(
             <TouchableOpacity
             
+            onPress={
+                ()=>navigation.navigate('userDetails',{
+                 
+                    channelID:item.id,
+                  
+                })
+
+            }
             
             >
                <SearchResultCard

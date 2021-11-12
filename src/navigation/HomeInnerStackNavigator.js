@@ -8,6 +8,8 @@ import Home from '../screens/Home'
 import userDetails from '../screens/userDetails'
 import TagList from '../screens/TagList'
 import Tags from '../screens/Tags/Tags'
+import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
+import TagsVideoPlayer from '../screens/Tags/TagsVideoPlayer'
 
 
 
@@ -17,48 +19,68 @@ const HomeInnerStackNavigator = () => {
 
     return (
 
-            <HomeStack.Navigator
-              
+        <HomeStack.Navigator
 
-                initialRouteName="HomeScreen"
-            >
 
-            <HomeStack.Screen
-            name="HomeScreen"
-            options={
-                {
-                    headerShown:false
-                }
-            }
-            component={Home}
-            ></HomeStack.Screen>
+            initialRouteName="HomeScreen"
+        >
 
             <HomeStack.Screen
-            name="userDetails"
-            options={
-                {
-                    headerShown:false
+                name="HomeScreen"
+                options={
+                    {
+                        headerShown: false
+                    }
                 }
-            }
-            component={userDetails}
+                component={Home}
             ></HomeStack.Screen>
 
-            
-<HomeStack.Screen
-            name="Tags"
-            options={
-                {
-                    headerShown:false
+            <HomeStack.Screen
+                name="UserVideoPlayer"
+                options={
+                    {
+                        headerShown: false
+                    }
                 }
-            }
-            component={Tags}
+                component={UserVideoPlayer}
+            ></HomeStack.Screen>
+
+            <HomeStack.Screen
+                name="userDetails"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={userDetails}
             ></HomeStack.Screen>
 
 
-           
-          </HomeStack.Navigator>
+            <HomeStack.Screen
+                name="Tags"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={Tags}
+            ></HomeStack.Screen>
+             <HomeStack.Screen
+                name="TagsVideoPlayer"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={TagsVideoPlayer}
+            ></HomeStack.Screen>
+
+
+
+
+        </HomeStack.Navigator>
     )
-      
+
 
 }
 

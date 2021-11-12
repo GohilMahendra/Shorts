@@ -1,8 +1,8 @@
 import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useDebugValue,useCallback,useRef, useEffect, useState } from "react";
 
-import { View,Image, Text, StyleSheet, Dimensions, Pressable } from 'react-native'
+import { View,Image, Text, StyleSheet, Dimensions,Animated, Pressable } from 'react-native'
 import CustomBlueView from "./CustomBlurView";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -13,6 +13,8 @@ import auth from '@react-native-firebase/auth'
 import firestore from "@react-native-firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoundImage from "./RoundImage";
+import { Easing } from "react-native-reanimated";
+//import Animated ,{}from "react-native-reanimated";
 const { height, width } = Dimensions.get('screen')
 const VideoReview = (props) => {
 
@@ -34,7 +36,78 @@ const VideoReview = (props) => {
         }
     )
 
-    console.log(dynamic)
+
+
+
+const RoundAnimation=useRef(new Animated.Value(0))
+
+
+
+
+    
+
+   
+    const anim = useRef(new Animated.Value(1));
+
+    const spin=useRef(new Animated.Value(0))
+    useEffect(() => {
+        // makes the sequence loop
+        Animated.loop(
+            
+          // runs given animations in a sequence
+        
+          
+          Animated.timing
+          (
+              RoundAnimation.current,
+              {
+                  toValue:1,
+                  duration:5000,
+                  useNativeDriver:false,
+                  easing:Easing.linear
+
+              }
+
+          )
+         
+          ).start();
+  
+          spin.current = RoundAnimation.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+          })
+      }, []);
+
+
+    useEffect(() => {
+      // makes the sequence loop
+      Animated.loop(
+          
+        // runs given animations in a sequence
+        Animated.sequence([
+          // increase size
+          Animated.timing(anim.current, {
+            toValue: 1.5, 
+            duration: 200,
+            useNativeDriver: true 
+          }),
+          // decrease size
+          Animated.timing(anim.current, {
+            toValue: 1, 
+            duration: 200,
+            useNativeDriver: true 
+          }),
+        ])
+
+        ,
+      { iterations: 2 }
+      ).start();
+
+    }, [liked]);
+  
+
+
+
     const [channal,setchannal]=useState(
         {
                 userName:"",
@@ -109,6 +182,8 @@ const VideoReview = (props) => {
     const LikeAction = async () => {
      
         
+
+       
         const res = await firestore()
             .collection('Likes')
             .doc(data.id)
@@ -215,8 +290,19 @@ const VideoReview = (props) => {
             >
 
 
+
+
               {
                 channal.photoURL!="" &&
+
+            <Animated.View
+            
+            style={{
+                transform:[{
+                rotate:spin.current
+                }]
+            }}
+            >
               
               <RoundImage
                 
@@ -224,7 +310,10 @@ const VideoReview = (props) => {
 
                 >
 
-                </RoundImage>}
+                </RoundImage>
+                </Animated.View>
+                }
+              
             </TouchableOpacity>    
            <TouchableOpacity
                 onPress={() => LikeAction()}
@@ -237,6 +326,7 @@ const VideoReview = (props) => {
                     }}
                 >
 
+                
                     <View
                         style={{
                             backgroundColor: "#fff"
@@ -260,6 +350,10 @@ const VideoReview = (props) => {
                         }
                     >
 
+                <Animated.View
+                
+                style={{ transform: [{ scale: anim.current }]}}>
+          
                         <FontAwesome5
                             name="heart"
                             solid={(liked) ? true : false}
@@ -270,6 +364,7 @@ const VideoReview = (props) => {
                         >
 
                         </FontAwesome5>
+                        </Animated.View>
                         <Text
                             style={{
                                 fontSize: 18,
@@ -277,9 +372,10 @@ const VideoReview = (props) => {
                                 textAlign: 'center'
                             }}
                         >{dynamic.likes}</Text>
+                        
                     </View>
 
-
+              
                 </View>
             </TouchableOpacity>
             <TouchableOpacity

@@ -22,20 +22,19 @@ export default RoundImage=({imageURL})=>
         }
         >
 
-        {
 
-
-            (imageURL!="" )&&
             <Image
             source={
                 {
-                    uri:imageURL
+                    uri:imageURL,
+                    
                 }
             }
             style={
                 {
                     flex:1,
                     borderRadius:70,
+                   // backgroundColor:'#fff',
                     resizeMode:'contain',
                                   }
             }
@@ -44,7 +43,7 @@ export default RoundImage=({imageURL})=>
             </Image>
            
 
-        }
+        
 
         </View>
 

@@ -11,6 +11,7 @@ createStore
 
 import thunk from "redux-thunk";
 import CommentReducer from "../Reducers/CommentReducer";
+import CreaterReducer from "../Reducers/CreaterReducer";
 import HomeFeedReducer from "../Reducers/HomeFeedReducer";
 import ProfileReducer from "../Reducers/ProfileReducer";
 import SearchReducer from "../Reducers/SearchReducer";
@@ -22,6 +23,7 @@ import TagReducer from "../Reducers/TagReducer";
        
          Search:SearchReducer,
          Home:HomeFeedReducer,
+         Creater:CreaterReducer,
          Comment:CommentReducer,
          Tags:TagReducer,
          Profile:ProfileReducer

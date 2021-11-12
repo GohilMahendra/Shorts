@@ -6,43 +6,31 @@ import React, { useEffect, useState } from "react"
 
 import { View, Image, Text, StyleSheet }
     from 'react-native'
-import { TextInput, TouchableOpacity, FlatList } from "react-native-gesture-handler"
-import { useDispatch } from "react-redux"
+import { TextInput, TouchableOpacity, FlatList, ScrollView } from "react-native-gesture-handler"
+import { useDispatch, useSelector } from "react-redux"
 import RoundImage from "../components/RoundImage"
 import InfoBox from "../components/UserDetails/InfoBox"
-
-
-
-
 import VideoPreviewCard from '../components/VideoPreviewCard'
-
 import { Colors } from "../constants/colors"
 import firestore from '@react-native-firebase/firestore'
+import { getCreaterDetails, getCreaterVideos } from "../redux/Actions/CreaterActions"
 
-const userDetails = () => {
+const userDetails = ({ navigation }) => {
 
     const p = useRoute()
 
-    console.log(p.params.channelID)
+    const dispatch = useDispatch()
 
+    const videos = useSelector(state => state.Creater.CreaterVideos)
 
+    const userDetails = useSelector(state => state.Creater.CreaterProfile)
 
-    const [videos, setvideos] = useState([])
-
-    const [userDetails, setUserDetails] = useState(
-        {
-            Followers: 0,
-            Following: 0,
-            Likes: 0,
-            photoURL: "",
-            userID: "",
-            userName: "",
-            varified: false
-        })
+    console.log(userDetails.photoURL)
+    const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)
 
     const renderItem = ({ item, index }) => {
-     
-        console.log(item)
+
+        //  console.log(item)
         return (
             <TouchableOpacity
 
@@ -57,7 +45,7 @@ const userDetails = () => {
                 }
 
             >
-                 
+
                 <VideoPreviewCard
                     data={
                         item
@@ -71,60 +59,14 @@ const userDetails = () => {
 
     }
 
-
-
-
-    const getuserVideos=async()=>
-    {
-        try
-        {
-
-            const userVideos=await firestore().collection(
-                'Videos'
-            )
-            .where('channelID','==',p.params.channelID).get()
-
-
-            let list=[]
-
-
-            userVideos.docs.forEach
-            (
-                function(child)
-                {
-                    list.push({id:child.id,...child.data()})
-                }
-            )
-
-        
-            setvideos(list)
-        }
-        catch(err)
-        {
-            console.log(err)
-        }
-    }
-    const getUserDetails = async () => {
-        try {
-            const userDetails = await firestore()
-                .collection('Users')
-                .doc(p.params.channelID)
-                .get()
-
-          
-             setUserDetails(userDetails.data())
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-
     useEffect(
         () => {
 
-            getUserDetails(),
-            getuserVideos()
-        }, []
+
+            dispatch(getCreaterDetails(p.params.channelID))
+            dispatch(getCreaterVideos(p.params.channelID))
+        },
+        []
     )
 
 
@@ -133,93 +75,97 @@ const userDetails = () => {
         <View
             style={
                 {
-                    flex: 1
+                    flex: 1,
+                    backgroundColor: Colors.black
                 }
             }
         >
 
-            <View
-                style={{
-                    height: "40%",
-                    backgroundColor: Colors.black,
-                    justifyContent: 'center'
-                }}
-            >
 
-
-                <RoundImage
-                    style={
-                        {
-                            alignSelf: 'center'
-                        }
-                    }
-
-                    imageURL={userDetails.photoURL}
-                ></RoundImage>
-
-               
+            <ScrollView>
                 <View
                     style={{
-                        margin: 10,
-                        alignItems: "center",
-                        justifyContent: "center"
+                        height: "40%",
+                        backgroundColor: Colors.black,
+                        justifyContent: 'center'
                     }}
                 >
-                    <Text
+
+
+
+
+                    {userDetails.photoURL != ""
+                        && <RoundImage
+                            imageURL={
+                                userDetails.photoURL
+                            }
+                        />}
+
+                    <View
                         style={{
-                            backgroundColor: Colors.silver
+                            margin: 10,
+                            alignItems: "center",
+                            justifyContent: "center"
                         }}
-
                     >
-                        {userDetails.userName}
-                    </Text>
-                    <Text
-                        style={{
-                            backgroundColor: Colors.silver
-                        }}
+                        <Text
+                            style={{
+                                backgroundColor: Colors.silver
+                            }}
 
+                        >
+
+
+                            {userDetails.CreaterName}
+                        </Text>
+                        <Text
+                            style={{
+                                backgroundColor: Colors.silver
+                            }}
+
+                        >
+                            {userDetails.CreaterID}
+                        </Text>
+                    </View>
+
+                    <InfoBox
+                        followers={userDetails.Followers}
+                        following={userDetails.Following}
+                        likes={userDetails.Likes}
                     >
-                        {userDetails.userID}
-                    </Text>
-                </View>
 
-                <InfoBox
-                    followers={userDetails.Followers}
-                    following={userDetails.Following}
-                    likes={userDetails.Likes}
-                >
+                    </InfoBox>
 
-                </InfoBox>
-
-                <TouchableOpacity
-                    style={
-                        {
-                            backgroundColor: "#002366",
-                            padding: 10,
-                            width: 100,
-                            alignSelf: 'center',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 20
-
-                        }
-                    }
-                >
-                    <Text
+                    <TouchableOpacity
                         style={
                             {
-
-                                textAlign: 'center',
-                                color: Colors.White,
+                                backgroundColor: "#002366",
+                                padding: 10,
                                 width: 100,
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: 20
 
                             }
                         }
-                    >Follow</Text>
-                </TouchableOpacity>
-            </View>
+                    >
+                        <Text
+                            style={
+                                {
+
+                                    textAlign: 'center',
+                                    color: Colors.White,
+                                    width: 100,
+
+                                }
+                            }
+                        >Follow</Text>
+                    </TouchableOpacity>
+                </View>
 
 
+            </ScrollView>
             <View
                 style={{
                     height: '60%',
@@ -245,7 +191,7 @@ const userDetails = () => {
                 </FlatList>
 
             </View>
-          
+
 
         </View>
     )

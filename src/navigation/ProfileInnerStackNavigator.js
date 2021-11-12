@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Profile from '../screens/Profile/Profile'
 import EditProfile from '../screens/Profile/EditProfile'
-import UserVideoPlayer from '../screens/UserVideoPlayer'
+import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
 
 const ProfileInnerStackNavigator = () => {
 

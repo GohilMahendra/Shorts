@@ -16,6 +16,15 @@ import VideoPreviewCard from '../../components/VideoPreviewCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfileDetails, getProfileVideos } from '../../redux/Actions/ProfileActions'
 import RoundImage from '../../components/RoundImage'
+
+
+
+
+import {
+    Avatar
+} from 
+'react-native-paper'
+
 const Profile=({navigation})=>
 
 {
@@ -157,10 +166,17 @@ const Profile=({navigation})=>
                     ></RefreshControl>
                 }
                 >
-          
-                <RoundImage
-                imageURL={auth().currentUser.photoURL}
+               <Avatar.Image
+                source={
+                    {
+                        uri:" https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Profile%2FIbRtvhkWAXXOgTHl9t89SQrgJU02%2FIbRtvhkWAXXOgTHl9t89SQrgJU02?alt=media&token=9b0ab012-fc5c-4065-8849-d84c20ee8b42"
+                    }
+                }
                 />
+            
+          
+            
+               
                 <Text
                 style={{
                     color:'#fff',
@@ -168,6 +184,7 @@ const Profile=({navigation})=>
                     alignSelf:'center'
                 }}
                 >
+               
                 {auth().currentUser.displayName}
                 </Text>
                 <View

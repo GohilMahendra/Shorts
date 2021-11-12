@@ -43,13 +43,39 @@ const {height,width}= Dimensions.get('window')
         []
     )
 
+    const  handleDoublePressLike=()=>
+    {
+        console.log("called")
+    }
+
+    let curTime=0
+    const handlePress=()=>
+    {
+        let time=new Date().getTime()
+        let diff=time-curTime
+
+        const MAX_DELAY_MS=200
+        if(diff>200)
+        {
+            handleDoublePressLike()
+        }
+
+        else
+        {
+            setpaused(false)
+        }
+        curTime=time
+
+
+    }
+
     return(
         <View
         style={styles.Container}
         >
 
             <Pressable
-            onPress={()=>setpaused(!paused)}
+            onPress={()=>handlePress()}
 
             ontap
             >
@@ -81,6 +107,7 @@ const {height,width}= Dimensions.get('window')
             filterEnable={true}
             
             poster={data.VideoThumb}
+
 
 
        
@@ -123,7 +150,10 @@ const {height,width}= Dimensions.get('window')
             >
 
             </ActivityIndicator>
-            
+
+
+           
+
 
            {paused && <FontAwesome5Icon
 

@@ -1,8 +1,6 @@
 
 import React from 'react'
 import { StyleSheet, Text, View } from "react-native"
-
-import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Search from '../screens/Search/Search'
 
@@ -28,11 +26,31 @@ const SearchInnerStackNavigator = () => {
             }
             component={Search}
             ></SearchStack.Screen>
-         
+{/*          
+         <SearchStack.Screen
+            name="userDetails"
+            options={
+                {
+                    headerShown:false
+                }
+            }
+            component={userDetails}
+            ></SearchStack.Screen>
 
-           
-          </SearchStack.Navigator>
+
+<SearchStack.Screen
+            name="UserVideoPlayer"
+            options={
+                {
+                    headerShown:false
+                }
+            }
+            component={UserVideoPlayer}
+            ></SearchStack.Screen>
+           */}
+          </SearchStack.Navigator> 
     )
+      
       
 
 }

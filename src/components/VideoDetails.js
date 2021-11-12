@@ -154,17 +154,19 @@ const VideoDetails=(props)=>
                     return(
                     <TouchableOpacity
                     onPress={
-                        ()=>navigation.navigate(
+                        ()=>navigation.push(
                             "Tags",
                             {
                                 Tags:tag
                             }
                         )
                     }
+
+                    key={tag}
                     >
                     <Text
 
-                    key={tag}
+                
                     style={
                         {
                             color:"blue",

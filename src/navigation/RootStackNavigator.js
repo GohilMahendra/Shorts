@@ -20,7 +20,7 @@ const RootStackNavigator = () => {
 
         <NavigationContainer>
             <RootStack.Navigator
-              
+
 
                 initialRouteName="Login"
             >
@@ -47,19 +47,19 @@ const RootStackNavigator = () => {
                     component={HomeTabs}
 
                 />
-                
 
-<RootStack.Screen
 
-options={
-    {
-        headerShown: false
-    }
-}
-name="Comments"
-component={Comments}
+                <RootStack.Screen
 
-/>
+                    options={
+                        {
+                            headerShown: false
+                        }
+                    }
+                    name="Comments"
+                    component={Comments}
+
+                />
 
                 <RootStack.Screen
 

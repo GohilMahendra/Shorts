@@ -18,6 +18,7 @@ export const getHomeFeedVideos = () => {
             const videos = await
                 firestore()
                 .collection('Videos')
+                .limit(MAX_FETCH_LIMIT)
                 .get()
 
             let list = []

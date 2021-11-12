@@ -6,7 +6,7 @@ import React from "react";
 import firestore from "@react-native-firebase/firestore";
 import { FETCH_VIDEO_Tags_FAILED, FETCH_VIDEO_Tags_REQUEST, FETCH_VIDEO_Tags_SUCCESS } from "../Types/TagTypes";
 
-const MAX_FETCH_LIMIT = 1
+const MAX_FETCH_LIMIT = 10
 
 export const getTagVideos = (tags) => {
 

@@ -34,7 +34,7 @@ const SearchResultCard=(props)=>
             }}
             >
                 {data.userID}
-
+e
             </Text>
 
                    {/* <View
