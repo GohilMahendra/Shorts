@@ -13,6 +13,7 @@ import firestore from '@react-native-firebase/firestore'
 import { tan } from "react-native-reanimated";
 import { combineReducers } from "redux";
 import { useNavigation } from "@react-navigation/core";
+import RoundImage from "./RoundImage";
 const VideoDetails=(props)=>
 {
 
@@ -146,7 +147,10 @@ const VideoDetails=(props)=>
             </View>
         
             <View
-           
+           style={{
+               flexDirection:"row"
+           }}
+
             >
                {
                    data.Tags.map(tag => {
@@ -179,6 +183,50 @@ const VideoDetails=(props)=>
                    })
                }
             </View>
+            <View
+            style={{
+                flexDirection:"row",
+             
+                marginLeft:0,
+                alignSelf:'flex-start',
+                width:"100%",
+                paddingHorizontal:20,
+
+                
+               justifyContent:"space-around"
+            }}
+            >
+              
+              <View
+              style={{
+                  backgroundColor:"blue",
+                  width:'80%'
+              }}
+              >
+
+              </View>
+                <View
+                style={{
+                    alignSelf:"flex-end"
+                }}
+                >
+                <TouchableOpacity
+                onPress={
+                   ()=>navigation.navigate('Songs',{
+                    songID:data.songID
+                   }) 
+                }
+                >
+                <RoundImage
+              
+                imageURL={data.SongCover}
+                />
+                </TouchableOpacity>
+                    </View>
+
+               
+            </View>
+
        
         </View>
     )

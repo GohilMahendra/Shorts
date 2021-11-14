@@ -14,15 +14,69 @@ import firestore from "@react-native-firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoundImage from "./RoundImage";
 import { Easing } from "react-native-reanimated";
+
+import getPath from '@flyerhq/react-native-android-uri-path'
+import Share from "react-native-share";
+import RNFS,{ CachesDirectoryPath,downloadFile } from "react-native-fs";
 //import Animated ,{}from "react-native-reanimated";
 const { height, width } = Dimensions.get('screen')
 const VideoReview = (props) => {
 
 
     
+    
     const { data } = props
 
+
+    console.log(data.VideoUrl)
+
     const navigation = useNavigation()
+
+
+    const DonwloadVideo=async()=>
+    {
+         RNFS.downloadFile
+        (
+            {
+                fromUrl:data.VideoUrl,
+              
+                toFile:RNFS.DownloadDirectoryPath+'/'+data.Title+'.mp4',
+
+               progress:(res)=>console.log(res.contentLength/
+                res.bytesWritten),
+               
+            },
+        
+        )
+
+      
+
+    }
+
+    const share=()=>
+    {
+
+
+
+
+        DonwloadVideo()
+
+        console.log("share")
+        Share.open({
+            saveToFiles:true,
+        
+            url:'file:///'+RNFS.DownloadDirectoryPath+'/'+data.Title+'.mp4',
+            title: 'Share Video FIle',
+        
+            message: "Dont forget to give star on GITHUB"
+        })
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    err && console.log(err);
+  });
+    }
 
     const [liked, setliked] = useState(false)
 
@@ -36,6 +90,8 @@ const VideoReview = (props) => {
         }
     )
 
+
+    
 
 
 
@@ -437,8 +493,10 @@ const RoundAnimation=useRef(new Animated.Value(0))
             </View>
             </TouchableOpacity>
 
-            <Pressable
-               
+            <TouchableOpacity
+             
+             
+             onPress={()=>share()}
             >
                 <View
                     style={{
@@ -456,7 +514,7 @@ const RoundAnimation=useRef(new Animated.Value(0))
                             height: 70,
                             width: 70,
                             borderRadius: 15,
-                            opacity: 0.5
+                            opacity: 0.1
                         }}
                     >
 
@@ -485,8 +543,8 @@ const RoundAnimation=useRef(new Animated.Value(0))
 
 
                 </View>
-            </Pressable>
-
+            </TouchableOpacity>
+        
         </View>
     )
 

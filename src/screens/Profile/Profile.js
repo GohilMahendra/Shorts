@@ -32,15 +32,15 @@ const Profile=({navigation})=>
     const dispatch=useDispatch()
     let userDetails=useSelector(state=>state.Profile.userProfile)
 
+    //onsole.log(userDetails)
     const [selected,setselected]=useState([])
 
-    useSelector(state=>console.log(state))
     
     const videos=useSelector(
             state=>state.Profile.UserVideos
     )
 
-    console.log(videos,'videos')
+    //onsole.log(videos,'videos')
    const UserVideosLoad=useSelector(
        state=>state.Profile.UserVideosLoad
    )
@@ -166,14 +166,10 @@ const Profile=({navigation})=>
                     ></RefreshControl>
                 }
                 >
-               <Avatar.Image
-                source={
-                    {
-                        uri:" https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Profile%2FIbRtvhkWAXXOgTHl9t89SQrgJU02%2FIbRtvhkWAXXOgTHl9t89SQrgJU02?alt=media&token=9b0ab012-fc5c-4065-8849-d84c20ee8b42"
-                    }
-                }
+
+                <RoundImage
+                imageURL={auth().currentUser.photoURL}
                 />
-            
           
             
                

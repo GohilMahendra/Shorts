@@ -15,6 +15,7 @@ import CreaterReducer from "../Reducers/CreaterReducer";
 import HomeFeedReducer from "../Reducers/HomeFeedReducer";
 import ProfileReducer from "../Reducers/ProfileReducer";
 import SearchReducer from "../Reducers/SearchReducer";
+import SongReducer from "../Reducers/SongReducer";
 import TagReducer from "../Reducers/TagReducer";
 
  const rootReducer=combineReducers
@@ -26,6 +27,7 @@ import TagReducer from "../Reducers/TagReducer";
          Creater:CreaterReducer,
          Comment:CommentReducer,
          Tags:TagReducer,
+         Songs:SongReducer,
          Profile:ProfileReducer
       
      }

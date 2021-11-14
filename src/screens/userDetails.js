@@ -13,6 +13,7 @@ import InfoBox from "../components/UserDetails/InfoBox"
 import VideoPreviewCard from '../components/VideoPreviewCard'
 import { Colors } from "../constants/colors"
 import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
 import { getCreaterDetails, getCreaterVideos } from "../redux/Actions/CreaterActions"
 
 const userDetails = ({ navigation }) => {
@@ -21,12 +22,30 @@ const userDetails = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
+
+    const [following,setfollowing]=useState(false)
+
     const videos = useSelector(state => state.Creater.CreaterVideos)
 
     const userDetails = useSelector(state => state.Creater.CreaterProfile)
 
     console.log(userDetails.photoURL)
     const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)
+
+
+    const getFOllowing=async()=>
+    {
+        const isExist=await firestore().collection('Follwing').
+        doc(auth().currentUser.uid)
+        .collection('LookUps')
+        .doc(p.params.channelID)
+        .get()
+
+
+      
+        setfollowing(isExist.exists)
+
+    }
 
     const renderItem = ({ item, index }) => {
 
@@ -63,6 +82,8 @@ const userDetails = ({ navigation }) => {
         () => {
 
 
+            getFOllowing()
+
             dispatch(getCreaterDetails(p.params.channelID))
             dispatch(getCreaterVideos(p.params.channelID))
         },
@@ -82,11 +103,19 @@ const userDetails = ({ navigation }) => {
         >
 
 
-            <ScrollView>
+            <ScrollView
+            style={
+                {
+                    flex:1
+                }
+            }
+            >
                 <View
                     style={{
-                        height: "40%",
+                       
                         backgroundColor: Colors.black,
+                        margin:10,
+                        
                         justifyContent: 'center'
                     }}
                 >
@@ -94,12 +123,23 @@ const userDetails = ({ navigation }) => {
 
 
 
-                    {userDetails.photoURL != ""
-                        && <RoundImage
-                            imageURL={
-                                userDetails.photoURL
-                            }
-                        />}
+
+                    <Image
+                    source={
+                        {
+                            uri:userDetails.photoURL
+                        }
+                    }
+
+                    style={
+                        {
+                            height:100,
+                            width:100,
+                            alignSelf:'center',
+                            borderRadius:100
+                        }
+                    }
+                    />
 
                     <View
                         style={{
@@ -160,7 +200,9 @@ const userDetails = ({ navigation }) => {
 
                                 }
                             }
-                        >Follow</Text>
+                        >{
+                            following?"Following":"Follow"
+                        }</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -181,6 +223,7 @@ const userDetails = ({ navigation }) => {
                         }
                     }
 
+                    scrollEnabled={true}
                     data={videos}
                     renderItem={renderItem}
                     numColumns={3}

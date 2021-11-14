@@ -10,6 +10,7 @@ import TagList from '../screens/TagList'
 import Tags from '../screens/Tags/Tags'
 import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
 import TagsVideoPlayer from '../screens/Tags/TagsVideoPlayer'
+import SongDetails from '../screens/SongDetails'
 
 
 
@@ -74,6 +75,25 @@ const HomeInnerStackNavigator = () => {
                 }
                 component={TagsVideoPlayer}
             ></HomeStack.Screen>
+            
+            <HomeStack.Screen
+                name="Songs"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={SongDetails}
+            ></HomeStack.Screen>
+             {/* <HomeStack.Screen
+                name="SongsVideoPlayer"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={Songs}
+            ></HomeStack.Screen> */}
 
 
 
