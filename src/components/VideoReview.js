@@ -95,46 +95,13 @@ const VideoReview = (props) => {
 
 
 
-const RoundAnimation=useRef(new Animated.Value(0))
-
-
-
 
     
 
    
     const anim = useRef(new Animated.Value(1));
 
-    const spin=useRef(new Animated.Value(0))
-    useEffect(() => {
-        // makes the sequence loop
-        Animated.loop(
-            
-          // runs given animations in a sequence
-        
-          
-          Animated.timing
-          (
-              RoundAnimation.current,
-              {
-                  toValue:1,
-                  duration:5000,
-                  useNativeDriver:false,
-                  easing:Easing.linear
-
-              }
-
-          )
-         
-          ).start();
   
-          spin.current = RoundAnimation.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg']
-          })
-      }, []);
-
-
     useEffect(() => {
       // makes the sequence loop
       Animated.loop(
@@ -186,9 +153,10 @@ const RoundAnimation=useRef(new Animated.Value(0))
 
 
 
-        console.log(userDetails.data())
+        console.log(userDetails.data().photoURL)
 
      
+
         setchannal(userDetails.data())
 
 
@@ -225,10 +193,10 @@ const RoundAnimation=useRef(new Animated.Value(0))
         async()=>
         {
 
-            console.log("refresged")
-                await IsLiked();
+           
+                 IsLiked();
 
-                await getUserDetails()
+                 getUserDetails()
            
         }
         ,
@@ -351,14 +319,7 @@ const RoundAnimation=useRef(new Animated.Value(0))
               {
                 channal.photoURL!="" &&
 
-            <Animated.View
-            
-            style={{
-                transform:[{
-                rotate:spin.current
-                }]
-            }}
-            >
+          
               
               <RoundImage
                 
@@ -367,7 +328,7 @@ const RoundAnimation=useRef(new Animated.Value(0))
                 >
 
                 </RoundImage>
-                </Animated.View>
+              
                 }
               
             </TouchableOpacity>    

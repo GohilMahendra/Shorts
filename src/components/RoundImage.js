@@ -13,10 +13,13 @@ export default RoundImage=({imageURL})=>
         <View
         style={
             {
-                height:70,
-                width:70,
+                height:75,
+                width:75,
                 alignSelf:'center',
-                borderRadius:70
+                borderRadius:75,
+                justifyContent:"center",
+                alignItems:"center",
+                backgroundColor:"#fff"
 
             }
         }
@@ -32,10 +35,12 @@ export default RoundImage=({imageURL})=>
             }
             style={
                 {
-                    flex:1,
+                    height:70,
+                    width:70,
                     borderRadius:70,
+                    
                    // backgroundColor:'#fff',
-                    resizeMode:'contain',
+                    resizeMode:'cover',
                                   }
             }
             >

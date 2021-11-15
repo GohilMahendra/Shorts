@@ -4,9 +4,10 @@ import { useRoute } from "@react-navigation/core"
 import React, { useEffect, useState } from "react"
 
 
-import { View, Image, Text, StyleSheet }
+import { View, Image, Text, StyleSheet, RefreshControl }
     from 'react-native'
 import { TextInput, TouchableOpacity, FlatList, ScrollView, createNativeWrapper } from "react-native-gesture-handler"
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
 import { useDispatch, useSelector } from "react-redux"
 import SongPlayer from "../components/Songs/SongPlayer"
 
@@ -18,6 +19,7 @@ const SongDetails = ({ navigation }) => {
 
     const p = useRoute()
 
+    const data=p.params.data
     console.log(p)
 
     const dispatch = useDispatch()
@@ -30,7 +32,7 @@ const SongDetails = ({ navigation }) => {
     console.log(videos,"videso")
     const SongDetails = useSelector(state => state.Songs.SongDetails)
 
-    const CreaterVideosLoad = useSelector(state => state.Songs.songVideosLoad)
+    const songVideosLoad = useSelector(state => state.Songs.songVideosLoad)
 
 
     
@@ -65,6 +67,13 @@ const SongDetails = ({ navigation }) => {
 
     }
 
+
+    const onRefreash=()=>
+    {
+        
+        dispatch(getSongDetails(p.params.songID))
+        dispatch(getSongVideos(p.params.songID))
+    }
     useEffect(
         () => {
 
@@ -88,22 +97,80 @@ const SongDetails = ({ navigation }) => {
         >
 
 
-            <ScrollView
+            <View
             style={
                 {
-                    flex:1,
-                    backgroundColor:"blue"
+                    height:'30%',
+                    
+                    justifyContent:'center',
+                    backgroundColor:Colors.baige
                 }
             }
             >
-              <SongPlayer>
 
-              </SongPlayer>
+             <View
+             style={
+                 {
+                     flexDirection:'row',
+                     height:150,
+                     marginTop:10,
+                   //justifyContent:'space-between',
+                     padding:15
+                 }
+             }
+             >
+                 <Image
+                 source={
+                     {
+                            uri:data.SongCover
+                     }
+                 }
+                 style={
+                     {
+                         height:100,
+                         width:100,
+                         borderRadius:15
+                     }
+                 }
+                 resizeMode={"cover"}
+                 ></Image>
+                 <View
+                 style={{
+                     flexDirection:"row",
+                     justifyContent:'space-between',
+                     alignItems:'center'
+                 }}
+                 >
+                    <FontAwesome5Icon
+                    name="music"
+                    size={20}
+                    style={
+                        {
+                            marginHorizontal:20,
+                            textAlignVertical:'center'
+                        }
+                    }
+                    />
+                 <Text
 
-            </ScrollView>
+                 style={
+                     {
+                         fontSize:25,
+                         textAlignVertical:'center'
+                     }
+                 }
+
+                 >
+                 {data.SongName}    
+                 </Text>
+                 </View>
+
+
+             </View>
+             </View>
             <View
                 style={{
-                    height: '60%',
+                    height: '70%',
                     backgroundColor: Colors.black
                 }}
             >
@@ -114,6 +181,14 @@ const SongDetails = ({ navigation }) => {
                             flex: 1,
 
                         }
+                    }
+
+                    refreshControl={
+                        <RefreshControl
+                        onRefresh={onRefreash}
+                        refreshing={songVideosLoad}
+
+                        ></RefreshControl>
                     }
 
                     scrollEnabled={true}

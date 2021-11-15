@@ -110,6 +110,13 @@ const {height,width}= Dimensions.get('window')
 
 
 
+            bufferConfig={
+                {
+                    minBufferMs:1500,
+                    maxBufferMs:1800
+                }
+            }
+
        
             onReadyForDisplay={()=>setloading(false)}
            onLoadStart={()=>setloading(true)}
@@ -119,8 +126,8 @@ const {height,width}= Dimensions.get('window')
             onVideoError={(err)=>console.log(err)}
             style={{
                 
-              height:height,
-              width:width
+             height:height,
+             width:width
             }}
             >
 

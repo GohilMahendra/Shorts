@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import { View } from "react-native";
 import { cos } from 'react-native-reanimated';
 import Video from "react-native-video";
-const SongPlayer=(songUrl)=>
+const SongPlayer=({data})=>
 
 
 
@@ -13,6 +13,8 @@ const SongPlayer=(songUrl)=>
 
 {
 
+
+  
     const [paused,setpaused]=useState(false)
 
     const save=()=>
@@ -42,22 +44,23 @@ const SongPlayer=(songUrl)=>
           //  ref={ref=>console.log(ref)}
             source={
                 {
-                    uri:"https://firebasestorage.googleapis.com/v0/b/shorts-c2643.appspot.com/o/Videos%2FIbRtvhkWAXXOgTHl9t89SQrgJU02%2FIbRtvhkWAXXOgTHl9t89SQrgJU02-1635655729108?alt=media&token=41e48ce8-3584-495c-83c8-56ce54a6414a",
+                    uri:data.VideoUrl
                 
                 }
             }
             
 
 
+        
             resizeMode={"cover"}
             onError={(err)=>console.log(err)}
 
 
-            
+            poster={data.SongCover}
             audioOnly={true}
 
             repeat={true}
-            paused={paused}
+           // paused={true}
             onReadyForDisplay={()=>console.log("ready")}
             style={{
                 height:300,

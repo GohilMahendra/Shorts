@@ -29,9 +29,17 @@ const Home = () =>
     const renderItem=({item,index})=>
     {
         return(
+            <View
+            style={
+                {flex:1
+                ,backgroundColor:'#fff'
+                }
+            }
+            >
             <VideoPlayer
             data={item}
             ></VideoPlayer>
+            </View>
         )
     }
 
@@ -60,15 +68,14 @@ const Home = () =>
             style={{
                 
               flex:1,
-              backgroundColor:'black',
-              width:'100%'
-            }}
+              backgroundColor:'#fff',
+                          }}
 
 
             maxToRenderPerBatch={2}
             data={Videos}
             keyExtractor={(item)=>item.id}
-            snapToInterval={height}
+            snapToInterval={height-50}
             renderItem={renderItem}
 
             >

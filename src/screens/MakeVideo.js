@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { Platform, Pressable } from "react-native"
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet,PanResponder,Animated, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 
 import storage from "@react-native-firebase/storage"
@@ -10,17 +10,12 @@ import auth from "@react-native-firebase/auth"
 
 import Modal from 'react-native-modal'
 
-
-
-import Animated from "react-native-reanimated"
 import VideoUpload from "../components/VideoUpload"
+import { Easing, Value } from "react-native-reanimated"
 const MakeVideo = () => {
 
-
-
-    const animationVariable = useRef(new Animated.Value(0)).current;
-
     let date = new Date()
+
 
     const todaysDate = date.toISOString()
     
@@ -32,17 +27,10 @@ const MakeVideo = () => {
 
     const TimeStamp = date.valueOf()
 
-
-    const runAnimationOnClick = () => {
-
-        console.log("called")
-
-        Animated.spring(animationVariable, {
-            toValue: 2,
-            useNativeDriver: false,
-        }).start();
+    const HideModal=()=>
+    {
+        setVisble(false)
     }
-
    
 
     return (
@@ -56,31 +44,24 @@ const MakeVideo = () => {
                 }
             }
         >
-            <Text>MakeVideo</Text>
-            <TouchableOpacity
-                onPress={() => runAnimationOnClick()}
-            >
-                <Animated.View
-                    style={{
-                        top: 150,
-                        backgroundColor: '#fff',
-                        height: 100,
-                        width: 100,
-                        transform: [
-                            {
-                                scale: animationVariable.interpolate({
-                                    inputRange: [0, 1],
-                                    outputRange: [1, 5],
-                                }),
-                            },
-                        ],
-                    }}
 
-                >
 
-                </Animated.View>
-            </TouchableOpacity>
 
+
+         <View
+         style={
+             {
+                 height:250,
+                 backgroundColor:"#fff",
+                 width:500
+             }
+         }
+         >
+             
+             </View>   
+
+           
+             
             <TouchableOpacity
 
                 onPress={() => setVisble(true)}
@@ -105,12 +86,18 @@ const MakeVideo = () => {
                     }
                 >Upload Video</Text>
             </TouchableOpacity>
+            
 
             <Modal
                 onBackButtonPress={()=>setVisble(false)}
+
+
                 isVisible={visible}
             >
-                <VideoUpload></VideoUpload>
+                <VideoUpload
+                
+                onPress={HideModal}
+                ></VideoUpload>
             </Modal>
         </View>
     )

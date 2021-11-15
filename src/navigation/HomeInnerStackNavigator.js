@@ -11,6 +11,7 @@ import Tags from '../screens/Tags/Tags'
 import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
 import TagsVideoPlayer from '../screens/Tags/TagsVideoPlayer'
 import SongDetails from '../screens/SongDetails'
+import { Title } from 'react-native-paper'
 
 
 
@@ -79,9 +80,9 @@ const HomeInnerStackNavigator = () => {
             <HomeStack.Screen
                 name="Songs"
                 options={
-                    {
-                        headerShown: false
-                    }
+                    ({ route }) => ({ title: route.params.name,
+                       
+                        headerTitleAlign:"center" })
                 }
                 component={SongDetails}
             ></HomeStack.Screen>

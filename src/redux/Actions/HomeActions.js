@@ -1,10 +1,7 @@
-
-
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import { GET_HOME_FEED_VIDEOS_FAILED, GET_HOME_FEED_VIDEOS_REQUEST, GET_HOME_FEED_VIDEOS_SUCCESS } from "../Types/HomeFeedTypes";
 const MAX_FETCH_LIMIT = 2
-
 
 export const getHomeFeedVideos = () => {
     return async (dispatch) => {

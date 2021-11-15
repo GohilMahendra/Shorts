@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
     View, TextInput,
-    Text, StyleSheet, TouchableOpacity,PermissionsAndroid, Pressable, Image
+    Text, StyleSheet, TouchableOpacity, PermissionsAndroid, Pressable, Image, Platform
 } from 'react-native'
 
 import firestore from '@react-native-firebase/firestore'
@@ -16,8 +16,6 @@ import PreviewThumb from "./PreviewThumb";
 import { ScrollView } from "react-native-gesture-handler";
 import ViewShot, { captureRef } from "react-native-view-shot";
 
-import Slider from "react-native-slider";
-
 
 import getpath from '@flyerhq/react-native-android-uri-path'
 import UploadingLoad from "./UploadingLoad";
@@ -27,25 +25,16 @@ const VideoUpload = () => {
 
 
     let date = new Date()
-   
 
     const todaysDate = date.toISOString()
 
-
     const ImageRef = useRef()
-
 
     const TimeStamp = date.valueOf()
     const [loading, setLoading] = useState(false)
     const [taskshot, settaskShot] = useState()
-
-
     const [VideoLoaction, setVideoLocation] = useState("")
-
-
     const [songID, setSongID] = useState("")
-
-
     const [Title, setTitle] = useState("")
     const [discription, setdeiscription] = useState("")
     const [Duration, setDuration] = useState("")
@@ -56,61 +45,63 @@ const VideoUpload = () => {
     const [VideoThumb, setVideoThumb] = useState("")
 
 
-
-
     const maketags = (value) => {
         var arr = []
-
-
-
         if (value != "" && value != null) {
-            arr = value.split(',')
+            arr = value.split(' ')
         }
 
-        // console.log(arr)
         return arr
 
     }
 
 
 
-    const getVideopath=(uriString)=>
-    {
-        const path=getpath(uriString)
+    const getVideopath = (uriString) => {
+
+        //This path will help to deal with document open intent
+
+        let path = ""
+
+        if (Platform.OS == "android")
+            path = getpath(uriString)
+        else
+            path = uriString
 
         return path
     }
     useEffect
-    (
-        ()=>
-        {
-
-            requestCameraPermission()
-        },
-        []
-    )
+        (
+            () => {
+                requestCameraPermission()
+            },
+            []
+        )
     const requestCameraPermission = async () => {
         try {
-            const granted =await PermissionsAndroid.requestMultiple
-            (
-                [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, 
+            const granted = await PermissionsAndroid.requestMultiple
+                (
+                    [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
-            )
+                )
 
             console.log(granted)
-           
-            } catch (err) {
-              console.log(err);
-            }
-          }
-      
-      
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
     const TagMaker = (value) => {
+
+        //You can make Your custom tag behavior or limit them
         setTags(value)
     }
 
 
 
+    //Capture Thumbnail From Preview if User Not Upload Custom One
     const captureTumbnail = async () => {
         await captureRef(ImageRef, {
             format: "png",
@@ -129,46 +120,47 @@ const VideoUpload = () => {
     }
 
 
-    const UploadVideoFull=async(response)=>
-    {
+
+    //Upload Video On Server
+    const UploadVideoFull = async (response) => {
         let videoRef = 'Videos/'
-        + auth().currentUser.uid
-        + '/'
-        + auth().currentUser.uid
-        + '-'
-        + TimeStamp
+            + auth().currentUser.uid
+            + '/'
+            + auth().currentUser.uid
+            + '-'
+            + TimeStamp
 
-    const ref = storage().ref(videoRef)
-
-   
-    let VideDownloadUrl = ""
-
-    const path=getVideopath(response)
-    let task =await ref.putFile(path);
-
-    console.log(task)
-
-    VideDownloadUrl=await ref.getDownloadURL()
+        const ref = storage().ref(videoRef)
 
 
-    console.log(VideDownloadUrl)
-    setVideoUrl(VideDownloadUrl)
+        let VideDownloadUrl = ""
+
+        const path = getVideopath(response)
+        let task = await ref.putFile(path);
+
+        console.log(task)
+
+        VideDownloadUrl = await ref.getDownloadURL()
+
+
+        console.log(VideDownloadUrl)
+        setVideoUrl(VideDownloadUrl)
 
 
     }
 
+
+    //Upload ThumbNail on Server
     const UploadThumbOnServer = async (uri) => {
         const ref = 'Thumbs/' +
-            auth().currentUser.uid + 
+            auth().currentUser.uid +
             '/'
             + auth().currentUser.uid
             + '-'
             + TimeStamp
         const taskRef = storage().ref(ref)
 
-
         const task = await taskRef.putFile(uri)
-
 
         console.log(task)
 
@@ -181,6 +173,8 @@ const VideoUpload = () => {
 
     }
 
+
+    //Upload Song Details On Server
     const UploadSongOnServer = async () => {
 
 
@@ -188,14 +182,12 @@ const VideoUpload = () => {
             (
                 {
                     SongName: (SongName == "") ? Title : SongName,
-                    SongCover: SongCover == "" ? VideoThumb : SongCover,
+                    SongCover: SongCover == "" ? (VideoThumb) : SongCover,
                     songLink: ""
-
                 }
             )
-        console.log(response.id)
 
-
+        //ID for Search in Future
         setSongID(response.id)
 
 
@@ -214,6 +206,79 @@ const VideoUpload = () => {
 
         return { varified, error }
     }
+
+    //Upload Remaining Doc
+    const UploadOnServer = async () => {
+
+
+        try {
+            if (Title == "" || SongName == "") {
+                alert("Please give some Title for IT")
+                return
+            }
+
+
+            const tags = maketags(Tags)
+
+            if (VideoUrl == "") {
+                console.log("Invalid Videos URL")
+                return
+            }
+
+            let doc = {
+
+
+                //video text details
+                Title: Title,
+
+                //hastags for Videos max 5 allowed
+                Tags: tags,
+
+
+                //song details used in background
+                SongName: (SongName == "") ? Title : SongName,
+                SongCover: SongCover == "" ? VideoThumb : SongCover,
+                songID: songID,
+
+
+
+                //Video Details
+                duration: Duration,
+                VideoUrl: VideoUrl,
+                VideoThumb: VideoThumb,
+                Date: todaysDate,
+
+                //Uploaders Channal Details
+                channelID: auth().currentUser.uid,
+                channelName: auth().currentUser.displayName,
+                channelThumbNail: auth().currentUser.photoURL != null ? auth().currentUser.photoURL : "",
+
+
+                //                          _______
+                //                           |___|
+                //                           [- -]
+                //(No Dislikes No nagitivity |_=_|)
+                //inital state for user POST  
+                likes: 0,
+                share: 0,
+                comments: 0,
+
+            }
+
+
+            console.log(doc)
+
+            await firestore().collection('Videos').add
+                (doc)
+            setLoading(false)
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    //parent Function For All upload
     const UploadVideoOnServer = async () => {
 
         try {
@@ -228,107 +293,25 @@ const VideoUpload = () => {
                 return
             }
 
-  
-            
-
-            
-           await captureTumbnail()
+            await captureTumbnail()
             await UploadVideoFull(VideoLoaction)
-           
-            console.log(VideoUrl)
             await UploadSongOnServer()
 
-      
-           await UploadOnServer()
+
+            await UploadOnServer()
 
 
         }
 
         catch
         (err) {
-            console.log(err + 'error in amin')
+            console.log(err + 'error in Upload Video')
         }
     }
 
 
-
-    const UploadOnServer = async () => {
-
-
-        try {
-            if (Title == "" || SongName == "") {
-                alert("Please give some Title for IT")
-                return
-            }
-
-            
-            const tags = maketags(Tags)
-
-
-          
-
-
-            if(VideoUrl=="")
-            {
-                console.log("Invalid Videos URL")
-                return
-            }
-
-                let doc = {
-
-
-                    //video text details
-                    Title: Title,
-
-                    //hastags for Videos max 5 allowed
-                    Tags: tags,
-
-
-                    //song details used in background
-                    SongName: (SongName == "") ? Title : SongName,
-                    SongCover: SongCover == "" ? VideoThumb : SongCover,
-                    songID: songID,
-
-
-
-                    //Video Details
-                    duration: Duration,
-                    VideoUrl: VideoUrl,
-                    VideoThumb: VideoThumb,
-                    Date: todaysDate,
-
-                    //Uploaders Channal Details
-                    channelID: auth().currentUser.uid,
-                    channelName: auth().currentUser.displayName,
-                    channelThumbNail: auth().currentUser.photoURL!=null?auth().currentUser.photoURL:"",
-
-
-                    //                          _______
-                    //                           |___|
-                    //                           [- -]
-                    //(No Dislikes No nagitivity |_=_|)
-                    //inital state for user POST  
-                    likes: 0,
-                    share: 0,
-                    comments: 0,
-
-                }
-
-
-             console.log(doc)
-
-             await firestore().collection('Videos').add
-             (doc)
-            setLoading(false)
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-
+    //Select Video User
     const launchMedia = async () => {
-
 
         launchImageLibrary(
             {
@@ -337,7 +320,7 @@ const VideoUpload = () => {
                 videoQuality: (Platform.OS == 'android' ?
                     'low' : 'medium'),
                 selectionLimit: 1,
-                includeBase64:true
+                includeBase64: true
             },
 
             response => {
@@ -361,7 +344,6 @@ const VideoUpload = () => {
         )
     }
 
-
     return (
         <View
             style={styles.Container}
@@ -371,83 +353,45 @@ const VideoUpload = () => {
                 style={{ flex: 1 }}
             >
                 <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginHorizontal: 20
-
-                    }}
+                    style={styles.FormContainer}
                 >
                     <Text
-                        style={{
-                            alignSelf: 'center',
-                            fontSize: 25,
-                            fontWeight: 'bold',
-                            margin: 20
-
-                        }}
+                        style={styles.UploadTitle}
                     >Upload Video</Text>
 
                     <Pressable
-
                     >
                         <Text>X</Text>
-
                     </Pressable>
                 </View>
                 <TextInput
 
                     placeholder='Title'
                     value={Title}
-                    style={
-                        {
-                            borderWidth: 1,
-                            margin: 15,
-                            borderRadius: 15
-                        }
+                    style={styles.txtInput
                     }
-
                     onChangeText={text => setTitle(text)}
                 ></TextInput>
 
                 <TextInput
                     placeholder="Song Name"
-                    style={
-                        {
-                            borderWidth: 1,
-                            margin: 15,
-                            borderRadius: 15
-                        }
-                    }
+                    style={styles.txtInput}
                     value={SongName}
                     onChangeText={text => setSongName(text)}
                 />
 
                 <TextInput
                     placeholder="Discription"
-                    style={
-                        {
-                            borderWidth: 1,
-                            margin: 15,
-                            height: 100,
-                            borderRadius: 15
-                        }
-                    }
+                    style={styles.txtInputDesc}
                     value={discription}
 
                     onChangeText={text => setdeiscription(text)}
                 />
+
                 <TextInput
                     placeholder="hashTags (Max 5 allowed ) ex. #dev2021,#loveshorts"
                     style={
-                        {
-                            borderWidth: 1,
-                            margin: 15,
-                            height: 100,
-                            borderRadius: 15,
-                            color: 'blue'
-                        }
+                        styles.txtInputTags
                     }
 
                     value={Tags}
@@ -457,18 +401,7 @@ const VideoUpload = () => {
                 <TouchableOpacity
 
                     onPress={() => launchMedia()}
-                    style={
-                        {
-                            backgroundColor: 'blue',
-                            height: 50,
-                            width: 100,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 15,
-                            alignSelf: 'center',
-                            margin: 10
-
-                        }
+                    style={styles.BtnSelectVideo
                     }
                 >
                     <Text
@@ -480,26 +413,19 @@ const VideoUpload = () => {
                         }
                     >Select Video</Text>
                 </TouchableOpacity>
+
                 {
-                    (VideoLoaction != "" && VideoLoaction != undefined)
+                    (VideoLoaction != ""
+                        && VideoLoaction != undefined)
                     &&
 
                     <View
 
                         ref={ImageRef}
                         style={
-                            {
-                                height: 160,
-                                width: 90,
-                                borderRadius: 20,
-                                alignSelf: 'center',
-                                backgroundColor: 'blue'
-                            }
+                            styles.ThumbPreview
                         }
                     >
-
-
-
 
                         <PreviewThumb
 
@@ -508,30 +434,13 @@ const VideoUpload = () => {
 
                         ></PreviewThumb>
 
-
-
-
                     </View>
                 }
-
-
-
 
                 <TouchableOpacity
 
                     onPress={() => UploadVideoOnServer()}
-                    style={
-                        {
-                            backgroundColor: 'blue',
-                            height: 50,
-                            width: 100,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 15,
-                            alignSelf: 'center',
-                            margin: 20
-
-                        }
+                    style={styles.BtnUpload
                     }
                 >
                     <Text
@@ -543,9 +452,6 @@ const VideoUpload = () => {
                         }
                     >UPLOAD</Text>
                 </TouchableOpacity>
-
-
-
 
             </ScrollView>
 
@@ -566,6 +472,78 @@ const styles = StyleSheet.create
                 flex: 1,
                 borderRadius: 20,
                 elevation: 25
+            },
+            FormContainer:
+            {
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginHorizontal: 20
+            },
+            UploadTitle:
+            {
+                alignSelf: 'center',
+                fontSize: 25,
+                fontWeight: 'bold',
+                margin: 20
+
+            },
+            txtInput:
+
+            {
+                borderWidth: 1,
+                margin: 15,
+                borderRadius: 15
+            },
+            txtInputDesc:
+            {
+                borderWidth: 1,
+                margin: 15,
+                height: 100,
+                borderRadius: 15
+            },
+
+            txtInputTags:
+            {
+                borderWidth: 1,
+                margin: 15,
+                height: 100,
+                borderRadius: 15,
+                color: 'blue'
+            },
+
+            BtnSelectVideo:
+            {
+                backgroundColor: 'blue',
+                height: 50,
+                width: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 15,
+                alignSelf: 'center',
+                margin: 10
+
+            },
+            ThumbPreview:
+            {
+                height: 160,
+                width: 90,
+                borderRadius: 20,
+                alignSelf: 'center',
+                backgroundColor: 'blue'
+            },
+            BtnUpload:
+
+            {
+                backgroundColor: 'blue',
+                height: 50,
+                width: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 15,
+                alignSelf: 'center',
+                margin: 20
+
             }
         }
     )
