@@ -32,7 +32,8 @@ const VideoUpload = () => {
 
     const TimeStamp = date.valueOf()
     const [loading, setLoading] = useState(false)
-    const [taskshot, settaskShot] = useState()
+    
+    const [uploadSuccess,setuploadSuccess]=useState(false)
     const [VideoLoaction, setVideoLocation] = useState("")
     const [songID, setSongID] = useState("")
     const [Title, setTitle] = useState("")
@@ -40,10 +41,10 @@ const VideoUpload = () => {
     const [Duration, setDuration] = useState("")
     const [Tags, setTags] = useState("")
     const [SongName, setSongName] = useState("")
-    const [VideoUrl, setVideoUrl] = useState("")
+  
+    const [VideoThumb,setVideoThumb]=useState("")
     const [SongCover, setsongCover] = useState("")
-    const [VideoThumb, setVideoThumb] = useState("")
-
+  
 
     const maketags = (value) => {
         var arr = []
@@ -143,9 +144,7 @@ const VideoUpload = () => {
         VideDownloadUrl = await ref.getDownloadURL()
 
 
-        console.log(VideDownloadUrl)
-        setVideoUrl(VideDownloadUrl)
-
+        return VideDownloadUrl
 
     }
 
@@ -164,9 +163,10 @@ const VideoUpload = () => {
 
         console.log(task)
 
-        const url = await taskRef.getDownloadURL()
+        let url=""
+         url = await taskRef.getDownloadURL()
 
-        console.log(url)
+        
 
         setVideoThumb(url)
 
@@ -212,12 +212,28 @@ const VideoUpload = () => {
 
 
         try {
+
+            
             if (Title == "" || SongName == "") {
                 alert("Please give some Title for IT")
                 return
             }
 
 
+            setLoading(true)
+            const { varified, error } = varify()
+            if (!varified) {
+                setLoading(false)
+
+                alert(error)
+
+                return
+            }
+
+            await captureTumbnail()
+            const VideoUrl=await UploadVideoFull(VideoLoaction)
+            await UploadSongOnServer()
+         
             const tags = maketags(Tags)
 
             if (VideoUrl == "") {
@@ -278,37 +294,7 @@ const VideoUpload = () => {
         }
     }
 
-    //parent Function For All upload
-    const UploadVideoOnServer = async () => {
-
-        try {
-
-            setLoading(true)
-            const { varified, error } = varify()
-            if (!varified) {
-                setLoading(false)
-
-                alert(error)
-
-                return
-            }
-
-            await captureTumbnail()
-            await UploadVideoFull(VideoLoaction)
-            await UploadSongOnServer()
-
-
-            await UploadOnServer()
-
-
-        }
-
-        catch
-        (err) {
-            console.log(err + 'error in Upload Video')
-        }
-    }
-
+  
 
     //Select Video User
     const launchMedia = async () => {
@@ -439,7 +425,7 @@ const VideoUpload = () => {
 
                 <TouchableOpacity
 
-                    onPress={() => UploadVideoOnServer()}
+                    onPress={() => UploadOnServer()}
                     style={styles.BtnUpload
                     }
                 >

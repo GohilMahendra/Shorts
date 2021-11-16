@@ -17,7 +17,7 @@ import { useRoute } from "@react-navigation/core";
 
 const {
     height,width
-}=Dimensions.get('screen')
+}=Dimensions.get('window')
 
 const UserVideoPlayer=({navigation})=>
 {
@@ -69,7 +69,8 @@ const UserVideoPlayer=({navigation})=>
             data={Videos}
             keyExtractor={(item)=>item.id}
             scrollEnabled={true}
-            snapToInterval={height-50}
+            snapToInterval={height}
+            maxToRenderPerBatch={2}
 
             //snapToInterval={curruntVideo}
             renderItem={renderItem}

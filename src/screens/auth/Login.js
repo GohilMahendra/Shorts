@@ -10,15 +10,13 @@ import ForgotPassword from "../../components/Auth/ForgotPassword"
 
 import firestore from "@react-native-firebase/firestore";
 import { useValue } from "react-native-reanimated"
+import { useSelector } from "react-redux"
 const Login = ({navigation}) => {
 
     const [email,setEmail]=useState()
     const [password,setPassword]=useState()
 
-
-
     const [passwordForgot,setPasswordForgot]=useState(false)
-
 
     useEffect
     (

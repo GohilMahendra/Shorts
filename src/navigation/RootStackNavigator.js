@@ -53,7 +53,11 @@ const RootStackNavigator = () => {
 
                     options={
                         {
-                            headerShown: false
+                            headerShown: true,
+                            headerStyle:
+                            {
+                                backgroundColor:'black'
+                            }
                         }
                     }
                     name="Comments"

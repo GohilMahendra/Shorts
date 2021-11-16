@@ -13,10 +13,10 @@ import {
     FETCH_COMMENTS_REQUEST,
     FETCH_COMMENTS_SUCCESS,
     FETCH_COMMENTS_FAILED,
-    FETCH_MORE_COMMENTS_FAILED
+  
 } from '../Types/CommentTypes'
 
-const MAX_ITEM_PER_BATCH = 1
+const MAX_ITEM_PER_BATCH = 2
 
 export const MakeComment = (comment, todaysDateTime, { videoID }) => {
 
@@ -85,7 +85,7 @@ export const FetchComments = (videoID) => {
     
     return async (dispatch) => {
 
-        console.log("caled")
+     //   console.log("caled")
         try {
             dispatch({ type: FETCH_COMMENTS_REQUEST })
             const comments = await firestore()
@@ -97,6 +97,8 @@ export const FetchComments = (videoID) => {
 
             let list = []
             let lastKey = null
+
+
 
             comments.docs.forEach
                 (
@@ -111,7 +113,8 @@ export const FetchComments = (videoID) => {
             if (list.length >= MAX_ITEM_PER_BATCH)
                 lastKey = list[list.length - 1].id
 
-            console.log(lastKey)
+           
+
 
             dispatch({
                 type: FETCH_COMMENTS_SUCCESS, payload: {
@@ -130,3 +133,75 @@ export const FetchComments = (videoID) => {
 
     }
 }
+
+
+export const FetchMoreComments = (videoID) => {
+    
+    return async (dispatch,getState) => {
+
+     //   console.log("caled")
+        try {
+
+           
+
+
+            console.log("caleed")
+            const id=getState().Comment.lastKeyComments
+
+            console.log(id)
+
+            // dispatch({ type: FETCH_COMMENTS_REQUEST })
+
+
+            // const id=
+
+            // const comments = await firestore()
+            //     .collection('Comments')
+            //     .doc(videoID).
+            //     collection('reviews')
+            //     .orderBy(firestore.FieldPath.documentId())
+            //     .startAfter()
+            //     limit(MAX_ITEM_PER_BATCH)
+            //     .get()
+
+            // let list = []
+            // let lastKey = null
+
+
+
+            // comments.docs.forEach
+            //     (
+            //         function (child) {
+            //             console.log(child)
+
+            //             list.push({ id: child.id, ...child.data() })
+
+            //         }
+            //     )
+
+            // if (list.length >= MAX_ITEM_PER_BATCH)
+            //     lastKey = list[list.length - 1].id
+
+           
+
+
+            // dispatch({
+            //     type: FETCH_COMMENTS_SUCCESS, payload: {
+            //         data: list,
+            //         lastKey: lastKey
+            //     }
+            // })
+
+
+        }
+
+        catch
+        (err) {
+            console.log(err)
+            //dispatch({ type: FETCH_COMMENTS_FAILED, payload: err })
+        }
+
+    }
+}
+
+

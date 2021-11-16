@@ -2,7 +2,7 @@
 
 
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { View, Text, Image } from 'react-native'
 const CommentCard = (props) => {
@@ -11,8 +11,7 @@ const CommentCard = (props) => {
 
     const { data } = props
 
-    console.log(data.profilePick)
-    // console.log(childern)
+    
 
     return (
         <View
@@ -20,8 +19,8 @@ const CommentCard = (props) => {
 
                 maxHeight: 200,
                 height: 150,
-                margin: 20,
-
+               marginVertical: 10,
+               marginHorizontal:20
 
             }}
             collapsable={true}
@@ -31,7 +30,7 @@ const CommentCard = (props) => {
                 style={
                     {
                         flex: 1,
-                        opacity: 0.1,
+                        opacity: 0.2,
                         backgroundColor: '#fff',
                         borderRadius: 20
                     }

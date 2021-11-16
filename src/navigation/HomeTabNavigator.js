@@ -23,13 +23,13 @@ const HomeTabNavigator = () => {
     const HomeTab = createBottomTabNavigator()
     return (
         <HomeTab.Navigator
-            initialRouteName="Profile"
+            initialRouteName="Home"
             screenOptions={
                 {
                     headerShown: false,
+                    tabBarHideOnKeyboard:true,
                     tabBarStyle: {
                         backgroundColor: 'black',
-
                         height: 50
 
                     }
@@ -56,21 +56,6 @@ const HomeTabNavigator = () => {
                 component={HomeInnerStackNavigator}
             >
 
-
-            </HomeTab.Screen>
-            <HomeTab.Screen
-                options={
-                    {
-                        tabBarIcon: ({ size, focused, color }) =>
-
-                            <FontAwesome5 size={size} color={color} name="search">
-                            </FontAwesome5>
-                    }
-                }
-
-                name="Search"
-                component={SearchInnerStackNavigator}
-            >
 
             </HomeTab.Screen>
             <HomeTab.Screen

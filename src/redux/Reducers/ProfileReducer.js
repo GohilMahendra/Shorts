@@ -1,5 +1,5 @@
 
-import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS } from "../Types/ProfileTypes";
+import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS,LOG_OUT_REQUEST } from "../Types/ProfileTypes";
 
 const initialstate = {
 
@@ -65,6 +65,8 @@ const ProfileReducer = (state = initialstate, action) => {
                 UserVideosLoadError: action.payload
             }
 
+        case LOG_OUT_REQUEST:
+            return initialstate
 
         default:
             return state

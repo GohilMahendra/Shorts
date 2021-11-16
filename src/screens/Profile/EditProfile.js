@@ -31,19 +31,45 @@ const EditProfile=()=>
 
 
     const [userName,setuserName]=useState(auth().currentUser.displayName)
-   
+    const [path,setpath]=useState("")
+
+    const update=async()=>
+    {
+
+        try
+        {
+
+        const changeUser=await firestore().collection('Users').doc(
+            auth().currentUser.uid
+        ).update
+        (
+            {
+                userName:userName
+            }
+        )
+
+        const changeAuth=await auth().currentUser.updateProfile(
+        {
+            displayName:userName
+        }
+        )
 
 
-   
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
 
-    
 
 
+
+        if(path!="")
+        await changeImageFromDatabase(path)
+    }
 
     const ChangeImageData=async(newUrl)=>
     {
-
-
 
 
         try
@@ -63,8 +89,6 @@ const EditProfile=()=>
             photoURL:newUrl
         }
         )
-
-
 
 
         console.log(changeAuth,changeUser)
@@ -88,13 +112,9 @@ const EditProfile=()=>
         
         const path='Profile/'+auth().currentUser.uid+'/'+auth().currentUser.uid
 
-
-
         let ref=storage().ref(path)
 
-
         let task= await ref.putFile(uri)
-
 
         console.log(task)
         let storagepath=await ref.getDownloadURL()
@@ -116,7 +136,7 @@ const EditProfile=()=>
             launchImageLibrary(
                 {
     
-                    mediaType: 'photo',
+                    mediaType: 'mixed',
                     selectionLimit: 1,
                     
                     quality:0.5,
@@ -130,10 +150,9 @@ const EditProfile=()=>
     
                     else if (!response.didCancel) {
     
-                        console.log(response.assets[0])
     
 
-                        changeImageFromDatabase(response.assets[0].uri)
+                        setpath(response.assets[0].uri)
     
     
                         
@@ -212,7 +231,6 @@ const EditProfile=()=>
             }}
             >UserName</Text>
             <TextInput
-
             value={userName}
             onChangeText={text=>setuserName(text)}
             style={{
@@ -221,15 +239,15 @@ const EditProfile=()=>
               textAlign:'center',
                 color:Colors.grey
             }}
-            
-            
+        
             >
 
             </TextInput>
             </View>
 
-
             <TouchableOpacity
+
+            onPress={()=>update()}
             style={{
                 backgroundColor:'blue',
                 height:50,

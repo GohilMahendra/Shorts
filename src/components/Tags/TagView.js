@@ -5,6 +5,8 @@ import React from "react"
 
 
 import { View,Text } from 'react-native';
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const TagView=({hashTag})=>
 {
@@ -14,12 +16,52 @@ const TagView=({hashTag})=>
         <View
         style={
             {
-                backgroundColor:"blue",
+                //backgroundColor:"blue",
                 flex:1
             }
         }
         >
-            <Text>{hashTag}</Text>
+            <View
+            style={
+                {
+                    flexDirection:'row',
+                    flex:1,
+                    alignItems:'center'
+
+                }
+            }
+            >
+                <View
+                style={
+                    {
+                        padding:15,
+                        margin:10,
+                        borderRadius:15,
+                        backgroundColor:'skyblue'
+                    }
+                }
+                >
+                    <Text
+                    style={
+                    {
+                        fontSize:50
+                    }
+                    }
+                    >#</Text>
+                </View>
+
+                <Text
+                style={
+                    {
+                        fontSize:50,
+                        fontWeight:"bold"
+                    }
+                }
+                >
+                    {hashTag}
+                </Text>
+
+            </View>
             
         </View>
     )

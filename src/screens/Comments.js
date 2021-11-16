@@ -13,7 +13,7 @@ import CommentCard from '../components/CommentCard'
 import { RefreshControl } from 'react-native';
 import AddComments from '../components/AddComment';
 import { useDispatch, useSelector } from 'react-redux';
-import { FetchComments } from '../redux/Actions/CommentActions';
+import { FetchComments, FetchMoreComments } from '../redux/Actions/CommentActions';
 
 
 const Comments=()=>
@@ -77,6 +77,9 @@ const Comments=()=>
 
         
 
+        onEndReached={
+            ()=>dispatch(FetchMoreComments())
+        }
 
         renderItem={renderItem}
         keyExtractor={item=>item.id}

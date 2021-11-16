@@ -1,7 +1,7 @@
 
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
-import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS } from "../Types/ProfileTypes";
+import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS, LOG_OUT_REQUEST } from "../Types/ProfileTypes";
 const MAX_FETCH_LIMIT = 1
 
 export const getProfileDetails = () => {
@@ -49,6 +49,15 @@ export const getProfileDetails = () => {
 
 }
 
+
+export const logOut=()=>
+{
+    return async(dispatch)=>
+    {
+        dispatch({type:LOG_OUT_REQUEST})
+    }
+    
+}
 
 export const getProfileVideos = () => {
 

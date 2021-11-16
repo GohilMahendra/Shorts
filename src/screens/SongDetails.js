@@ -15,6 +15,8 @@ import VideoPreviewCard from '../components/VideoPreviewCard'
 import { Colors } from "../constants/colors"
 import { getSongDetails, getSongVideos } from "../redux/Actions/SongActions"
 
+
+import Sound from "react-native-sound"
 const SongDetails = ({ navigation }) => {
 
     const p = useRoute()
@@ -67,6 +69,22 @@ const SongDetails = ({ navigation }) => {
 
     }
 
+
+    useEffect
+    (
+        ()=>
+        {
+            const track = new Sound('https://www.soundjay.com/button/button-1.mp3', null, (e) => {
+                if (e) {
+                  console.log('error loading track:', e)
+                } else {
+                  track.play()
+                }
+              })
+            
+        }
+        ,[]
+    )
 
     const onRefreash=()=>
     {

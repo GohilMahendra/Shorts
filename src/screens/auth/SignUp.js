@@ -24,15 +24,6 @@ const SignUp = ({navigation}) => {
 
 
 
-    const chooseImage=()=>
-    {
-
-        launchImageLibrary
-        (
-            
-        )
-
-    }
 
     useEffect
     (
@@ -55,7 +46,7 @@ const SignUp = ({navigation}) => {
         {
             if(value[0]!='@')
             {
-                value+='@'
+                value='@'+value
             }
 
         }
@@ -102,7 +93,7 @@ const SignUp = ({navigation}) => {
     const onSignUp=async()=>
     {
 
-        if(IsAvalibleUserID)
+        if(IsAvalibleUserID||true)
         {
 
         auth().createUserWithEmailAndPassword(email,password).then

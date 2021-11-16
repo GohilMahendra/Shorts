@@ -75,7 +75,8 @@ const Home = () =>
             maxToRenderPerBatch={2}
             data={Videos}
             keyExtractor={(item)=>item.id}
-            snapToInterval={height-50}
+            snapToInterval={height}
+            snapToAlignment={'center'}
             renderItem={renderItem}
 
             >

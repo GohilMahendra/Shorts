@@ -47,6 +47,8 @@ const VideoReview = (props) => {
                
             },
         
+        ).promise.then(
+            res=>console.log(res)
         )
 
       
@@ -56,9 +58,6 @@ const VideoReview = (props) => {
     const share=()=>
     {
 
-
-
-
         DonwloadVideo()
 
         console.log("share")
@@ -66,16 +65,16 @@ const VideoReview = (props) => {
             saveToFiles:true,
         
             url:'file:///'+RNFS.DownloadDirectoryPath+'/'+data.Title+'.mp4',
-            title: 'Share Video FIle',
-        
+            title: 'Share Video FIle',        
             message: "Dont forget to give star on GITHUB"
         })
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => {
-    err && console.log(err);
-  });
+            .then((res) => {
+
+                console.log(res);
+            })
+            .catch((err) => {
+                err && console.log(err);
+            });
     }
 
     const [liked, setliked] = useState(false)
@@ -89,13 +88,6 @@ const VideoReview = (props) => {
 
         }
     )
-
-
-    
-
-
-
-
     
 
    
@@ -151,12 +143,6 @@ const VideoReview = (props) => {
         .collection('Users')
         .doc(data.channelID).get()
 
-
-
-        console.log(userDetails.data().photoURL)
-
-     
-
         setchannal(userDetails.data())
 
 
@@ -174,9 +160,6 @@ const VideoReview = (props) => {
         .doc(auth().currentUser.uid)
         .get()
 
-
-        
-
         if(res.exists)
         {
         setliked(true)
@@ -190,12 +173,9 @@ const VideoReview = (props) => {
 
     useEffect
     (
-        async()=>
+        ()=>
         {
-
-           
-                 IsLiked();
-
+                 IsLiked()
                  getUserDetails()
            
         }
@@ -204,10 +184,6 @@ const VideoReview = (props) => {
     )
 
     const LikeAction = async () => {
-     
-        
-
-       
         const res = await firestore()
             .collection('Likes')
             .doc(data.id)
@@ -287,23 +263,10 @@ const VideoReview = (props) => {
     return (
         <View
             style={styles.Container}
-
-
-
         >
 
 
             <TouchableOpacity
-
-            
-            // style={
-            //     {
-            //         height:100,
-            //         width:100,
-            //         backgroundColor:'#fff',
-                    
-            //     }
-            // }
             onPress={
                 ()=>navigation.navigate('userDetails',{
                     channelThumbnail:data.channelThumbnail,
@@ -314,19 +277,12 @@ const VideoReview = (props) => {
             >
 
 
-
-
               {
                 channal.photoURL!="" &&
-
-          
-              
-              <RoundImage
-                
+     
+               <RoundImage    
                 imageURL={channal.photoURL}
-
                 >
-
                 </RoundImage>
               
                 }

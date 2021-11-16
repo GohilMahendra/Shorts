@@ -110,9 +110,9 @@ const VideoDetails=(props)=>
                    })
                }
             </View>
-            {/* <SongInfoBox
+            <SongInfoBox
             data={data}
-            ></SongInfoBox> */}
+            ></SongInfoBox>
        
         </View>
     )

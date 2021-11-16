@@ -20,6 +20,7 @@ const ProfileInnerStackNavigator = () => {
               
 
                 initialRouteName="Profile"
+               
             >
 
             <HomeStack.Screen

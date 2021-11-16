@@ -21,8 +21,6 @@ const Search=({navigation})=>
     const dispatch=useDispatch()
     const results=useSelector(state=>state.Search.searchResults)
 
-
-
   
     const renderItem=({item,index})=>
     {

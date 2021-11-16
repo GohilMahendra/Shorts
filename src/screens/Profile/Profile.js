@@ -14,19 +14,19 @@ import {
 } from 'react-native-gesture-handler'
 import VideoPreviewCard from '../../components/VideoPreviewCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProfileDetails, getProfileVideos } from '../../redux/Actions/ProfileActions'
+import { getProfileDetails, getProfileVideos, logOut } from '../../redux/Actions/ProfileActions'
 import RoundImage from '../../components/RoundImage'
 
 
 
 
 import {
-    Avatar
+    
 } from 
-'react-native-paper'
+'react-native-elements'
+import { Colors } from '../../constants/colors'
 
 const Profile=({navigation})=>
-
 {
 
     const dispatch=useDispatch()
@@ -45,6 +45,13 @@ const Profile=({navigation})=>
        state=>state.Profile.UserVideosLoad
    )
 
+
+   const logout=async()=>
+   {
+       dispatch(logOut())
+        auth().signOut()
+       navigation.navigate('Login')
+   }
 
    const isPartOflist=(id)=>
    {
@@ -143,10 +150,7 @@ const Profile=({navigation})=>
         ,
         backgroundColor:'black'
         }}
-        >
-
-
-            
+        >   
             <View
             style={{
                 height:'40%',
@@ -239,6 +243,20 @@ const Profile=({navigation})=>
                 }}
                 >
                     <Text style={[styles.text,{color:'black'}]}>EDIT PROFILE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+               onPress={()=>logout()}
+                style={{
+                    alignSelf:'center',
+                    alignItems:'center',
+                    backgroundColor:'red',
+                   
+                    padding:10,
+                    borderRadius:10
+                }}
+                >
+                    <Text style={[styles.text,{color:Colors.White}]}>
+                        LogOut</Text>
                 </TouchableOpacity>
             </ScrollView>
             </View>

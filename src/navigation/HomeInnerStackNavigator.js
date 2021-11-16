@@ -12,6 +12,7 @@ import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
 import TagsVideoPlayer from '../screens/Tags/TagsVideoPlayer'
 import SongDetails from '../screens/SongDetails'
 import { Title } from 'react-native-paper'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 
 
@@ -71,7 +72,8 @@ const HomeInnerStackNavigator = () => {
                 name="TagsVideoPlayer"
                 options={
                     {
-                        headerShown: false
+                        headerShown: false,
+                        
                     }
                 }
                 component={TagsVideoPlayer}
@@ -82,6 +84,19 @@ const HomeInnerStackNavigator = () => {
                 options={
                     ({ route }) => ({ title: route.params.name,
                        
+                        
+                        headerStyle:
+                        {
+                            backgroundColor:'black',
+                            
+
+
+                        },
+                        headerTitleStyle:
+                        {
+                            color:'#fff'
+                        },
+                       headerTintColor:'#fff',
                         headerTitleAlign:"center" })
                 }
                 component={SongDetails}
