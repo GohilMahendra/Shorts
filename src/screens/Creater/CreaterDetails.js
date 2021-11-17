@@ -8,15 +8,15 @@ import { View, Image, Text, StyleSheet }
     from 'react-native'
 import { TextInput, TouchableOpacity, FlatList, ScrollView } from "react-native-gesture-handler"
 import { useDispatch, useSelector } from "react-redux"
-import RoundImage from "../components/RoundImage"
-import InfoBox from "../components/UserDetails/InfoBox"
-import VideoPreviewCard from '../components/VideoPreviewCard'
-import { Colors } from "../constants/colors"
+import RoundImage from "../../components/RoundImage"
+import InfoBox from "../../components/UserDetails/InfoBox"
+import VideoPreviewCard from '../../components/VideoPreviewCard'
+import { Colors } from "../../constants/colors"
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import { getCreaterDetails, getCreaterVideos } from "../redux/Actions/CreaterActions"
+import { getCreaterDetails, getCreaterVideos } from "../../redux/Actions/CreaterActions"
 
-const userDetails = ({ navigation }) => {
+const CreaterDetails = ({ navigation }) => {
 
     const p = useRoute()
 
@@ -29,13 +29,13 @@ const userDetails = ({ navigation }) => {
 
     const userDetails = useSelector(state => state.Creater.CreaterProfile)
 
-    console.log(userDetails.photoURL)
+    console.log(userDetails)
     const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)
 
 
     const getFOllowing=async()=>
     {
-        const isExist=await firestore().collection('Follwing').
+        const isExist=await firestore().collection('Following').
         doc(auth().currentUser.uid)
         .collection('LookUps')
         .doc(p.params.channelID)
@@ -55,7 +55,7 @@ const userDetails = ({ navigation }) => {
 
                 onPress={
                     () => navigation.navigate(
-                        "UserVideoPlayer",
+                        "CreaterVideoPlayer",
                         {
                             id: item.id,
                             index: index
@@ -120,10 +120,6 @@ const userDetails = ({ navigation }) => {
                     }}
                 >
 
-
-
-
-
                     <Image
                     source={
                         {
@@ -171,12 +167,14 @@ const userDetails = ({ navigation }) => {
                     <InfoBox
                         followers={userDetails.Followers}
                         following={userDetails.Following}
-                        likes={userDetails.Likes}
+                        likes={userDetails.likes}
                     >
 
                     </InfoBox>
 
                     <TouchableOpacity
+                        
+                        onPress={()=>setfollowing(!following)}
                         style={
                             {
                                 backgroundColor: "#002366",
@@ -239,4 +237,4 @@ const userDetails = ({ navigation }) => {
         </View>
     )
 }
-export default userDetails
+export default CreaterDetails

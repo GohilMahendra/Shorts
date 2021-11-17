@@ -6,7 +6,7 @@ import React, { useEffect, useState,useRef } from "react";
 
 
 import auth from '@react-native-firebase/auth'
-import {View ,Animated,Text, TouchableOpacity, Dimensions} from 'react-native'
+import {View ,Animated,Text, TouchableOpacity, Dimensions, StyleSheet} from 'react-native'
 
 
 import firestore from '@react-native-firebase/firestore'
@@ -20,38 +20,30 @@ const {height,width}=Dimensions.get('screen')
 const VideoDetails=(props)=>
 {
 
-    const {data}=props
+    const {data,channel}=props
 
     const navigation=useNavigation()
   
 
     return(
         <View
-        style={{
-            position:'absolute',
-            left:15,
-            bottom:50,
-        
-        }}
+        style={styles.Container}
         >
+
 
             <Text
             style={
-                {
-                    color:"#fff",
-                    fontSize:20
-                }
+              styles.txtchannelID
+            }
+           
+            >{channel.userID}</Text>
+
+            <Text
+            style={
+               styles.txtTitle
             }
             >{data.Title}</Text>
-              <Text
-            style={
-                {
-                    color:"#fff",
-                    fontSize:20
-                }
-            }
-            >{data.SongName}</Text>
-
+             
             <View
             style={
                 {
@@ -98,11 +90,9 @@ const VideoDetails=(props)=>
                     <Text
 
                 
+                    numberOfLines={2}
                     style={
-                        {
-                            color:"blue",
-                            fontSize:18
-                        }
+                      styles.txtTag
                     }
                     >{tag}</Text>
                     </TouchableOpacity>
@@ -117,5 +107,35 @@ const VideoDetails=(props)=>
         </View>
     )
 }
+const styles=StyleSheet.create
+(
+    {
+        Container:
+        {
+            position:'absolute',
+            left:15,
+            bottom:10,
+        
+        },
+        txtTitle:
+        {
+            color:"#fff",
+            fontSize:20
+        },
+        txtchannelID:
+        {
 
+            fontSize:20,
+            color:"#fff"
+           
+         },
+        txtTag:
+        {
+
+            fontSize:20,
+            color:"#fff"
+           
+        }
+    }
+)
 export default VideoDetails

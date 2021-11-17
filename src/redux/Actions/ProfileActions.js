@@ -8,11 +8,9 @@ export const getProfileDetails = () => {
 
     return async (dispatch, getState) => {
         try {
-            dispatch(
-                {
-                    type: GET_USER_DETAILS_REQUEST
-                }
-            )
+            dispatch({type:GET_USER_DETAILS_REQUEST})
+            
+            
             const user = await
                 firestore()
                     .collection('Users')
@@ -21,21 +19,20 @@ export const getProfileDetails = () => {
                     )
                     .get()
 
-
-            const data = user.data()
+           
+         console.log(user)
             dispatch(
                 {
                     type: GET_USER_DETAILS_SUCCESS,
                     payload: {
-                        user: data
+                        user: user.data()
                     }
                 }
             )
-
         }
 
         catch (err) {
-
+            console.log(err)
             dispatch(
                 {
                     type: GET_USER_DETAILS_FAILED,
@@ -50,13 +47,11 @@ export const getProfileDetails = () => {
 }
 
 
-export const logOut=()=>
-{
-    return async(dispatch)=>
-    {
-        dispatch({type:LOG_OUT_REQUEST})
+export const logOut = () => {
+    return async (dispatch) => {
+        dispatch({ type: LOG_OUT_REQUEST })
     }
-    
+
 }
 
 export const getProfileVideos = () => {

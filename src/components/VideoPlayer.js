@@ -1,18 +1,13 @@
-import { isTemplateElement } from "@babel/types";
-import { firebase } from "@react-native-firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 
 import { View, Text, StyleSheet, Image, Dimensions, Pressable } from 'react-native'
-
-
-import storage from "@react-native-firebase/storage";
 
 import Video from 'react-native-video'
 import VideoReview from "./VideoReview";
 import VideoDetails from "./VideoDetails";
 import { ActivityIndicator } from "react-native-paper";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-
+import firestore from '@react-native-firebase/firestore'
 
 const { height, width } = Dimensions.get('window')
 const VideoPlayer = (props) => {
@@ -21,10 +16,43 @@ const VideoPlayer = (props) => {
 
     const [paused, setpaused] = useState(false)
 
+
+    const [channel,setchannel]=useState(
+        {
+                userName:"",
+                userID:"",
+                varified:false,
+                Followers:0,
+                photoURL:"",
+                Following:0,
+                likes:0,
+        }
+    )
+     
+
+    const getUserDetails=async()=>
+        {
+            const userDetails=await firestore()
+            .collection('Users')
+            .doc(data.channelID).get()
+    
+            setchannel(userDetails.data())
+    
+    
+        }
+
+   
     const VideoRef = useRef()
 
     const [loading, setloading] = useState(false)
 
+    useEffect
+    (
+        ()=>
+        {
+            getUserDetails()
+        },[]
+    )
 
     return (
         <View
@@ -55,6 +83,7 @@ const VideoPlayer = (props) => {
                     repeat={false}
                     resizeMode={"cover"}
 
+                    posterResizeMode={"cover"}
                     paused={paused}
                     playInBackground={false}
 
@@ -78,8 +107,9 @@ const VideoPlayer = (props) => {
                     onVideoError={(err) => console.log(err)}
                     style={{
 
-                        height: height,
-                        width: width
+                     height:'100%',
+                     width:'100%',
+                    // backgroundColor:'blue'
                     }}
                 >
 
@@ -87,9 +117,11 @@ const VideoPlayer = (props) => {
             </Pressable>
             <VideoReview
                 data={data}
+                channel={channel}
             ></VideoReview>
             <VideoDetails
                 data={data}
+                channel={channel}
             ></VideoDetails>
 
             <ActivityIndicator
@@ -136,9 +168,12 @@ const styles = StyleSheet.create
         {
             Container:
             {
-                flex: 1,
-
-                backgroundColor: 'black'
+               // height:500,
+                //backgroundColor:'#fff', 
+         
+                flex:1,
+               // backgroundColor:"blue"          
+              
             }
         }
     )

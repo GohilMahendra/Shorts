@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Easing } from 'react-native-reanimated';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Colors } from '../constants/colors';
+import { Fonts } from '../constants/Fonts';
 
 const { height, width } = Dimensions.get('screen')
 const SongInfoBox = ({ data }) => {
@@ -46,22 +47,22 @@ const SongInfoBox = ({ data }) => {
                             {
                                 toValue: 1.
                                 , duration: 5000,
-                                easing:Easing.inOut(Easing.ease),
+                                easing: Easing.inOut(Easing.ease),
                                 useNativeDriver: false
                             }
                         ),
-                    
-                    Animated.spring
-                    (
-                        TextAnim.current,
-                        {
-                            toValue:-1,
-                            useNativeDriver:false
-                        }
 
-                    )
-                   
-             
+                    Animated.spring
+                        (
+                            TextAnim.current,
+                            {
+                                toValue: -1,
+                                useNativeDriver: false
+                            }
+
+                        )
+
+
                 ])
         ).start()
     }
@@ -97,66 +98,61 @@ const SongInfoBox = ({ data }) => {
             style={styles.Container}
         >
 
-           
-              
-                 <ScrollView
+
+
+            <ScrollView
                 horizontal
                 style={
                     {
-                        width:'80%'
+                        width: '80%'
                     }
-                }
-                >
-                 <Animated.View
-                style={[styles.TextContainer
-                ,{
-                    transform: [{
-                        translateX: RoundAnimation.current.interpolate({
-                            inputRange: [-1,0, 1],
-                            outputRange: [0, 300,-350]
-                        })
-                    }]
-                }
-            ]
                 }
             >
-                
-                <FontAwesome5Icon
-                    name={"music"}
-
-                    color={Colors.White}
-                    style={styles.musicIcon
+                <Animated.View
+                    style={[styles.TextContainer
+                        , {
+                        transform: [{
+                            translateX: RoundAnimation.current.interpolate({
+                                inputRange: [-1, 0, 1],
+                                outputRange: [0, 300, -350]
+                            })
+                        }]
                     }
-                />
-               
-                <Text
-                    style={
-                        {
-                            fontSize: 20,
-                            width: 250,
-                            color:Colors.White,
-
-                            direction:"rtl",
-                            
-
-                            
-                           
-                            textAlignVertical: 'center',
-                          
-                        }
+                    ]
                     }
-                    numberOfLines={1}
                 >
-                  testing testinfj asbhabsdhj iaBSDhabhd
-                </Text>
+
+                    <FontAwesome5Icon
+                        name={"music"}
+
+                        color={Colors.White}
+                        style={styles.musicIcon
+                        }
+                    />
+
+                    <Text
+                        style={
+                            {
+                                fontSize: 20,
+                                width: 250,
+                                color: Colors.White,
+                                direction: "rtl",
+
+                                fontFamily:Fonts.Playball_Regular,
+                                textAlignVertical: 'center',
+
+                            }
+                        }
+                        numberOfLines={1}
+                    >
+                        testing testinfj asbhabsdhj iaBSDhabhd
+                    </Text>
                 </Animated.View>
-                </ScrollView>
-              
-           
+            </ScrollView>
+
+
             <View
-                style={{
-                    alignSelf: "flex-end"
-                }}
+               
             >
                 <Animated.View
 
@@ -204,22 +200,21 @@ const styles = StyleSheet.create({
     {
         flexDirection: "row",
 
-        marginVertical: 0,
-
-        //marginLeft:0,
-        paddingHorizontal: 20,
+      
+     
+       paddingHorizontal:20,
         height: 70,
-        width: width,
+        width: '100%',
         //   backgroundColor:'blue',
-        justifyContent: "space-evenly"
+        justifyContent: "space-around"
     },
     TextContainer:
     {
 
         flexDirection: 'row',
-      alignItems:'center',
-      width:250
-      
+        alignItems: 'center',
+        width: 250
+
 
 
     },
@@ -227,10 +222,10 @@ const styles = StyleSheet.create({
     {
 
         flexDirection: 'row',
-        marginHorizontal:15,
-        textAlignVertical:'center'
+        marginHorizontal: 15,
+        textAlignVertical: 'center'
         //alignSelf:'center'
-        
+
 
 
     }

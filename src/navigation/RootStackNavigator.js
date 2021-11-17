@@ -51,12 +51,17 @@ const RootStackNavigator = () => {
 
                 <RootStack.Screen
 
-                    options={
+                    options=
+                    
+                    {
                         {
-                            headerShown: true,
+                           headerShown: true,
+                           
                             headerStyle:
                             {
-                                backgroundColor:'black'
+                                backgroundColor:'black',
+
+                                
                             }
                         }
                     }

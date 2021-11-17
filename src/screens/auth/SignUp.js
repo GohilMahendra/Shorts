@@ -67,7 +67,7 @@ const SignUp = ({navigation}) => {
                 Followers:0,
                 photoUrl:"",
                 Following:0,
-                Likes:0,
+                likes:0,
             }
         )
     }

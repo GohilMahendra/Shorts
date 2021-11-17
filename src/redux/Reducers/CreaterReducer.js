@@ -11,7 +11,7 @@ const initialstate = {
         varified: false,
         Following: 0,
         Followers: 0,
-        Likes: 0,
+        likes: 0,
     },
 
     CreaterVideos: [],

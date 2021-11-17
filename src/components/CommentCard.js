@@ -5,13 +5,40 @@
 import React, { useEffect, useState } from "react";
 
 import { View, Text, Image } from 'react-native'
+
+import firestore, { firebase } from '@react-native-firebase/firestore'
 const CommentCard = (props) => {
 
 
 
     const { data } = props
 
+
+    const [userDetails,setUserDetails]=useState({})
     
+
+    const getUserDetails=async()=>
+    {
+        
+        const user=await firestore().collection('Users').
+        doc(data.id).get()
+
+        setUserDetails(user.data())
+
+        
+    }
+    useEffect
+    (
+
+        ()=>
+        {
+
+            getUserDetails()
+
+        },
+        []
+        
+    )
 
     return (
         <View
@@ -58,8 +85,8 @@ const CommentCard = (props) => {
                         }
                     }
                 >
-                   {(data.profilePick!="") ? <Image
-                        source={{uri:data.profilePick}}
+                   {(userDetails.photoURL!="") ? <Image
+                        source={{uri:userDetails.photoURL}}
 
                         resizeMode={'cover'}
                         style={
@@ -96,7 +123,7 @@ const CommentCard = (props) => {
                                 }
                             }
                         >
-                            {data.name}
+                            {userDetails.userName}
                         </Text>
                         <Text
                             style={

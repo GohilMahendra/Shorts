@@ -1,5 +1,11 @@
 
-import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS,LOG_OUT_REQUEST } from "../Types/ProfileTypes";
+import { GET_USER_DETAILS_FAILED,
+     GET_USER_DETAILS_REQUEST,
+      GET_USER_DETAILS_SUCCESS,
+      GET_USER_VIDEOS_FAILED,
+       GET_USER_VIDEOS_REQUEST, 
+       GET_USER_VIDEOS_SUCCESS,
+       LOG_OUT_REQUEST } from "../Types/ProfileTypes";
 
 const initialstate = {
 
@@ -9,12 +15,16 @@ const initialstate = {
         userID: "",
         photoURL: "",
         varified: false,
-        Follwing: 0,
-        Follwers: 0,
-        Likes: 0,
+        Following: 0,
+        Followers: 0,
+        likes: 0,
     },
 
     UserVideos: [],
+
+
+    UserDetailsLoad:false,
+    UserDetailsError:null,
 
     UserVideosLoad: false,
     UserVideosLoadError: null,
@@ -34,11 +44,20 @@ const ProfileReducer = (state = initialstate, action) => {
 
 
         case GET_USER_DETAILS_REQUEST:
-            console.log("requesr")
+            return {...state,
+                UserDetailsLoad:true,
+                UserDetailsError:null,
+            }
         case GET_USER_DETAILS_SUCCESS:
-            console.log(action.payload, "payload")
-            return { ...state, userProfile: action.payload.user }
+          //  console.log(action.payload, "payload")
+            return { ...state,
+                UserDetailsLoad:false,
+                userProfile: action.payload.user }
         case GET_USER_DETAILS_FAILED:
+            return {...state,
+                UserDetailsLoad:false,
+                UserDetailsError:action.payload,
+            }
 
         case GET_USER_VIDEOS_REQUEST:
             return {

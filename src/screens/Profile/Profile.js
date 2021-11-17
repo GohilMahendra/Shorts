@@ -30,9 +30,14 @@ const Profile=({navigation})=>
 {
 
     const dispatch=useDispatch()
-    let userDetails=useSelector(state=>state.Profile.userProfile)
+    const userDetails=useSelector(state=>state.Profile.userProfile)
 
-    //onsole.log(userDetails)
+
+    
+   const UserDetailsLoad=useSelector(state=>state.Profile.UserDetailsLoad)
+   const UserDetailsError=useSelector(state=>state.Profile.UserDetailsError)
+
+    console.log(userDetails)
     const [selected,setselected]=useState([])
 
     
@@ -133,7 +138,7 @@ const Profile=({navigation})=>
 
           dispatch(getProfileDetails())
          
-          getVideosList()
+         // getVideosList()
         },
         []
     )
@@ -165,8 +170,8 @@ const Profile=({navigation})=>
                 refreshControl={
                     <RefreshControl
                     
-                    refreshing={refreashProfile}
-                    onRefresh={()=>getProfileDetails()}
+                    refreshing={UserDetailsLoad}
+                    onRefresh={()=>dispatch(getProfileDetails())}
                     ></RefreshControl>
                 }
                 >
@@ -204,7 +209,7 @@ const Profile=({navigation})=>
                             Follwing
                         </Text>
                         <Text style={styles.text}>
-                            {userDetails.Follwing}
+                            {userDetails.Following}
                         </Text>
                     </View>
                     <View style={styles.profileDetailsContainer}>
@@ -216,7 +221,7 @@ const Profile=({navigation})=>
                             Follwers
                         </Text>
                         <Text style={styles.text}>
-                            {userDetails.Follwers}
+                            {userDetails.Followers}
                         </Text>
                     </View>
                     <View style={styles.profileDetailsContainer}>
@@ -228,7 +233,7 @@ const Profile=({navigation})=>
                             Likes
                         </Text>
                         <Text style={styles.text}>
-                            {userDetails.Likes}
+                            {userDetails.likes}
                         </Text>
                     </View>
                 </View>

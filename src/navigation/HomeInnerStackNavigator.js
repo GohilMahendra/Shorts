@@ -1,18 +1,20 @@
 
 import React from 'react'
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
-import userDetails from '../screens/userDetails'
-import TagList from '../screens/TagList'
+
 import Tags from '../screens/Tags/Tags'
 import UserVideoPlayer from '../screens/Profile/UserVideoPlayer'
 import TagsVideoPlayer from '../screens/Tags/TagsVideoPlayer'
 import SongDetails from '../screens/SongDetails'
 import { Title } from 'react-native-paper'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import CreaterVideoPlayer from '../screens/Creater/CreaterVideoPlayer'
+import CreaterDetails from '../screens/Creater/CreaterDetails'
 
 
 
@@ -23,20 +25,36 @@ const HomeInnerStackNavigator = () => {
     return (
 
         <HomeStack.Navigator
-
-
             initialRouteName="HomeScreen"
         >
+
 
             <HomeStack.Screen
                 name="HomeScreen"
                 options={
                     {
-                        headerShown: false
+                        headerShown: true,
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerLeft:null,
+                        headerRight:()=>
+                        (
+                            <TouchableOpacity>
+                                <FontAwesome5Icon
+                                name="search"
+                                color='#fff'
+                                size={25}
+                                style={{marginHorizontal:20}}
+
+                                ></FontAwesome5Icon>
+                            </TouchableOpacity>
+                        )
                     }
                 }
                 component={Home}
             ></HomeStack.Screen>
+
+
 
             <HomeStack.Screen
                 name="UserVideoPlayer"
@@ -49,13 +67,13 @@ const HomeInnerStackNavigator = () => {
             ></HomeStack.Screen>
 
             <HomeStack.Screen
-                name="userDetails"
+                name="CreaterDetails"
                 options={
                     {
                         headerShown: false
                     }
                 }
-                component={userDetails}
+                component={CreaterDetails}
             ></HomeStack.Screen>
 
 
@@ -79,6 +97,21 @@ const HomeInnerStackNavigator = () => {
                 component={TagsVideoPlayer}
             ></HomeStack.Screen>
             
+           
+             <HomeStack.Screen
+                name="CreaterVideoPlayer"
+                options={
+                    {
+                        headerShown: false,
+                        
+                    }
+                }
+                component={CreaterVideoPlayer}
+
+
+            ></HomeStack.Screen>
+
+
             <HomeStack.Screen
                 name="Songs"
                 options={
@@ -101,16 +134,7 @@ const HomeInnerStackNavigator = () => {
                 }
                 component={SongDetails}
             ></HomeStack.Screen>
-             {/* <HomeStack.Screen
-                name="SongsVideoPlayer"
-                options={
-                    {
-                        headerShown: false
-                    }
-                }
-                component={Songs}
-            ></HomeStack.Screen> */}
-
+       
 
 
 

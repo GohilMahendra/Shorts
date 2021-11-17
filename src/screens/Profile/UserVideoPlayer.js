@@ -35,7 +35,7 @@ const UserVideoPlayer=({navigation})=>
             state=>state.Profile.UserVideos
     )
 
-    const curruntVideo=useState(route.params.index)
+   // const curruntVideo=useState(route.params.index)
     const renderItem=({item,index})=>
     {
         console.log(item)

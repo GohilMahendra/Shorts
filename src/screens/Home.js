@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react"
 import {
     Dimensions,
     View,
+    Text,
     BackHandler,
     Alert
 
@@ -29,10 +30,12 @@ const Home = () =>
     const renderItem=({item,index})=>
     {
         return(
+          
             <View
             style={
-                {flex:1
-                ,backgroundColor:'#fff'
+                {
+                    height:'100%',
+                    width:'100%'
                 }
             }
             >
@@ -40,6 +43,7 @@ const Home = () =>
             data={item}
             ></VideoPlayer>
             </View>
+          
         )
     }
 
@@ -59,7 +63,7 @@ const Home = () =>
         <View
         style={{
             flex:1,
-            backgroundColor:'#fff'
+            backgroundColor:'black'
         }}
         >
 
@@ -68,8 +72,42 @@ const Home = () =>
             style={{
                 
               flex:1,
-              backgroundColor:'#fff',
+            
                           }}
+
+      
+            
+                          contentContainerStyle={
+                              {
+                                  flexGrow:1
+                              }
+                          }
+            ListEmptyComponent={
+                <View
+                style={
+                    {
+                    
+                        borderWidth:1,
+                        height:50,
+                        borderColor:"#fff",
+                        marginTop:height/2.5,
+                        justifyContent:"center",
+                        alignItems:'center',
+                        
+                        //position:'absolute',
+                        //top:'50%'
+                    }
+                }
+                >
+                    <Text
+                    style={
+                        {
+                            color:"#fff"
+                        }
+                    }
+                    >No Videos HERE!!</Text>
+                </View>
+            }
 
 
             maxToRenderPerBatch={2}

@@ -17,6 +17,7 @@ const VideoPreviewCard=(props)=>
            
             backgroundColor:'#fff',
             height:200,
+          //  borderRadius:20,
             width:width/3.3,
             margin:2
           

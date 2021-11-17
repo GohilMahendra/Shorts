@@ -32,12 +32,12 @@ export const getCreaterDetails = (createrID) => {
                 varified: creater.data().varified,
                 Following: creater.data().Following,
                 Followers: creater.data().Followers,
-                Likes: creater.data().Likes,
+                likes: creater.data().likes,
 
 
             }
 
-            console.log(data,"data")
+          //  console.log(data,"data")
             dispatch(
                 {
                     type: GET_CREATER_DETAILS_SUCCESS,

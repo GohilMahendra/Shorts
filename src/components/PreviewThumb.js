@@ -12,7 +12,7 @@ import Video from 'react-native-video'
 const PreviewThumb=(props)=>
 {
 
-    
+
     const {VideoUrl,seekTime}=props
 
     return(
@@ -20,7 +20,8 @@ const PreviewThumb=(props)=>
         style
         ={
             {
-                flex:1
+                flex:1,
+                borderRadius:20
             }
         }
         >
@@ -37,6 +38,7 @@ const PreviewThumb=(props)=>
                 "cover"
             }
             playInBackground={false}
+            
             playWhenInactive={false}
             paused={false}
             source={{

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { Platform, Pressable } from "react-native"
-import { StyleSheet,PanResponder,Animated, Text, View } from "react-native"
+import { StyleSheet, PanResponder, Animated, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 
 import storage from "@react-native-firebase/storage"
@@ -18,7 +18,7 @@ const MakeVideo = () => {
 
 
     const todaysDate = date.toISOString()
-    
+
     console.log(todaysDate)
 
     const [visible, setVisble] = useState(false)
@@ -27,54 +27,37 @@ const MakeVideo = () => {
 
     const TimeStamp = date.valueOf()
 
-    const HideModal=()=>
-    {
+    const HideModal = () => {
         setVisble(false)
     }
-   
+
 
     return (
         <View
-            style={
-                {
-                    justifyContent: 'center',
-                    backgroundColor: 'black',
-                    flex: 1,
-                    alignItems: 'center'
-                }
-            }
+            style={styles.Container}
         >
 
 
 
-
-         <View
-         style={
-             {
-                 height:250,
-                 backgroundColor:"#fff",
-                 width:500
-             }
-         }
-         >
-             
-             </View>   
-
-           
-             
             <TouchableOpacity
-
                 onPress={() => setVisble(true)}
                 style={
-                    {
-                        backgroundColor: 'blue',
-                        height: 50,
-                        width: 100,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 15,
-
+                    styles.Btn
+                }
+            >
+                <Text
+                    style={
+                        {
+                            color: '#fff',
+                            fontWeight: 'bold'
+                        }
                     }
+                >Record Video</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => setVisble(true)}
+                style={
+                    styles.Btn
                 }
             >
                 <Text
@@ -86,17 +69,17 @@ const MakeVideo = () => {
                     }
                 >Upload Video</Text>
             </TouchableOpacity>
-            
+
 
             <Modal
-                onBackButtonPress={()=>setVisble(false)}
+                onBackButtonPress={() => setVisble(false)}
 
 
                 isVisible={visible}
             >
                 <VideoUpload
-                
-                onPress={HideModal}
+
+                    onPress={HideModal}
                 ></VideoUpload>
             </Modal>
         </View>
@@ -107,6 +90,26 @@ const MakeVideo = () => {
 const styles = StyleSheet.create
     (
         {
+            Container:
+            {
+                justifyContent: 'center',
+                backgroundColor: 'black',
+                flex: 1,
+              
+                alignItems: 'center'
+            },
+            Btn:
+            {
+                backgroundColor: 'blue',
+                height: 50,
+                width: 100,
+                margin:10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 15,
+
+            }
+
 
         }
     )

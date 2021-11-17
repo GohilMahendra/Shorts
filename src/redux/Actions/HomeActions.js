@@ -20,8 +20,7 @@ export const getHomeFeedVideos = () => {
 
             let list = []
 
-            console.log(videos,
-                "Videos")
+        
             videos.docs.forEach
                 (
                     function (child) {

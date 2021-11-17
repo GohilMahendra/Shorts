@@ -62,9 +62,7 @@ export const MakeComment = (comment, todaysDateTime, { videoID }) => {
                 (
                     {
                         comment: comment,
-                        name: auth().currentUser.displayName,
-                        Date: todaysDateTime,
-                        profilePick: (auth().currentUser.photoURL == null) ? "" : auth().currentUser.photoURL,
+                        Date: todaysDateTime,   
                     }
                 )
 
@@ -95,8 +93,14 @@ export const FetchComments = (videoID) => {
                 .limit(MAX_ITEM_PER_BATCH)
                 .get()
 
+
+
             let list = []
             let lastKey = null
+
+
+
+
 
 
 

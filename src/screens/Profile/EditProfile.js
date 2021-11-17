@@ -33,6 +33,8 @@ const EditProfile=()=>
     const [userName,setuserName]=useState(auth().currentUser.displayName)
     const [path,setpath]=useState("")
 
+    const [loading,setloading]=useState(false)
+
     const update=async()=>
     {
 
@@ -66,6 +68,8 @@ const EditProfile=()=>
 
         if(path!="")
         await changeImageFromDatabase(path)
+        else
+        setloading(false)
     }
 
     const ChangeImageData=async(newUrl)=>
@@ -91,6 +95,7 @@ const EditProfile=()=>
         )
 
 
+        setloading(false)
         console.log(changeAuth,changeUser)
 
     }

@@ -20,6 +20,8 @@ from 'react-native'
 const InfoBox=(props)=>
 {
 
+
+    console.log(props)
     const {followers,following,likes}=props
     return(
         <View

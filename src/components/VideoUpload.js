@@ -19,12 +19,14 @@ import ViewShot, { captureRef } from "react-native-view-shot";
 
 import getpath from '@flyerhq/react-native-android-uri-path'
 import UploadingLoad from "./UploadingLoad";
+import { useSelector } from "react-redux";
 const VideoUpload = () => {
 
 
 
 
-    let date = new Date()
+
+       let date = new Date()
 
     const todaysDate = date.toISOString()
 
@@ -42,8 +44,8 @@ const VideoUpload = () => {
     const [Tags, setTags] = useState("")
     const [SongName, setSongName] = useState("")
   
-    const [VideoThumb,setVideoThumb]=useState("")
-    const [SongCover, setsongCover] = useState("")
+
+   const [SongCover, setsongCover] = useState("")
   
 
     const maketags = (value) => {
@@ -104,19 +106,20 @@ const VideoUpload = () => {
 
     //Capture Thumbnail From Preview if User Not Upload Custom One
     const captureTumbnail = async () => {
-        await captureRef(ImageRef, {
+       
+        try
+        {
+       const response= await captureRef(ImageRef, {
             format: "png",
             quality: 1
-        }).then(
-            uri => {
-                console.log("Image saved to", uri)
+        })
 
-                //  setImageLocation(uri)
-                UploadThumbOnServer(uri)
-
-            },
-            error => console.error("Oops, snapshot failed", error)
-        );
+    return response
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
 
     }
 
@@ -151,6 +154,13 @@ const VideoUpload = () => {
 
     //Upload ThumbNail on Server
     const UploadThumbOnServer = async (uri) => {
+      
+        
+
+        try
+        {
+       
+      //  uri=getVideopath(uri)
         const ref = 'Thumbs/' +
             auth().currentUser.uid +
             '/'
@@ -166,16 +176,20 @@ const VideoUpload = () => {
         let url=""
          url = await taskRef.getDownloadURL()
 
+         return url
         
-
-        setVideoThumb(url)
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
 
 
     }
 
 
     //Upload Song Details On Server
-    const UploadSongOnServer = async () => {
+    const UploadSongOnServer = async (VideoThumb) => {
 
 
         const response = await firestore().collection('Songs').add
@@ -188,8 +202,8 @@ const VideoUpload = () => {
             )
 
         //ID for Search in Future
-        setSongID(response.id)
-
+        return response.id
+ 
 
     }
 
@@ -230,9 +244,13 @@ const VideoUpload = () => {
                 return
             }
 
-            await captureTumbnail()
+           const uri= await captureTumbnail()
+            const VideoThumb=await UploadThumbOnServer(uri)
+        
+        console.log(VideoThumb)
+
             const VideoUrl=await UploadVideoFull(VideoLoaction)
-            await UploadSongOnServer()
+            const songID= await UploadSongOnServer(VideoThumb)
          
             const tags = maketags(Tags)
 
@@ -323,11 +341,14 @@ const VideoUpload = () => {
                     setDuration(response.assets[0].duration)
 
 
+
+
                 }
 
             }
 
         )
+       // await captureTumbnail()
     }
 
     return (

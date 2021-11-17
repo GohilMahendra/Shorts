@@ -16,7 +16,7 @@ const TagView=({hashTag})=>
         <View
         style={
             {
-                //backgroundColor:"blue",
+                backgroundColor:'black',
                 flex:1
             }
         }
@@ -44,7 +44,8 @@ const TagView=({hashTag})=>
                     <Text
                     style={
                     {
-                        fontSize:50
+                        fontSize:50,
+                        
                     }
                     }
                     >#</Text>
@@ -54,7 +55,8 @@ const TagView=({hashTag})=>
                 style={
                     {
                         fontSize:50,
-                        fontWeight:"bold"
+                        fontWeight:"bold",
+                        color:'#fff'
                     }
                 }
                 >

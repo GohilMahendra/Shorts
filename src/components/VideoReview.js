@@ -1,31 +1,32 @@
 import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
-import React, { useDebugValue,useCallback,useRef, useEffect, useState } from "react";
+import React, { useDebugValue, useCallback, useRef, useEffect, useState } from "react";
 
-import { View,Image, Text, StyleSheet, Dimensions,Animated, Pressable } from 'react-native'
+import { View, Image, Text, StyleSheet, Dimensions, Animated, Pressable } from 'react-native'
 import CustomBlueView from "./CustomBlurView";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 
+
+import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import firestore from "@react-native-firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoundImage from "./RoundImage";
 import { Easing } from "react-native-reanimated";
 
 import getPath from '@flyerhq/react-native-android-uri-path'
 import Share from "react-native-share";
-import RNFS,{ CachesDirectoryPath,downloadFile } from "react-native-fs";
+import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
 //import Animated ,{}from "react-native-reanimated";
 const { height, width } = Dimensions.get('screen')
 const VideoReview = (props) => {
 
 
-    
-    
-    const { data } = props
+
+
+    const { data, channel } = props
 
 
     console.log(data.VideoUrl)
@@ -33,39 +34,43 @@ const VideoReview = (props) => {
     const navigation = useNavigation()
 
 
-    const DonwloadVideo=async()=>
-    {
-         RNFS.downloadFile
-        (
-            {
-                fromUrl:data.VideoUrl,
-              
-                toFile:RNFS.DownloadDirectoryPath+'/'+data.Title+'.mp4',
+    const DonwloadVideo = async () => {
 
-               progress:(res)=>console.log(res.contentLength/
-                res.bytesWritten),
-               
-            },
-        
-        ).promise.then(
-            res=>console.log(res)
-        )
+        try {
+            RNFS.downloadFile
+                (
+                    {
+                        fromUrl: data.VideoUrl,
 
-      
+                        toFile: RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
+
+                        progress: (res) => console.log(
+                            res.bytesWritten / res.contentLength),
+
+                    },
+
+                )
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+
 
     }
 
-    const share=()=>
-    {
+    const share = async () => {
 
         DonwloadVideo()
 
-        console.log("share")
+        // console.log("share")
         Share.open({
-            saveToFiles:true,
-        
-            url:'file:///'+RNFS.DownloadDirectoryPath+'/'+data.Title+'.mp4',
-            title: 'Share Video FIle',        
+            saveToFiles: true,
+
+            showAppsToView: false,
+            url: 'file:///' + RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
+            title: 'Share Video FIle',
             message: "Dont forget to give star on GITHUB"
         })
             .then((res) => {
@@ -80,108 +85,80 @@ const VideoReview = (props) => {
     const [liked, setliked] = useState(false)
 
 
-    const [dynamic,setdynamic]=useState
-    (
-        {
-            likes:data.likes,
-            comments:data.comments,
+    const [dynamic, setdynamic] = useState
+        (
+            {
+                likes: data.likes,
+                comments: data.comments,
 
-        }
-    )
-    
+            }
+        )
 
-   
+
+
     const anim = useRef(new Animated.Value(1));
 
-  
-    useEffect(() => {
-      // makes the sequence loop
-      Animated.loop(
-          
-        // runs given animations in a sequence
-        Animated.sequence([
-          // increase size
-          Animated.timing(anim.current, {
-            toValue: 1.5, 
-            duration: 200,
-            useNativeDriver: true 
-          }),
-          // decrease size
-          Animated.timing(anim.current, {
-            toValue: 1, 
-            duration: 200,
-            useNativeDriver: true 
-          }),
-        ])
 
-        ,
-      { iterations: 2 }
-      ).start();
+    useEffect(() => {
+        // makes the sequence loop
+        Animated.loop(
+
+            // runs given animations in a sequence
+            Animated.sequence([
+                // increase size
+                Animated.timing(anim.current, {
+                    toValue: 1.5,
+                    duration: 200,
+                    useNativeDriver: true
+                }),
+                // decrease size
+                Animated.timing(anim.current, {
+                    toValue: 1,
+                    duration: 200,
+                    useNativeDriver: true
+                }),
+            ])
+
+            ,
+            { iterations: 2 }
+        ).start();
 
     }, [liked]);
-  
 
 
 
-    const [channal,setchannal]=useState(
-        {
-                userName:"",
-                userID:"",
-                varified:false,
-                Followers:0,
-                photoURL:"",
-                Following:0,
-                Likes:0,
+
+
+
+    const IsLiked = async () => {
+
+        try {
+            const res = await firestore()
+                .collection('Likes')
+                .doc(data.id)
+                .collection('lookups')
+                .doc(auth().currentUser.uid)
+                .get()
+
+            if (res.exists) {
+                setliked(true)
+            }
         }
-    )
-
-    const getUserDetails=async(
-
-    )=>
-    {
-        const userDetails=await firestore()
-        .collection('Users')
-        .doc(data.channelID).get()
-
-        setchannal(userDetails.data())
-
-
-    }
-
-    const IsLiked=async()=>
-    {
-
-        try
-        {
-        const res= await firestore()
-        .collection('Likes')
-        .doc(data.id)
-        .collection('lookups')
-        .doc(auth().currentUser.uid)
-        .get()
-
-        if(res.exists)
-        {
-        setliked(true)
+        catch (err) {
+            console.log(err)
         }
-    }
-    catch(err)
-    {
-        console.log(err)
-    }
     }
 
     useEffect
-    (
-        ()=>
-        {
-                 IsLiked()
-                 getUserDetails()
-           
-        }
-        ,
-        []
-    )
+        (
+            () => {
+                IsLiked()
+
+
+            }
+            ,
+            []
+        )
 
     const LikeAction = async () => {
         const res = await firestore()
@@ -195,9 +172,7 @@ const VideoReview = (props) => {
 
             setliked(false)
 
-
-
-            setdynamic({...dynamic,likes:dynamic.likes-1})
+            setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
 
             await firestore()
                 .collection('Likes')
@@ -207,56 +182,69 @@ const VideoReview = (props) => {
                 .delete()
 
             await firestore()
-            .collection('Videos')
-            .doc(data.id)
-            .update
-            (
-                {
-                    likes:firebase
-                    .firestore
-                    .FieldValue
-                    .increment(-1)
-                }
-            )
+                .collection('Videos')
+                .doc(data.id)
+                .update
+                (
+                    {
+                        likes: firebase
+                            .firestore
+                            .FieldValue
+                            .increment(-1)
+                    }
+                )
 
             await firestore()
-            .collection('Users')
-            .doc(auth().currentUser.uid)
-            .update
-            (
-                {
-                    likes:firebase
-                    .firestore
-                    .FieldValue
-                    .increment(-1)
-                }
-            )
+                .collection('Users')
+                .doc(data.channelID)
+                .update
+                (
+                    {
+                        likes: firebase
+                            .firestore
+                            .FieldValue
+                            .increment(-1)
+                    }
+                )
         }
         else {
-                setdynamic({...dynamic,likes:dynamic.likes+1})
+            setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
 
-                setliked(true)
-                await firestore()
-                    .collection('Likes')
-                    .doc(data.id)
-                    .collection('lookups')
-                    .doc(auth().currentUser.uid)
-                    .set({})
-                    
+            setliked(true)
             await firestore()
-            .collection('Videos')
-            .doc(data.id)
+                .collection('Likes')
+                .doc(data.id)
+                .collection('lookups')
+                .doc(auth().currentUser.uid)
+                .set({})
+
+            await firestore()
+                .collection('Videos')
+                .doc(data.id)
+                .update
+                (
+                    {
+                        likes: firebase.firestore
+                            .FieldValue
+                            .increment(1)
+                    }
+                )
+        }
+
+        await firestore()
+            .collection('Users')
+            .doc(data.channelID)
             .update
             (
                 {
-                    likes:firebase.firestore
-                    .FieldValue
-                    .increment(1)
+                    likes: firebase
+                        .firestore
+                        .FieldValue
+                        .increment(1)
                 }
             )
-            }
 
-        
+
     }
 
 
@@ -267,76 +255,56 @@ const VideoReview = (props) => {
 
 
             <TouchableOpacity
-            onPress={
-                ()=>navigation.navigate('userDetails',{
-                    channelThumbnail:data.channelThumbnail,
-                    channelID:data.channelID,
-                    chanalName:data.channelName
-                })
-            }
+                onPress={
+                    () => navigation.navigate('CreaterDetails', {
+                        channelThumbnail: data.channelThumbnail,
+                        channelID: data.channelID,
+                        chanalName: data.channelName
+                    })
+                }
             >
 
 
-              {
-                channal.photoURL!="" &&
-     
-               <RoundImage    
-                imageURL={channal.photoURL}
-                >
-                </RoundImage>
-              
+                {
+                    channel.photoURL != "" &&
+
+                    <RoundImage
+                        imageURL={channel.photoURL}
+                    >
+                    </RoundImage>
+
                 }
-              
-            </TouchableOpacity>    
-           <TouchableOpacity
+
+            </TouchableOpacity>
+            <TouchableOpacity
                 onPress={() => LikeAction()}
             >
                 <View
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginVertical: 10
-                    }}
+                    style={styles.effectContainer}
                 >
-
-                
                     <View
-                        style={{
-                            backgroundColor: "#fff"
-                            ,
-
-                            height: 70,
-                            width: 70,
-                            borderRadius: 15,
-                            opacity: 0.2
-                        }}
+                        style={styles.blurBackground}
                     >
-
-
                     </View>
 
                     <View
-                        style={
-                            {
-                                position: "absolute"
-                            }
-                        }
+                        style={styles.blurFreeView}
                     >
 
-                <Animated.View
-                
-                style={{ transform: [{ scale: anim.current }]}}>
-          
-                        <FontAwesome5
-                            name="heart"
-                            solid={(liked) ? true : false}
-                            size={30}
-                            color={
-                                "red"
-                            }
-                        >
+                        <Animated.View
 
-                        </FontAwesome5>
+                            style={{ transform: [{ scale: anim.current }] }}>
+
+                            <FontAwesome5
+                                name="heart"
+                                solid={(liked) ? true : false}
+                                size={30}
+                                color={
+                                    "red"
+                                }
+                            >
+
+                            </FontAwesome5>
                         </Animated.View>
                         <Text
                             style={{
@@ -345,104 +313,72 @@ const VideoReview = (props) => {
                                 textAlign: 'center'
                             }}
                         >{dynamic.likes}</Text>
-                        
-                    </View>
-
-              
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-             onPress={() => navigation.navigate('Comments', { key: data.id })}
-            >
-            <View
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginVertical: 10
-                }}
-            >
-
-                <View
-                    style={{
-                        backgroundColor: "#fff"
-                        ,
-
-                        height: 70,
-                        width: 70,
-                        borderRadius: 15,
-                        opacity: 0.3
-                    }}
-                >
-
-
-                </View>
-
-                <View
-                    style={
-                        {
-                            position: "absolute"
-                        }
-                    }
-                >
-
-                    <FontAwesome5
-                        name="comment-dots"
-                        size={30}
-                        color={
-                            "#fff"
-                        }
-                    >
-
-                    </FontAwesome5>
-                    <Text
-                        style={{
-                            fontSize: 18,
-                            color: "#fff",
-                            textAlign: 'center'
-                        }}
-                    >{dynamic.comments}</Text>
-
-                </View>
-
-
-
-
-            </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-             
-             
-             onPress={()=>share()}
-            >
-                <View
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginVertical: 10
-                    }}
-                >
-
-                    <View
-                        style={{
-                            backgroundColor: "#fff"
-                            ,
-
-                            height: 70,
-                            width: 70,
-                            borderRadius: 15,
-                            opacity: 0.1
-                        }}
-                    >
-
 
                     </View>
 
+
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Comments', { key: data.id })}
+            >
+                <View
+                    style={styles.effectContainer}
+                >
+
                     <View
-                        style={
-                            {
-                                position: "absolute"
+                        style={styles.blurBackground}
+                    >
+                    </View>
+
+                    <View
+                        style={styles.blurFreeView
+                        }
+                    >
+
+                        <FontAwesome5
+                            name="comment-dots"
+                            size={30}
+                            color={
+                                "#fff"
                             }
+                        >
+
+                        </FontAwesome5>
+                        <Text
+                            style={{
+                                fontSize: 18,
+                                color: "#fff",
+                                textAlign: 'center'
+                            }}
+                        >{dynamic.comments}</Text>
+
+                    </View>
+
+
+
+
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+
+
+                onPress={() => share()}
+            >
+                <View
+                    style={styles.effectContainer}
+                >
+
+                    <View
+                        style={styles.blurBackground}
+                    >
+
+
+                    </View>
+
+                    <View
+                        style={styles.blurFreeView
                         }
                     >
 
@@ -461,7 +397,7 @@ const VideoReview = (props) => {
 
                 </View>
             </TouchableOpacity>
-        
+
         </View>
     )
 
@@ -478,6 +414,27 @@ const styles = StyleSheet.create
                 right: 5,
                 bottom: 100,
 
+            },
+            effectContainer:
+            {
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginVertical: 10
+            },
+            blurBackground:
+            {
+                backgroundColor: "#fff"
+                ,
+
+                height: 70,
+                width: 70,
+                borderRadius: 15,
+                opacity: 0.2
+            },
+            blurFreeView:
+
+            {
+                position: "absolute"
             }
         }
     )
