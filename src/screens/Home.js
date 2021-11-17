@@ -16,115 +16,74 @@ import VideoPlayer from "../components/VideoPlayer"
 import { getHomeFeedVideos } from "../redux/Actions/HomeActions"
 
 
-const {height,width}=Dimensions.get('screen')
+const { height, width } = Dimensions.get('screen')
 
-const Home = () =>
-{
+const Home = () => {
 
 
-    const dispatch=useDispatch()
-    const Videos=useSelector(state=>state.Home.HomeVideos)
+    const dispatch = useDispatch()
+    const Videos = useSelector(state => state.Home.HomeVideos)
 
-    const listRef=useRef()
+    const listRef = useRef()
 
-    const renderItem=({item,index})=>
-    {
-        return(
-          
+    const renderItem = ({ item, index }) => {
+        return (
+
             <View
-            style={
-                {
-                    height:'100%',
-                    width:'100%'
+                style={
+                    {
+                        height: '100%',
+                        width: '100%'
+                    }
                 }
-            }
             >
-            <VideoPlayer
-            data={item}
-            ></VideoPlayer>
+                <VideoPlayer
+                    data={item}
+                ></VideoPlayer>
             </View>
-          
+
         )
     }
 
-
- 
     useEffect
-    (
-        ()=>
-        {
-            dispatch(getHomeFeedVideos())
-        },
-        []
-    )
-       
-    return(
+        (
+            () => {
+                dispatch(getHomeFeedVideos())
+            },
+            []
+        )
+
+    return (
 
         <View
-        style={{
-            flex:1,
-            backgroundColor:'black'
-        }}
+            style={{
+                flex: 1,
+                backgroundColor: 'black'
+            }}
         >
 
             <FlatList
-            ref={listRef}
-            style={{
-                
-              flex:1,
-            
-                          }}
-
-      
-            
-                          contentContainerStyle={
-                              {
-                                  flexGrow:1
-                              }
-                          }
-            ListEmptyComponent={
-                <View
-                style={
+                ref={listRef}
+                style={{ flex: 1 }}
+                contentContainerStyle={
                     {
-                    
-                        borderWidth:1,
-                        height:50,
-                        borderColor:"#fff",
-                        marginTop:height/2.5,
-                        justifyContent:"center",
-                        alignItems:'center',
-                        
-                        //position:'absolute',
-                        //top:'50%'
+                        flexGrow: 1
                     }
                 }
-                >
-                    <Text
-                    style={
-                        {
-                            color:"#fff"
-                        }
-                    }
-                    >No Videos HERE!!</Text>
-                </View>
-            }
-
-
-            maxToRenderPerBatch={2}
-            data={Videos}
-            keyExtractor={(item)=>item.id}
-            snapToInterval={height}
-            snapToAlignment={'center'}
-            renderItem={renderItem}
+               
+                maxToRenderPerBatch={2}
+                data={Videos}
+                keyExtractor={(item) => item.id}
+                snapToInterval={height}
+                snapToAlignment={'center'}
+                renderItem={renderItem}
 
             >
 
             </FlatList>
-        
-
         </View>
     )
-    
+
 }
 
 export default Home

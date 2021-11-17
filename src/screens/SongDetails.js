@@ -38,7 +38,6 @@ const SongDetails = ({ navigation }) => {
         //  console.log(item)
         return (
             <TouchableOpacity
-
                 onPress={
                     () => navigation.navigate(
                         "UserVideoPlayer",
@@ -50,13 +49,11 @@ const SongDetails = ({ navigation }) => {
                 }
 
             >
-
                 <VideoPreviewCard
                     data={
                         item
                     }
                 >
-
                 </VideoPreviewCard>
 
             </TouchableOpacity>
@@ -81,8 +78,6 @@ const SongDetails = ({ navigation }) => {
         []
     )
 
-
-
     return (
         <View
             style={
@@ -92,8 +87,6 @@ const SongDetails = ({ navigation }) => {
                 }
             }
         >
-
-
             <View
                 style={
                     {
@@ -130,6 +123,7 @@ const SongDetails = ({ navigation }) => {
                         }
                         resizeMode={"cover"}
                     ></Image>
+
                     <View
                         style={{
                             flexDirection: "row",
@@ -160,10 +154,9 @@ const SongDetails = ({ navigation }) => {
                             {data.SongName}
                         </Text>
                     </View>
-
-
                 </View>
               </View>
+
             <View
                 style={{
                     height: '70%',
@@ -178,7 +171,6 @@ const SongDetails = ({ navigation }) => {
 
                         }
                     }
-
                     refreshControl={
                         <RefreshControl
                             onRefresh={onRefreash}
@@ -194,11 +186,9 @@ const SongDetails = ({ navigation }) => {
                     keyExtractor={item => item.id}
 
                 >
-
                 </FlatList>
 
             </View>
-
 
         </View>
     )

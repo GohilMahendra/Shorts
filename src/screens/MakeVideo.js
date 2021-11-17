@@ -23,8 +23,6 @@ const MakeVideo = () => {
 
     const [visible, setVisble] = useState(false)
 
-
-
     const TimeStamp = date.valueOf()
 
     const HideModal = () => {
@@ -36,8 +34,6 @@ const MakeVideo = () => {
         <View
             style={styles.Container}
         >
-
-
 
             <TouchableOpacity
                 onPress={() => setVisble(true)}
@@ -54,6 +50,7 @@ const MakeVideo = () => {
                     }
                 >Record Video</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
                 onPress={() => setVisble(true)}
                 style={
@@ -69,7 +66,6 @@ const MakeVideo = () => {
                     }
                 >Upload Video</Text>
             </TouchableOpacity>
-
 
             <Modal
                 onBackButtonPress={() => setVisble(false)}
@@ -95,7 +91,7 @@ const styles = StyleSheet.create
                 justifyContent: 'center',
                 backgroundColor: 'black',
                 flex: 1,
-              
+
                 alignItems: 'center'
             },
             Btn:
@@ -103,7 +99,7 @@ const styles = StyleSheet.create
                 backgroundColor: 'blue',
                 height: 50,
                 width: 100,
-                margin:10,
+                margin: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 15,

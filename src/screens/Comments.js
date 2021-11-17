@@ -60,23 +60,16 @@ const Comments=()=>
         style={styles.container}
         >
 
-
         <FlatList
-        
-
         refreshControl={
             <RefreshControl
             onRefresh={getComments}
             refreshing={refr}
             >
-
             </RefreshControl>
         }
 
         data={comments}
-
-        
-
         onEndReached={
             ()=>dispatch(FetchMoreComments())
         }
@@ -86,16 +79,10 @@ const Comments=()=>
 
         />
 
-
-
         <AddComments
-        
-
-
         videoID={p.params.key}
 
         >
-
         </AddComments>
 
         </View>
