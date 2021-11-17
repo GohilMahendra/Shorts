@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 
 import firestore, { firebase } from '@react-native-firebase/firestore'
 const CommentCard = (props) => {
@@ -42,96 +42,41 @@ const CommentCard = (props) => {
 
     return (
         <View
-            style={{
-
-                maxHeight: 200,
-                height: 150,
-               marginVertical: 10,
-               marginHorizontal:20
-
-            }}
-            collapsable={true}
+            style={styles.Container}
+          //  collapsable={true}
         >
 
             <View
-                style={
-                    {
-                        flex: 1,
-                        opacity: 0.2,
-                        backgroundColor: '#fff',
-                        borderRadius: 20
-                    }
-                }
+                style={styles.blurContainer}
             >
             </View>
             <View
-                style={
-                    {
-                        flex: 1,
-                        position: "absolute",
-                        alignItems: "center",
-                        backgroundColor: "transparent"
-
-
-                    }
-                }
+                style={styles.blurFreeView}
             >
                 <View
-                    style={
-                        {
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: "center"
-                        }
-                    }
+                    style={styles.detailsContainer}
                 >
                    {(userDetails.photoURL!="") ? <Image
                         source={{uri:userDetails.photoURL}}
-
                         resizeMode={'cover'}
-                        style={
-                            {
-                                height: 50,
-                                width: 50,
-                                backgroundColor: '#fff',
-                                borderRadius: 70,
-                                margin: 10
-                            }
-                        }
+                        style={styles.imgUser}
 
                     />:
-                    <View
-                     
-                        style={
-                            {
-                                height: 50,
-                                width: 50,
-                                backgroundColor: '#fff',
-                                borderRadius: 70,
-                                margin: 10
-                            }
-                        }
 
+                    <View
+                        style={styles.blankImageView}
                     />
                     }
+
                     <View>
                         <Text
-                            style={
-                                {
-                                    color: "#fff",
-                                    fontSize: 20
-                                }
-                            }
+                            style={styles.txtUserName}
                         >
                             {userDetails.userName}
                         </Text>
+
                         <Text
-                            style={
-                                {
-                                    color: "#fff",
-                                    fontSize: 15
-                                }
-                            }
+                            style={styles.txtDate }
                         >
                             {data.Date}
                         </Text>
@@ -142,12 +87,8 @@ const CommentCard = (props) => {
 
                 <Text
 
-                    style={{
-                        color: '#fff',
-                        fontSize: 17,
-                        alignSelf: 'flex-start',
-                        marginHorizontal: 20
-                    }}
+                    numberOfLines={4}
+                    style={styles.txtComment}
                 >{data.comment}</Text>
             </View>
 
@@ -156,4 +97,82 @@ const CommentCard = (props) => {
     )
 }
 
+const styles=StyleSheet.create
+
+(
+    {
+        Container:
+        {
+           maxHeight: 200,
+           height: 150,
+           marginVertical: 10,
+           marginHorizontal:20
+
+        },
+        blurContainer:
+        
+        {
+            flex: 1,
+            opacity: 0.2,
+            backgroundColor: '#fff',
+            borderRadius: 20
+        },
+        blurFreeView:
+        
+        {
+            flex: 1,
+           
+            position: "absolute",
+            alignItems: "center",
+            backgroundColor: "transparent"
+
+
+        },
+        detailsContainer:
+        
+        {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: "center"
+        },
+        imgUser:
+        
+        {
+            height: 50,
+            width: 50,
+            backgroundColor: '#fff',
+            borderRadius: 70,
+            margin: 10
+        },
+        blankImageView:
+        
+        {
+            height: 50,
+            width: 50,
+            backgroundColor: '#fff',
+            borderRadius: 70,
+            margin: 10
+        },
+        txtUserName:
+        
+        {
+            color: "#fff",
+            fontSize: 20
+        },
+        txtComment:
+        {
+            color: '#fff',
+            fontSize: 17,
+            alignSelf: 'flex-start',
+            marginHorizontal: 20
+        },
+        txtDate:        
+        {
+            color: "#fff",
+            fontSize: 15
+        }
+
+
+    }
+)
 export default CommentCard

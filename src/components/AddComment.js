@@ -42,11 +42,7 @@ const AddComments = (videoID) => {
                 backgroundColor: "transparent",
                 position: 'absolute',
                 bottom: 5,
-            
-                maxHeight:150,
-
-
-
+                maxHeight:100,
             }}
 
         >
@@ -73,16 +69,19 @@ const AddComments = (videoID) => {
 
                         margin: 20,
                         borderWidth: 0.5,
-                        maxHeight:150,
+                        maxHeight:100,
                         borderRadius: 15,
                         height: Math.max(50,height),
                         width: '70%',
-                        backgroundColor: '#A9A9A9'
+                        color:'#fff',
+                        padding:15,
+                        backgroundColor: '#282C35'
                     }}
                     multiline={true}
 
-                    numberOfLines={5}
-                    maxLength={150}
+                    numberOfLines={4}
+                    
+                    maxLength={100}
                     returnKeyType="done"
                     returnKeyLabel="submit"
                     clearButtonMode={"always"}

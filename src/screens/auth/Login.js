@@ -1,5 +1,5 @@
 
-import React,{useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 
 import { StyleSheet, Text, View } from "react-native"
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
@@ -11,46 +11,41 @@ import ForgotPassword from "../../components/Auth/ForgotPassword"
 import firestore from "@react-native-firebase/firestore";
 import { useValue } from "react-native-reanimated"
 import { useSelector } from "react-redux"
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 
-    const [email,setEmail]=useState()
-    const [password,setPassword]=useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
 
-    const [passwordForgot,setPasswordForgot]=useState(false)
+    const [passwordForgot, setPasswordForgot] = useState(false)
 
     useEffect
-    (
-        ()=>
-        {
-            
-
-            const subscription=auth().onAuthStateChanged
-            (
-                (user)=>
-                {
-                
-                    console.log(user)
-                   
-                    if(user!=null)
-                    {
-                        navigation.navigate("HomeTabs")
-                    }
-                }
-            )
-
-            return ()=>subscription()
-        },
-
-        []
-    )
-    const onSignIn=async()=>
-    {
-        const user=await auth().signInWithEmailAndPassword(email,password)
+        (
+            () => {
 
 
-      
-        if(user)
-        {
+                const subscription = auth().onAuthStateChanged
+                    (
+                        (user) => {
+
+                            console.log(user)
+
+                            if (user != null) {
+                                navigation.navigate("HomeTabs")
+                            }
+                        }
+                    )
+
+                return () => subscription()
+            },
+
+            []
+        )
+    const onSignIn = async () => {
+        const user = await auth().signInWithEmailAndPassword(email, password)
+
+
+
+        if (user) {
             navigation.navigate('HomeTabs')
         }
     }
@@ -59,20 +54,20 @@ const Login = ({navigation}) => {
         <View style={styles.Container}>
 
 
-
-    
             <View style={styles.greetingsContainer}>
-            <Text
-                style={styles.greetings}
-            >WELCOME</Text>
-            
-            <Text
-                style={styles.greetingsSupportingText}
-            >Sign In Here</Text>
+                <Text
+                    style={styles.greetings}
+                >WELCOME</Text>
+
+                <Text
+                    style={styles.greetingsSupportingText}
+                >Sign In Here</Text>
             </View>
+
+
             <TextInput
                 value={email}
-                onChangeText={(text)=>setEmail(text)}
+                onChangeText={(text) => setEmail(text)}
                 clearButtonMode={"always"}
                 placeholderTextColor="#fff"
                 maxLength={50}
@@ -84,8 +79,8 @@ const Login = ({navigation}) => {
 
             </TextInput>
             <TextInput
-               value={password}
-               onChangeText={(text)=>setPassword(text)}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
                 maxLength={50}
                 placeholderTextColor="#fff"
                 placeholder="Password"
@@ -101,10 +96,8 @@ const Login = ({navigation}) => {
             </TextInput>
 
 
-
-
             <TouchableOpacity
-                onPress={()=>onSignIn()}
+                onPress={() => onSignIn()}
                 style={styles.btnContainer}
             >
 
@@ -114,19 +107,23 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-            onPress={()=>setPasswordForgot(true)}
+                onPress={() => setPasswordForgot(true)}
             >
-            <Text style={[styles.signuptext,{marginHorizontal:20,
-                marginTop:10,alignSelf:'center'}]}>
+                <Text style={[styles.signuptext, {
+                    marginHorizontal: 20,
+                    marginTop: 10, alignSelf: 'center'
+                }]}>
                     FORGOT PASSWORD ?</Text>
             </TouchableOpacity>
+
+            
             <View
-            style={styles.signupContainer}
+                style={styles.signupContainer}
             >
                 <Text style={styles.signuptext}>
                     DONT HAVE ACCOUNT YET?</Text>
                 <TouchableOpacity
-                onPress={()=>navigation.navigate('SignUp')}
+                    onPress={() => navigation.navigate('SignUp')}
                 >
                     <Text style={styles.signupbtn}>Sign Up here!</Text>
                 </TouchableOpacity>
@@ -134,10 +131,10 @@ const Login = ({navigation}) => {
 
             {passwordForgot &&
 
-                <ForgotPassword/>
+                <ForgotPassword />
             }
 
-            
+
         </View>
     )
 
@@ -163,7 +160,7 @@ const styles = StyleSheet.create
                 backgroundColor: "#282C35",
                 height: 70,
                 margin: 20,
-                padding:20,
+                padding: 20,
                 borderRadius: 15
 
             },
@@ -187,10 +184,10 @@ const styles = StyleSheet.create
             },
             greetingsContainer:
             {
-                alignSelf:"center",
-                padding:15,
-                borderRadius:20,
-                
+                alignSelf: "center",
+                padding: 15,
+                borderRadius: 20,
+
             }
             ,
             greetings:
@@ -207,17 +204,17 @@ const styles = StyleSheet.create
             },
             signupContainer:
             {
-                flexDirection:'row',
-                justifyContent:"space-around",
-                margin:20
+                flexDirection: 'row',
+                justifyContent: "space-around",
+                margin: 20
             },
             signuptext:
             {
-                color:'#fff'
+                color: '#fff'
             },
             signupbtn:
             {
-                color:'#fff'
+                color: '#fff'
             }
 
         }
