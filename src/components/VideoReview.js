@@ -1,35 +1,25 @@
-import { isTemplateElement } from "@babel/types";
 import { firebase } from "@react-native-firebase/firestore";
 import React, { useDebugValue, useCallback, useRef, useEffect, useState } from "react";
 
 import { View, Image, Text, StyleSheet, Dimensions, Animated, Pressable } from 'react-native'
-import CustomBlueView from "./CustomBlurView";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 
 
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoundImage from "./RoundImage";
-import { Easing } from "react-native-reanimated";
 
-import getPath from '@flyerhq/react-native-android-uri-path'
 import Share from "react-native-share";
 import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
-//import Animated ,{}from "react-native-reanimated";
-const { height, width } = Dimensions.get('screen')
+
 const VideoReview = (props) => {
 
-
-
-
     const { data, channel } = props
-
-
-    console.log(data.VideoUrl)
 
     const navigation = useNavigation()
 
@@ -266,12 +256,28 @@ const VideoReview = (props) => {
 
 
                 {
-                    channel.photoURL != "" &&
+                    channel.photoURL != "" ?
 
-                    <RoundImage
-                        imageURL={channel.photoURL}
-                    >
-                    </RoundImage>
+                        <RoundImage
+                            imageURL={channel.photoURL}
+                        >
+                        </RoundImage>
+                        :
+                        <View
+                            style={
+                                {
+
+                                    height: 70,
+                                    width: 70,
+                                    borderRadius: 70,
+                                    alignItems: "center",
+                                    justifyContent: 'center'
+
+                                }
+                            }
+                        >
+                            <Text>{channel.userName[0, 2]}</Text>
+                        </View>
 
                 }
 
@@ -362,8 +368,6 @@ const VideoReview = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-
-
                 onPress={() => share()}
             >
                 <View

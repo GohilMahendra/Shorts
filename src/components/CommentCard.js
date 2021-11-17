@@ -14,36 +14,35 @@ const CommentCard = (props) => {
     const { data } = props
 
 
-    const [userDetails,setUserDetails]=useState({})
-    
+    const [userDetails, setUserDetails] = useState({})
 
-    const getUserDetails=async()=>
-    {
-        
-        const user=await firestore().collection('Users').
+
+    const getUserDetails = async () => {
+
+        const user = await firestore()
+        .collection('Users').
         doc(data.id).get()
 
         setUserDetails(user.data())
 
-        
+
     }
     useEffect
-    (
+        (
 
-        ()=>
-        {
+            () => {
 
-            getUserDetails()
+                getUserDetails()
 
-        },
-        []
-        
-    )
+            },
+            []
+
+        )
 
     return (
         <View
             style={styles.Container}
-          //  collapsable={true}
+        //  collapsable={true}
         >
 
             <View
@@ -56,16 +55,16 @@ const CommentCard = (props) => {
                 <View
                     style={styles.detailsContainer}
                 >
-                   {(userDetails.photoURL!="") ? <Image
-                        source={{uri:userDetails.photoURL}}
+                    {(userDetails.photoURL != "") ? <Image
+                        source={{ uri: userDetails.photoURL }}
                         resizeMode={'cover'}
                         style={styles.imgUser}
 
-                    />:
+                    /> :
 
-                    <View
-                        style={styles.blankImageView}
-                    />
+                        <View
+                            style={styles.blankImageView}
+                        />
                     }
 
                     <View>
@@ -76,7 +75,7 @@ const CommentCard = (props) => {
                         </Text>
 
                         <Text
-                            style={styles.txtDate }
+                            style={styles.txtDate}
                         >
                             {data.Date}
                         </Text>
@@ -97,82 +96,82 @@ const CommentCard = (props) => {
     )
 }
 
-const styles=StyleSheet.create
+const styles = StyleSheet.create
 
-(
-    {
-        Container:
+    (
         {
-           maxHeight: 200,
-           height: 150,
-           marginVertical: 10,
-           marginHorizontal:20
+            Container:
+            {
+                maxHeight: 200,
+                height: 150,
+                marginVertical: 10,
+                marginHorizontal: 20
 
-        },
-        blurContainer:
-        
-        {
-            flex: 1,
-            opacity: 0.2,
-            backgroundColor: '#fff',
-            borderRadius: 20
-        },
-        blurFreeView:
-        
-        {
-            flex: 1,
-           
-            position: "absolute",
-            alignItems: "center",
-            backgroundColor: "transparent"
+            },
+            blurContainer:
+
+            {
+                flex: 1,
+                opacity: 0.2,
+                backgroundColor: '#fff',
+                borderRadius: 20
+            },
+            blurFreeView:
+
+            {
+                flex: 1,
+
+                position: "absolute",
+                alignItems: "center",
+                backgroundColor: "transparent"
 
 
-        },
-        detailsContainer:
-        
-        {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: "center"
-        },
-        imgUser:
-        
-        {
-            height: 50,
-            width: 50,
-            backgroundColor: '#fff',
-            borderRadius: 70,
-            margin: 10
-        },
-        blankImageView:
-        
-        {
-            height: 50,
-            width: 50,
-            backgroundColor: '#fff',
-            borderRadius: 70,
-            margin: 10
-        },
-        txtUserName:
-        
-        {
-            color: "#fff",
-            fontSize: 20
-        },
-        txtComment:
-        {
-            color: '#fff',
-            fontSize: 17,
-            alignSelf: 'flex-start',
-            marginHorizontal: 20
-        },
-        txtDate:        
-        {
-            color: "#fff",
-            fontSize: 15
+            },
+            detailsContainer:
+
+            {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: "center"
+            },
+            imgUser:
+
+            {
+                height: 50,
+                width: 50,
+                backgroundColor: '#fff',
+                borderRadius: 70,
+                margin: 10
+            },
+            blankImageView:
+
+            {
+                height: 50,
+                width: 50,
+                backgroundColor: '#fff',
+                borderRadius: 70,
+                margin: 10
+            },
+            txtUserName:
+
+            {
+                color: "#fff",
+                fontSize: 20
+            },
+            txtComment:
+            {
+                color: '#fff',
+                fontSize: 17,
+                alignSelf: 'flex-start',
+                marginHorizontal: 20
+            },
+            txtDate:
+            {
+                color: "#fff",
+                fontSize: 15
+            }
+
+
         }
-
-
-    }
-)
+    )
 export default CommentCard

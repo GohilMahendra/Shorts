@@ -38,7 +38,6 @@ const UserVideoPlayer=({navigation})=>
    // const curruntVideo=useState(route.params.index)
     const renderItem=({item,index})=>
     {
-        console.log(item)
         return(
             <VideoPlayer
             

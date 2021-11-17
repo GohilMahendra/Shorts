@@ -26,6 +26,8 @@ export default RoundImage=({imageURL})=>
         >
 
 
+
+        
             <Image
             source={
                 {

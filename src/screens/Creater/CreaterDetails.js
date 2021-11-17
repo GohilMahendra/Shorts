@@ -33,6 +33,12 @@ const CreaterDetails = ({ navigation }) => {
     const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)
 
 
+    const followCreater=()=>
+    {
+     
+    }
+
+
     const getFOllowing=async()=>
     {
         const isExist=await firestore().collection('Following').

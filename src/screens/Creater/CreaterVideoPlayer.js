@@ -26,24 +26,33 @@ const CreaterVideoPlayer=({navigation})=>
 
     const dispatch=useDispatch()
   
-
-    //useSelector(state=>console.log(state))
-    
+  
     const Videos=
   
-    useSelector(
-            state=>state.Creater.CreaterVideos
+    useSelector(           state=>state.Creater.CreaterVideos
     )
+
+
+   
 
    // const curruntVideo=useState(route.params.index)
     const renderItem=({item,index})=>
     {
-        console.log(item)
         return(
+
+            <View
+            style={
+                {
+                    height:'100%',
+                    width:'100%'
+                }
+            }
+            >
             <VideoPlayer
             
             data={item}
             ></VideoPlayer>
+            </View>
         )
     }
 
@@ -52,7 +61,7 @@ const CreaterVideoPlayer=({navigation})=>
         <View
         style={{
             flex:1,
-            backgroundColor:'#fff'
+            backgroundColor:'black'
         }}
         >
 
@@ -63,15 +72,22 @@ const CreaterVideoPlayer=({navigation})=>
               flex:1
             }}
 
-            // initialScrollIndex={
-            //     Videos.length>0?route.params.index:0
-            // }
+
+            contentContainerStyle={
+            {
+                flexGrow:1
+            }
+            }
             data={Videos}
             keyExtractor={(item)=>item.id}
             scrollEnabled={true}
             snapToInterval={height}
             maxToRenderPerBatch={2}
 
+            initialScrollIndex={
+                route.params.index!=undefined?
+                route.params.index:0
+            }
             //snapToInterval={curruntVideo}
             renderItem={renderItem}
 

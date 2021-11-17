@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-import {Image, RefreshControl, StyleSheet, Text,View} from 'react-native'
+import { Image, RefreshControl, StyleSheet, Text, View } from 'react-native'
 
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
@@ -21,103 +21,66 @@ import RoundImage from '../../components/RoundImage'
 
 
 import {
-    
-} from 
-'react-native-elements'
+
+} from
+    'react-native-elements'
 import { Colors } from '../../constants/colors'
+import InfoBox from '../../components/UserDetails/InfoBox'
 
-const Profile=({navigation})=>
-{
+const Profile = ({ navigation }) => {
 
-    const dispatch=useDispatch()
-    const userDetails=useSelector(state=>state.Profile.userProfile)
+    const dispatch = useDispatch()
+    const userDetails = useSelector(state => state.Profile.userProfile)
 
 
-    
-   const UserDetailsLoad=useSelector(state=>state.Profile.UserDetailsLoad)
-   const UserDetailsError=useSelector(state=>state.Profile.UserDetailsError)
+
+    const UserDetailsLoad = useSelector(state => state.Profile.UserDetailsLoad)
+    const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
 
     console.log(userDetails)
-    const [selected,setselected]=useState([])
+    const [selected, setselected] = useState([])
 
-    
-    const videos=useSelector(
-            state=>state.Profile.UserVideos
+
+    const videos = useSelector(
+        state => state.Profile.UserVideos
     )
 
     //onsole.log(videos,'videos')
-   const UserVideosLoad=useSelector(
-       state=>state.Profile.UserVideosLoad
-   )
+    const UserVideosLoad = useSelector(
+        state => state.Profile.UserVideosLoad
+    )
 
 
-   const logout=async()=>
-   {
-       dispatch(logOut())
+    const logout = async () => {
+        dispatch(logOut())
         auth().signOut()
-       navigation.navigate('Login')
-   }
-
-   const isPartOflist=(id)=>
-   {
+        navigation.navigate('Login')
+    }
 
 
-    console.log(selected)
-     const found=selected.includes(id)
 
-   
-     return found
-   }
-    
+    const renderItem = ({ item, index }) => {
 
-
-   const [refreashProfile,setRefreashProfile]=useState(false)
- 
-   useEffect
-   (
-       ()=>
-       {
-
-        console.log(selected)
-       },
-       [selected]
-   )
-   
-
-    const renderItem=({item,index})=>
-    {
-
-       let found= isPartOflist(item.id)
-        return(
+        return (
             <TouchableOpacity
-            
-            
-            style={
-                {
-                    opacity:found?0.1:1
+                onPress={
+                    () => navigation.navigate(
+                        "UserVideoPlayer",
+                        {
+                            id: item.id,
+                            index: index
+                        }
+                    )
                 }
-            }
-            onLongPress={
-                ()=>setselected(...selected,item.id)
-            }
-            onPress={
-                ()=>navigation.navigate(
-                    "UserVideoPlayer",
-                    {
-                        id:item.id,
-                        index:index
-                    }
-                )
-            }
-            
-            >
-              <VideoPreviewCard
-              data={
-                  item
-              }
-              >
 
-              </VideoPreviewCard>
+            >
+                <VideoPreviewCard
+                    data={
+                        item
+                    }
+                >
+
+                </VideoPreviewCard>
 
             </TouchableOpacity>
         )
@@ -125,212 +88,189 @@ const Profile=({navigation})=>
     }
 
 
-    const getVideosList=()=>
-    {
+    const getVideosList = () => {
         dispatch(getProfileVideos())
 
     }
 
     useEffect
-    (
-        ()=>
-        {
+        (
+            () => {
 
-          dispatch(getProfileDetails())
-         
-         // getVideosList()
-        },
-        []
-    )
+                dispatch(getProfileDetails())
 
-    
+                // getVideosList()
+            },
+            []
+        )
 
-    
 
-    return(
+    return (
 
 
         <View
-        style={{flex:1
-        ,
-        backgroundColor:'black'
-        }}
-        >   
+            style={styles.Container}
+        >
             <View
-            style={{
-                height:'40%',
-                margin:10,
-                backgroundColor:'transparent',
-              
-            }}
-                
+                style={styles.detailsContainer}
+
             >
                 <ScrollView
-                
-                refreshControl={
-                    <RefreshControl
-                    
-                    refreshing={UserDetailsLoad}
-                    onRefresh={()=>dispatch(getProfileDetails())}
-                    ></RefreshControl>
-                }
+
+                    refreshControl={
+                        <RefreshControl
+
+                            refreshing={UserDetailsLoad}
+                            onRefresh={() => dispatch(getProfileDetails())}
+                        ></RefreshControl>
+                    }
                 >
 
-                <RoundImage
-                imageURL={auth().currentUser.photoURL}
-                />
-          
-            
-               
-                <Text
-                style={{
-                    color:'#fff',
-                    fontSize:20,
-                    alignSelf:'center'
-                }}
-                >
-               
-                {auth().currentUser.displayName}
-                </Text>
-                <View
-                style={{
-                    height:50,
-                    flexDirection:"row",
-                    justifyContent:'space-around',
-                    marginVertical:10
-                }}
-                >
-                    <View style={styles.profileDetailsContainer}>
-                        <Text
+                    <RoundImage
+                        imageURL={auth().currentUser.photoURL}
+                    />
+
+                    <Text
                         style={{
-                            color:"#fff"
+                            color: '#fff',
+                            fontSize: 20,
+                            alignSelf: 'center'
                         }}
+                    >
+                        {auth().currentUser.displayName}
+                    </Text>
+
+                    <InfoBox
+                        followers={userDetails.Followers}
+                        following={userDetails.Following}
+                        likes={userDetails.likes}
+                    />
+
+                    <View
+                        style={styles.btnContainer
+                        }
+                    >
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Edit')}
+                            style={styles.btnEditProfile}
                         >
-                            Follwing
-                        </Text>
-                        <Text style={styles.text}>
-                            {userDetails.Following}
-                        </Text>
-                    </View>
-                    <View style={styles.profileDetailsContainer}>
-                        <Text
-                        style={{
-                            color:"#fff"
-                        }}
+                            <Text style={[styles.text, { color: 'black' }]}>EDIT PROFILE</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => logout()}
+                            style={styles.btnLogout}
                         >
-                            Follwers
-                        </Text>
-                        <Text style={styles.text}>
-                            {userDetails.Followers}
-                        </Text>
+                            <Text style={[styles.text, { color: Colors.White }]}>
+                                Log out
+                            </Text>
+
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.profileDetailsContainer}>
-                        <Text
-                        style={{
-                            color:"#fff"
-                        }}
-                        >
-                            Likes
-                        </Text>
-                        <Text style={styles.text}>
-                            {userDetails.likes}
-                        </Text>
-                    </View>
-                </View>
-                <TouchableOpacity
-                onPress={()=>navigation.navigate('Edit')}
-                style={{
-                    alignSelf:'center',
-                    alignItems:'center',
-                    backgroundColor:'#fff',
-                    padding:10,
-                    borderRadius:10
-                }}
-                >
-                    <Text style={[styles.text,{color:'black'}]}>EDIT PROFILE</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-               onPress={()=>logout()}
-                style={{
-                    alignSelf:'center',
-                    alignItems:'center',
-                    backgroundColor:'red',
-                   
-                    padding:10,
-                    borderRadius:10
-                }}
-                >
-                    <Text style={[styles.text,{color:Colors.White}]}>
-                        LogOut</Text>
-                </TouchableOpacity>
-            </ScrollView>
+                </ScrollView>
             </View>
-           
-           <View
-           style={
-               {
-                height:'70%'
-               }
-           }
-           >
-            <FlatList
-        style={
-            {
-                margin:10,
-               
-            }
-        }
+
+            <View
+                style={styles.VideoContainer}
+            >
+                <FlatList
+                    style={
+                        {
+                            margin: 10,
+
+                        }
+                    }
 
 
-        refreshControl={
-            <RefreshControl
-            refreshing={UserVideosLoad}
-            onRefresh={
-                ()=>getVideosList()
-            }
-            
-            ></RefreshControl>
-        }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={UserVideosLoad}
+                            onRefresh={
+                                () => getVideosList()
+                            }
 
-        data={videos}
+                        ></RefreshControl>
+                    }
 
-        showsVerticalScrollIndicator={true}
-    
-       // zoomScale={5}
-        renderItem={renderItem}
-        numColumns={3}
-        keyExtractor={item=>item.id}
+                    data={videos}
 
-        >
+                    showsVerticalScrollIndicator={true}
 
-        </FlatList>
-        </View>
-        
+                    // zoomScale={5}
+                    renderItem={renderItem}
+                    numColumns={3}
+                    keyExtractor={item => item.id}
+
+                >
+
+                </FlatList>
+            </View>
+
         </View>
     )
 }
 
 
-const styles=StyleSheet.create
-(
-    {
-
-
-        profileDetailsContainer:
+const styles = StyleSheet.create
+    (
         {
-            alignItems:'center',
-            paddingHorizontal:10,
-            borderRightWidth:0.7,
-            borderLeftColor:'#fff',
-            borderLeftWidth:0.7,
-            borderRightColor:"#fff"
-        },
-        text:{
-            color:'#fff',
-            fontSize:18,
-            
-            
+
+
+            profileDetailsContainer:
+            {
+                alignItems: 'center',
+                paddingHorizontal: 10,
+                borderRightWidth: 0.7,
+                borderLeftColor: '#fff',
+                borderLeftWidth: 0.7,
+                borderRightColor: "#fff"
+            },
+            text: {
+                color: '#fff',
+                fontSize: 18,
+
+
+            },
+            btnEditProfile:
+            {
+                alignSelf: 'center',
+                alignItems: 'center',
+                backgroundColor: '#fff',
+                padding: 10,
+                borderRadius: 10
+            },
+            btnContainer:
+
+            {
+                flexDirection: "row",
+                justifyContent: 'space-evenly'
+            },
+            btnLogout:
+            {
+                alignSelf: 'center',
+                alignItems: 'center',
+                backgroundColor: 'red',
+                padding: 10,
+                borderRadius: 10
+            },
+            VideoContainer:
+
+            {
+                height: '70%'
+            },
+            detailsContainer:
+            {
+                height: '40%',
+                margin: 10,
+                backgroundColor: 'transparent',
+
+            },
+            Container:
+            {
+                flex: 1
+                ,
+                backgroundColor: 'black'
+            },
         }
-    }
-)
+    )
 export default Profile
