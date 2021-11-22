@@ -11,10 +11,11 @@ import { FlatList } from "react-native-gesture-handler"
 import { useDispatch, useSelector } from "react-redux"
 import VideoPlayer from "../components/VideoPlayer"
 
-import { getHomeFeedVideos,
-         getMoreFeedVideos
-     }
-      from "../redux/Actions/HomeActions"
+import {
+    getHomeFeedVideos,
+    getMoreFeedVideos
+}
+    from "../redux/Actions/HomeActions"
 
 
 const { height, width } = Dimensions.get('screen')
@@ -27,44 +28,31 @@ const Home = () => {
 
 
 
-    const refs=useRef({})
+    const refs = useRef({})
     const listRef = useRef()
 
-    const renderItem = ({ item, index}) => {
-        
-      
+    const renderItem = ({ item, index }) => {
+
+
         return (
-
-
-
-            
-         
-                <VideoPlayer
-                    ref={ref => {refs.current[item.id] = ref}}
-                    data={item}
-                ></VideoPlayer>
-        
-
+            <VideoPlayer
+                ref={ref => { refs.current[item.id] = ref }}
+                data={item}
+            ></VideoPlayer>
         )
     }
 
 
-
-    const fetchMoreVideos=()=>
-    {
+    const fetchMoreVideos = () => {
 
         dispatch(getMoreFeedVideos())
-       
-
     }
 
-    const onViewRef = React.useRef(({viewableItems,changed})=> {
+    const onViewRef = React.useRef(({ viewableItems, changed }) => {
 
-
-   //     console.log(changed,viewableItems,"dhjvhjsdvhja")
         changed.forEach(item => {
 
-          //  console.log(item)
+            //  console.log(item)
             if (!item.isViewable) {
                 refs.current[item.item.id].pauseVideo(item.isViewable)
             }
@@ -75,17 +63,15 @@ const Home = () => {
 
             }
         });
-
-        
         // Use viewable items in state or as intended
     })
-    const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+    const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 90 })
 
     useEffect
         (
             () => {
                 dispatch(getHomeFeedVideos())
-               
+
             },
             []
         )
@@ -102,21 +88,24 @@ const Home = () => {
             <FlatList
                 ref={listRef}
                 style={{ flex: 1 }}
-              
+
                 maxToRenderPerBatch={5}
                 data={Videos}
-        
+
 
                 viewabilityConfig={viewConfigRef.current}
 
                 onViewableItemsChanged={onViewRef.current}
+
                 keyExtractor={(item) => item.id}
-                snapToInterval={height-250}
+                snapToInterval={height - 250}
+
                 snapToAlignment={'center'}
+
                 onEndReached={
-                    ()=>fetchMoreVideos()
+                    () => fetchMoreVideos()
                 }
-                CellRendererComponent={renderItem}
+                renderItem={renderItem}
 
             >
 

@@ -23,6 +23,9 @@ const MakeVideo = () => {
 
     const [visible, setVisble] = useState(false)
 
+
+    
+
     const TimeStamp = date.valueOf()
 
     const HideModal = () => {
@@ -67,10 +70,14 @@ const MakeVideo = () => {
                 >Upload Video</Text>
             </TouchableOpacity>
 
+
+
+            
+
             <Modal
                 onBackButtonPress={() => setVisble(false)}
 
-
+            
                 isVisible={visible}
             >
                 <VideoUpload

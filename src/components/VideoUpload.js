@@ -20,7 +20,7 @@ import ViewShot, { captureRef } from "react-native-view-shot";
 import getpath from '@flyerhq/react-native-android-uri-path'
 import UploadingLoad from "./UploadingLoad";
 import { useSelector } from "react-redux";
-const VideoUpload = () => {
+const VideoUpload = ({onPress}) => {
 
 
 
@@ -367,8 +367,18 @@ const VideoUpload = () => {
                     >Upload Video</Text>
 
                     <Pressable
+
+                    onPress={()=>onPress()}
                     >
-                        <Text>X</Text>
+                        <Text
+                        style={
+                            {
+                                fontSize:25,
+                                fontWeight:'bold'
+                            }
+
+                        }
+                        >X</Text>
                     </Pressable>
                 </View>
                 <TextInput

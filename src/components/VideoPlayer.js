@@ -132,11 +132,14 @@ export default VideoPlayer = forwardRef((props, ref) => {
                     bufferConfig={
                         {
                             minBufferMs: 1500,
-                            maxBufferMs: 1800
+                            maxBufferMs: 1800,
+                            bufferForPlaybackAfterRebufferMs:1500,
+                            bufferForPlaybackMs:1500
                         }
                     }
 
                     onReadyForDisplay={() => setloading(false)}
+                    
                     onLoadStart={() => setloading(true)}
                     onVideoLoadStart={(e) => console.log(e)}
                     //onVideoProgress={(e)=>console.log(e)}

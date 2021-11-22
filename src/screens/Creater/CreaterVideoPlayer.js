@@ -98,8 +98,8 @@ const CreaterVideoPlayer=({navigation})=>
             viewabilityConfig={viewConfigRef.current}
 
             onViewableItemsChanged={onViewRef.current}
-           
-            //snapToInterval={curruntVideo}
+            
+            snapToInterval={height}
             renderItem={renderItem}
 
             >

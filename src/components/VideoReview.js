@@ -433,7 +433,7 @@ const styles = StyleSheet.create
                 height: 70,
                 width: 70,
                 borderRadius: 15,
-                opacity: 0.2
+                opacity: 0.1
             },
             blurFreeView:
 
