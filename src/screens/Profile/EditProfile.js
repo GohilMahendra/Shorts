@@ -1,7 +1,7 @@
 
 import React
 , { useState }
-from "react"
+    from "react"
 
 import {
     View,
@@ -26,248 +26,225 @@ import { firebase } from "@react-native-firebase/firestore"
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
 
-const EditProfile=()=>
-{
+const EditProfile = () => {
 
 
-    const [userName,setuserName]=useState(auth().currentUser.displayName)
-    const [path,setpath]=useState("")
+    const [userName, setuserName] = useState(auth().currentUser.displayName)
+    const [path, setpath] = useState("")
 
-    const [loading,setloading]=useState(false)
+    const [loading, setloading] = useState(false)
 
-    const update=async()=>
-    {
+    const update = async () => {
 
-        try
-        {
+        try {
 
-        const changeUser=await firestore().collection('Users').doc(
-            auth().currentUser.uid
-        ).update
-        (
-            {
-                userName:userName
-            }
-        )
+            const changeUser = await firestore().collection('Users').doc(
+                auth().currentUser.uid
+            ).update
+                (
+                    {
+                        userName: userName
+                    }
+                )
 
-        const changeAuth=await auth().currentUser.updateProfile(
-        {
-            displayName:userName
-        }
-        )
-
-
-    }
-    catch(err)
-    {
-        console.log(err)
-    }
-
-
-
-
-        if(path!="")
-        await changeImageFromDatabase(path)
-        else
-        setloading(false)
-    }
-
-    const ChangeImageData=async(newUrl)=>
-    {
-
-
-        try
-        {
-
-        const changeUser=await firestore().collection('Users').doc(
-            auth().currentUser.uid
-        ).update
-        (
-            {
-                photoURL:newUrl
-            }
-        )
-
-        const changeAuth=await auth().currentUser.updateProfile(
-        {
-            photoURL:newUrl
-        }
-        )
-
-
-        setloading(false)
-        console.log(changeAuth,changeUser)
-
-    }
-    catch(err)
-    {
-        console.log(err)
-    }
-
-
-    }
-
-    
-    const changeImageFromDatabase=async(uri)=>
-    {
-
-        try
-        {
-
-        
-        const path='Profile/'+auth().currentUser.uid+'/'+auth().currentUser.uid
-
-        let ref=storage().ref(path)
-
-        let task= await ref.putFile(uri)
-
-        console.log(task)
-        let storagepath=await ref.getDownloadURL()
-
-
-
-      await  ChangeImageData(storagepath)
-
-    }
-    catch(err)
-    {
-        console.log(err)
-    }
-
-    }
-
-    const chooseImage=async()=>
-    {
-            launchImageLibrary(
+            const changeAuth = await auth().currentUser.updateProfile(
                 {
-    
-                    mediaType: 'mixed',
-                    selectionLimit: 1,
-                    
-                    quality:0.5,
-                    includeBase64:false
-                },
-    
-                response => {
-                    if (response.didCancel) {
-                        console.log('cancel')
-                    }
-    
-                    else if (!response.didCancel) {
-    
-    
-
-                        setpath(response.assets[0].uri)
-    
-    
-                        
-    
-                    }
-    
+                    displayName: userName
                 }
-    
-            
+            )
+
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+
+
+
+        if (path != "")
+            await changeImageFromDatabase(path)
+        else
+            setloading(false)
+    }
+
+    const ChangeImageData = async (newUrl) => {
+
+
+        try {
+
+            const changeUser = await firestore().collection('Users').doc(
+                auth().currentUser.uid
+            ).update
+                (
+                    {
+                        photoURL: newUrl
+                    }
+                )
+
+            const changeAuth = await auth().currentUser.updateProfile(
+                {
+                    photoURL: newUrl
+                }
+            )
+
+
+            setloading(false)
+            console.log(changeAuth, changeUser)
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+
+    }
+
+
+    const changeImageFromDatabase = async (uri) => {
+
+        try {
+
+
+            const path = 'Profile/' + auth().currentUser.uid + '/' + auth().currentUser.uid
+
+            let ref = storage().ref(path)
+
+            let task = await ref.putFile(uri)
+
+            console.log(task)
+            let storagepath = await ref.getDownloadURL()
+
+
+
+            await ChangeImageData(storagepath)
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    const chooseImage = async () => {
+        launchImageLibrary(
+            {
+
+                mediaType: 'mixed',
+                selectionLimit: 1,
+
+                quality: 0.5,
+                includeBase64: false
+            },
+
+            response => {
+                if (response.didCancel) {
+                    console.log('cancel')
+                }
+                else if (!response.didCancel) {
+                    setpath(response.assets[0].uri)
+                }
+
+            }
         )
     }
 
 
-    return(
+    return (
         <View
-        style={{
-            flex:1,
-            backgroundColor:Colors.MateBlack,
-            alignItems:"center",
-            
-        }}
+            style={{
+                flex: 1,
+                backgroundColor: Colors.MateBlack,
+                alignItems: "center",
+
+            }}
         >
 
-
-
             <RoundImage
-            
-            imageURL={auth().currentUser.photoURL}
+
+                imageURL={auth().currentUser.photoURL}
             />
 
             <TouchableOpacity
-            
 
-            style={
-                {
-                    backgroundColor:Colors.White,
-                    alignItems:'center',
-                    alignSelf:'center',
-                    padding:10,
-                    margin:10,
-                    borderRadius:15,
-                    elevation:15
+
+                style={
+                    {
+                        backgroundColor:'#282C35',
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                        padding: 10,
+                        margin: 10,
+                        borderRadius: 15,
+                        elevation: 15
+                    }
                 }
-            }
 
-            onPress={
-                ()=>chooseImage()
-            }
+                onPress={
+                    () => chooseImage()
+                }
             >
                 <Text
-                style={{
-                    fontSize:20,
-                    fontWeight:'bold',
-                    color:Colors.jetBlack
-                }}
+                    style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        color: '#fff'
+                    }}
                 >Change Profile Picture</Text>
             </TouchableOpacity>
             <View
-            style={{
-                flexDirection:'row',
-                height:50,
-                margin:20,
-                borderRadius:20,
-                backgroundColor:Colors.Teal,
-                justifyContent:'center'
-              
-            }}
-            >
-            <Text
-            style={{
-                padding:5,
-                textAlign:'center',
-                textAlignVertical:'center',
-                color:Colors.White
-                
-            }}
-            >UserName</Text>
-            <TextInput
-            value={userName}
-            onChangeText={text=>setuserName(text)}
-            style={{
-                backgroundColor:Colors.White,
-                flex:1,
-              textAlign:'center',
-                color:Colors.grey
-            }}
-        
-            >
+                style={{
+                    flexDirection: 'row',
+                    height: 50,
+                    margin: 20,
+                    borderRadius: 20,
+                    backgroundColor: Colors.Teal,
+                    justifyContent: 'center'
 
-            </TextInput>
+                }}
+            >
+                <Text
+                    style={{
+                        padding: 5,
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+                        color: Colors.White
+
+                    }}
+                >UserName</Text>
+                <TextInput
+                    value={userName}
+                    onChangeText={text => setuserName(text)}
+                    style={{
+                        backgroundColor: Colors.White,
+                        flex: 1,
+                        textAlign: 'center',
+                        color: Colors.grey
+                    }}
+
+                >
+
+                </TextInput>
             </View>
 
             <TouchableOpacity
 
-            onPress={()=>update()}
-            style={{
-                backgroundColor:'blue',
-                height:50,
-                justifyContent:"center",
-                padding:10,
-                borderRadius:15
-            }}
+                onPress={() => update()}
+                style={{
+                    backgroundColor: 'blue',
+                    height: 50,
+                    justifyContent: "center",
+                    padding: 10,
+                    borderRadius: 15
+                }}
             >
                 <Text
-                style={{
-                    color:Colors.White,
-                    fontSize:20,
-                    textAlign:'center',
-                    justifyContent:"center"
-                }}
+                    style={{
+                        color: Colors.White,
+                        fontSize: 20,
+                        textAlign: 'center',
+                        justifyContent: "center"
+                    }}
                 >
                     SAVE CHNAGES
                 </Text>
@@ -279,18 +256,18 @@ const EditProfile=()=>
 
 export default EditProfile
 
-const styles=StyleSheet.create
-(
-    {
-        Container:
+const styles = StyleSheet.create
+    (
         {
+            Container:
+            {
 
-        },
-        textInput:
-        {
+            },
+            textInput:
+            {
+
+            }
+
 
         }
-
-
-    }
-)
+    )

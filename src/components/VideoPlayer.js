@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import { View, Text, StyleSheet, Image, Dimensions, Pressable } from 'react-native'
 
@@ -8,54 +8,90 @@ import VideoDetails from "./VideoDetails";
 import { ActivityIndicator } from "react-native-paper";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import firestore from '@react-native-firebase/firestore'
+import { useNavigation } from "@react-navigation/core";
 
-const { height, width } = Dimensions.get('window')
-const VideoPlayer = (props) => {
+const { height, width } = Dimensions.get('screen')
+export default VideoPlayer = forwardRef((props, ref) => {
+
 
     const { data } = props
 
     const [paused, setpaused] = useState(false)
 
+    const navigation = useNavigation()
 
-    const [channel,setchannel]=useState(
+
+
+
+
+    useImperativeHandle(
+        ref,
+        () =>
+        (
+            {
+                pauseVideo: () => {
+                    if (!paused)
+                        setpaused(true)
+                },
+                playVideo: () => {
+                    if (paused)
+                        setpaused(false)
+
+                }
+
+            }
+        )
+    )
+
+
+
+    const [channel, setchannel] = useState(
         {
-                userName:"",
-                userID:"",
-                varified:false,
-                Followers:0,
-                photoURL:"",
-                Following:0,
-                likes:0,
+            userName: "",
+            userID: "",
+            varified: false,
+            Followers: 0,
+            photoURL: "",
+            Following: 0,
+            likes: 0,
         }
     )
-     
 
-    const getUserDetails=async()=>
-        {
-            const userDetails=await firestore()
+
+
+
+    const getUserDetails = async () => {
+        const userDetails = await firestore()
             .collection('Users')
             .doc(data.channelID).get()
-    
-            setchannel(userDetails.data())
-    
-    
-        }
 
-   
+        setchannel(userDetails.data())
+
+
+    }
+
+
     const VideoRef = useRef()
+
+
 
     const [loading, setloading] = useState(false)
 
     useEffect
-    (
-        ()=>
-        {
-            getUserDetails()
-        },[]
-    )
+        (
+            () => {
+                getUserDetails()
+            }, []
+        )
 
     return (
         <View
+
+            onLayout={
+                (e) => {
+                    console.log(e.nativeEvent.layout)
+                }
+            }
             style={styles.Container}
         >
 
@@ -65,11 +101,12 @@ const VideoPlayer = (props) => {
                 <Video
 
 
-                    ref={VideoRef}
+                    ref={ref}
 
                     onAudioFocusChanged={
                         () => setpaused(!paused)
                     }
+
 
                     key={data.id}
                     source={
@@ -106,10 +143,9 @@ const VideoPlayer = (props) => {
                     // onProgress={(e)=>console.log(e)}
                     onVideoError={(err) => console.log(err)}
                     style={{
-
-                     height:'100%',
-                     width:'100%',
-                    // backgroundColor:'blue'
+                        height: '100%',
+                        width: '100%',
+                        //backgroundColor:'blue'
                     }}
                 >
 
@@ -162,20 +198,19 @@ const VideoPlayer = (props) => {
     )
 
 }
+)
 
 const styles = StyleSheet.create
     (
         {
             Container:
             {
-               // height:500,
-                //backgroundColor:'#fff', 
-         
-                flex:1,
-               // backgroundColor:"blue"          
-              
+
+
+                height: height - 148,
+                width: width
+
             }
         }
     )
 
-export default VideoPlayer

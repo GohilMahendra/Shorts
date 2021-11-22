@@ -1,7 +1,7 @@
 
 
 
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useRef } from "react";
 
 import {
     View,Text,FlatList, Dimensions
@@ -14,6 +14,7 @@ import {
     useDispatch,useSelector
  } from "react-redux";
 import { useRoute } from "@react-navigation/core";
+import { configureFonts } from "react-native-paper";
 
 const {
     height,width
@@ -26,33 +27,49 @@ const CreaterVideoPlayer=({navigation})=>
 
     const dispatch=useDispatch()
   
+
+    const refsset=useRef({})
   
     const Videos=
   
-    useSelector(           state=>state.Creater.CreaterVideos
+    useSelector(state=>state.Creater.CreaterVideos
     )
 
 
-   
+    
+    const onViewRef = React.useRef(({viewableItems,changed})=> {
+
+
+             changed.forEach(item => {
+     
+                 if (!item.isViewable) {
+
+                    refsset.current[item.item.id].pauseVideo(item.isViewable)
+                 }
+             });
+             viewableItems.forEach(item => {
+                 if (item.isViewable) {
+                refsset.current[item.item.id].playVideo(item.isViewable)
+     
+                 }
+             });
+     
+              })
+         const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+     
+         
 
    // const curruntVideo=useState(route.params.index)
     const renderItem=({item,index})=>
     {
         return(
 
-            <View
-            style={
-                {
-                    height:'100%',
-                    width:'100%'
-                }
-            }
-            >
             <VideoPlayer
             
+            ref={ref => {refsset.current[item.id] = ref}}
             data={item}
             ></VideoPlayer>
-            </View>
+            
         )
     }
 
@@ -72,22 +89,16 @@ const CreaterVideoPlayer=({navigation})=>
               flex:1
             }}
 
-
-            contentContainerStyle={
-            {
-                flexGrow:1
-            }
-            }
             data={Videos}
             keyExtractor={(item)=>item.id}
             scrollEnabled={true}
-            snapToInterval={height}
-            maxToRenderPerBatch={2}
+          //  snapToInterval={height}
+            maxToRenderPerBatch={10}
 
-            initialScrollIndex={
-                route.params.index!=undefined?
-                route.params.index:0
-            }
+            viewabilityConfig={viewConfigRef.current}
+
+            onViewableItemsChanged={onViewRef.current}
+           
             //snapToInterval={curruntVideo}
             renderItem={renderItem}
 
