@@ -114,7 +114,7 @@ const styles=StyleSheet.create
         {
             position:'absolute',
             left:15,
-            bottom:10,
+            bottom:70,
         
         },
         txtTitle:

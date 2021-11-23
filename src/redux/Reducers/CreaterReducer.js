@@ -1,5 +1,10 @@
 
-import { FOLLOW_CREATER_SUCCESS, GET_CREATER_DETAILS_FAILED, GET_Creater_DETAILS_FAILED, GET_CREATER_DETAILS_REQUEST, GET_Creater_DETAILS_REQUEST, GET_CREATER_DETAILS_SUCCESS, GET_Creater_DETAILS_SUCCESS, GET_CREATER_VIDEOS_FAILED, GET_Creater_VIDEOS_FAILED, GET_CREATER_VIDEOS_REQUEST, GET_Creater_VIDEOS_REQUEST, GET_CREATER_VIDEOS_SUCCESS, GET_Creater_VIDEOS_SUCCESS, UNFOLLOW_CREATER_SUCCESS } from "../Types/CreaterTypes";
+import { FOLLOW_CREATER_SUCCESS, GET_CREATER_DETAILS_FAILED, 
+    GET_Creater_DETAILS_FAILED, GET_CREATER_DETAILS_REQUEST,
+     GET_CREATER_DETAILS_SUCCESS,  GET_CREATER_VIDEOS_FAILED, 
+     GET_CREATER_VIDEOS_REQUEST, GET_CREATER_VIDEOS_SUCCESS, 
+      GET_MORE_CREATER_VIDEOS_FAILED, GET_MORE_CREATER_VIDEOS_REQUEST,
+       GET_MORE_CREATER_VIDEOS_SUCCESS, UNFOLLOW_CREATER_SUCCESS } from "../Types/CreaterTypes";
 
 const initialstate = {
 
@@ -36,17 +41,21 @@ const CreaterReducer = (state = initialstate, action) => {
         case GET_CREATER_DETAILS_REQUEST:
             return {
                 ...state,
+               
             }
 
         case GET_CREATER_DETAILS_SUCCESS:
             return {
                 ...state,
+              
                 CreaterProfile: action.payload.Creater
             }
 
         case GET_CREATER_DETAILS_FAILED:
-            console.log(action.payload)
-
+            return {...state,
+              
+            
+            }
         case GET_CREATER_VIDEOS_REQUEST:
             return {
                 ...state,
@@ -61,9 +70,10 @@ const CreaterReducer = (state = initialstate, action) => {
                 ...state,
                 CreaterVideosLoad: false,
                 CreaterVideos: action.payload.Videos,
+                lastKeyCreaterVideos:action.payload.lastKey
 
             }
-
+        
         case GET_CREATER_VIDEOS_FAILED:
             return {
                 ...state,
@@ -71,6 +81,29 @@ const CreaterReducer = (state = initialstate, action) => {
                 CreaterVideosLoadError: action.payload
             }
 
+        case GET_MORE_CREATER_VIDEOS_REQUEST:
+            return {
+                ...state,
+                CreaterVideossMoreLoad:true,
+                CreaterVideosMoreLoadError:null
+            }
+        case GET_MORE_CREATER_VIDEOS_SUCCESS:
+          
+      
+            return {
+                ...state,
+                CreaterVideossMoreLoad:true,
+                lastKeyCreaterVideos:action.payload.lastKey,
+                CreaterVideos:[...state.CreaterVideos,...action.payload.Videos]
+
+            }
+        case GET_MORE_CREATER_VIDEOS_FAILED:
+            return {
+                ...state,
+                CreaterVideossMoreLoad:false,
+                CreaterVideosMoreLoadError:action.payload
+
+            }
         case FOLLOW_CREATER_SUCCESS:
             return {
                 ...state,

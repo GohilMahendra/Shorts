@@ -1,4 +1,5 @@
-import { GET_HOME_FEED_VIDEOS_FAILED, GET_HOME_FEED_VIDEOS_REQUEST, GET_HOME_FEED_VIDEOS_SUCCESS } from "../Types/HomeFeedTypes";
+import { GET_MORE_CREATER_VIDEOS_FAILED, GET_MORE_CREATER_VIDEOS_REQUEST, GET_MORE_CREATER_VIDEOS_SUCCESS } from "../Types/CreaterTypes";
+import { GET_HOME_FEED_VIDEOS_FAILED, GET_HOME_FEED_VIDEOS_REQUEST, GET_HOME_FEED_VIDEOS_SUCCESS, GET_MORE_HOME_FEED_VIDEOS_FAILED, GET_MORE_HOME_FEED_VIDEOS_REQUEST, GET_MORE_HOME_FEED_VIDEOS_SUCCESS } from "../Types/HomeFeedTypes";
 
 const initialstate = {
 
@@ -32,11 +33,37 @@ const HomeFeedReducer = (state = initialstate, action) => {
             return {
                 ...state,
                 HomeVideos: action.payload.Videos,
+                lastKeyHomeVideos:action.payload.lastKey,
                 HomeVideosLoad: false
 
             }
         case GET_HOME_FEED_VIDEOS_FAILED:
+            return {...state,
+            HomeVideosLoad:false,
+            HomeVideosLoadError:action.payload
+            }
 
+        case GET_MORE_HOME_FEED_VIDEOS_REQUEST:
+            return {
+                ...state,
+                HomeVideosMoreLoadError:null,
+                HomeVideossMoreLoad:true
+            }
+
+        case GET_MORE_HOME_FEED_VIDEOS_SUCCESS:
+            return {
+                ...state,
+                HomeVideossMoreLoad:false,
+                lastKeyHomeVideos:action.payload.lastKey,
+                HomeVideos:[...HomeVideos,action.payload.Videos]
+            }
+            
+        case GET_MORE_HOME_FEED_VIDEOS_FAILED:
+            return {
+                ...state,
+                HomeVideossMoreLoad:false,
+                HomeVideosMoreLoadError:action.payload
+            }
         default:
             return state
 

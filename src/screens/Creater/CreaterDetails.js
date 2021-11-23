@@ -1,13 +1,13 @@
 import { useRoute } from "@react-navigation/core"
 import React, { useEffect, useRef, useState } from "react"
 
-import { View, Image, Text, StyleSheet, RefreshControl, Animated }    from 'react-native'
+import { View, Image, Text, StyleSheet, RefreshControl, Animated } from 'react-native'
 import { TouchableOpacity, FlatList, ScrollView } from "react-native-gesture-handler"
 import { useDispatch, useSelector } from "react-redux"
 import InfoBox from "../../components/UserDetails/InfoBox"
 import VideoPreviewCard from '../../components/VideoPreviewCard'
 import { Colors } from "../../constants/colors"
-import { followUnFollow, getCreaterDetails, getCreaterVideos } from "../../redux/Actions/CreaterActions"
+import { followUnFollow, getCreaterDetails, getCreaterVideos, getMoreCreaterVideos } from "../../redux/Actions/CreaterActions"
 
 const CreaterDetails = ({ navigation }) => {
 
@@ -15,12 +15,12 @@ const CreaterDetails = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
-
     const videos = useSelector(state => state.Creater.CreaterVideos)
+
+    
 
     const userDetails = useSelector(state => state.Creater.CreaterProfile)
 
-    console.log(userDetails.isFollowing)
     const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)
 
 
@@ -28,10 +28,9 @@ const CreaterDetails = ({ navigation }) => {
         dispatch(followUnFollow(createrID))
     }
 
-    const animRef=useRef(new Animated.Value(1))
+    const animRef = useRef(new Animated.Value(1))
 
-    const AnimateButton=()=>
-    {
+    const AnimateButton = () => {
         Animated.loop(
 
             // runs given animations in a sequence
@@ -72,18 +71,27 @@ const CreaterDetails = ({ navigation }) => {
                 }
 
             >
-
                 <VideoPreviewCard
                     data={
                         item
                     }
                 >
-
                 </VideoPreviewCard>
 
             </TouchableOpacity>
         )
 
+    }
+
+
+    const fetchMore=()=>
+    {
+        dispatch(getMoreCreaterVideos(p.params.channelID))
+    }
+
+    const fetchVideos=()=>
+    {
+        dispatch(getCreaterVideos(p.params.channelID))
     }
 
     useEffect(
@@ -95,23 +103,18 @@ const CreaterDetails = ({ navigation }) => {
     )
 
     useEffect
-    (
-        ()=>
-        {
-            AnimateButton()
+        (
+            () => {
+                AnimateButton()
 
-        },
-        [userDetails.isFollowing]
-    )
+            },
+            [userDetails.isFollowing]
+        )
 
 
     return (
         <View
-            style={
-                {
-                    flex: 1,
-                    backgroundColor: Colors.black
-                }
+            style={styles.Container
             }
         >
             <ScrollView
@@ -122,13 +125,7 @@ const CreaterDetails = ({ navigation }) => {
                 }
             >
                 <View
-                    style={{
-
-                        backgroundColor: Colors.black,
-                        margin: 10,
-
-                        justifyContent: 'center'
-                    }}
+                    style={styles.profileContainer}
                 >
 
                     {userDetails.photoURL ?
@@ -139,27 +136,11 @@ const CreaterDetails = ({ navigation }) => {
                                 }
                             }
 
-                            style={
-                                {
-                                    height: 100,
-                                    width: 100,
-                                    alignSelf: 'center',
-                                    borderRadius: 100
-                                }
-                            }
+                            style={styles.imgProfile}
                         />
                         :
                         <View
-                            style={
-                                {
-                                    height: 100,
-                                    width: 100,
-                                    alignSelf: 'center',
-                                    backgroundColor: 'silver',
-                                    borderRadius: 100,
-
-                                }
-                            }
+                            style={styles.noImageConatiner}
                         >
                             <Text></Text>
                         </View>}
@@ -200,58 +181,58 @@ const CreaterDetails = ({ navigation }) => {
 
                     </InfoBox>
 
-                    
-                    <Animated.View
-                    style={
-                        {
-                            width:100,
-                            justifyContent:'center'
-                            ,alignSelf:'center',
-                            transform:
-                            [
-                                {
-                                    scale:animRef.current.interpolate
-                                    (
-                                        {
-                                            inputRange:[0,1],
-                                            outputRange:[1.5,1]
-                                        
-                                        }
-                                    )
-                                }
-                            ]
-                        }
-                    }
-                    >
-                    <TouchableOpacity
 
-                        onPress={() => unfollowFollow(p.params.channelID)}
+                    <Animated.View
                         style={
                             {
-                                backgroundColor: "#002366",
-                                padding: 10,
-                                alignSelf: 'center',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: 20
+                                width: 100,
+                                justifyContent: 'center'
+                                , alignSelf: 'center',
+                                transform:
+                                    [
+                                        {
+                                            scale: animRef.current.interpolate
+                                                (
+                                                    {
+                                                        inputRange: [0, 1],
+                                                        outputRange: [1.5, 1]
 
+                                                    }
+                                                )
+                                        }
+                                    ]
                             }
                         }
                     >
-                        <Text
+                        <TouchableOpacity
+
+                            onPress={() => unfollowFollow(p.params.channelID)}
                             style={
                                 {
-
-                                    textAlign: 'center',
-                                    color: Colors.White,
-                                    width: 100,
+                                    backgroundColor: "#002366",
+                                    padding: 10,
+                                    alignSelf: 'center',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    borderRadius: 20
 
                                 }
                             }
-                        >{
-                                userDetails.isFollowing ? "Following" : "Follow"
-                            }</Text>
-                    </TouchableOpacity>
+                        >
+                            <Text
+                                style={
+                                    {
+
+                                        textAlign: 'center',
+                                        color: Colors.White,
+                                        width: 100,
+
+                                    }
+                                }
+                            >{
+                                    userDetails.isFollowing ? "Following" : "Follow"
+                                }</Text>
+                        </TouchableOpacity>
                     </Animated.View>
                 </View>
 
@@ -275,11 +256,15 @@ const CreaterDetails = ({ navigation }) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={CreaterVideosLoad}
+                            onRefresh={()=>fetchVideos()}
                         ></RefreshControl>
                     }
 
                     scrollEnabled={true}
                     data={videos}
+                    onEndReached={
+                        ()=>fetchMore()
+                    }
                     renderItem={renderItem}
                     numColumns={3}
                     keyExtractor={item => item.id}
@@ -299,6 +284,30 @@ const styles = StyleSheet.create(
     {
         Container:
         {
+            flex: 1,
+            backgroundColor: Colors.black
+
+        },
+        profileContainer:
+        {
+            backgroundColor: Colors.black,
+            margin: 10,
+            justifyContent: 'center'
+        },
+        imgProfile:
+        {
+            height: 100,
+            width: 100,
+            alignSelf: 'center',
+            borderRadius: 100
+        },
+        noImageConatiner:
+        {
+            height: 100,
+            width: 100,
+            alignSelf: 'center',
+            backgroundColor: 'silver',
+            borderRadius: 100,
 
         },
     }

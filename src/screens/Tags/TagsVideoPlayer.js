@@ -17,7 +17,7 @@ import { useRoute } from "@react-navigation/core";
 
 const {
     height, width
-} = Dimensions.get('screen')
+} = Dimensions.get('window')
 
 const TagsVideoPlayer = ({ navigation }) => {
 

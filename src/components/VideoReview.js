@@ -284,7 +284,9 @@ const VideoReview = (props) => {
 
                         <Animated.View
 
-                            style={{ transform: [{ scale: anim.current }] }}>
+                            style={{ transform: [{ 
+                                scale: anim.current 
+                                }] }}>
 
                             <FontAwesome5
                                 name="heart"
@@ -401,7 +403,7 @@ const styles = StyleSheet.create
                 height: '50%',
                 position: "absolute",
                 right: 5,
-                bottom: 100,
+                bottom: 150,
 
             },
             effectContainer:

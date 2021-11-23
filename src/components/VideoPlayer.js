@@ -10,7 +10,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from "@react-navigation/core";
 
-const { height, width } = Dimensions.get('screen')
+const { height, width } = Dimensions.get('window')
 export default VideoPlayer = forwardRef((props, ref) => {
 
 
@@ -133,13 +133,13 @@ export default VideoPlayer = forwardRef((props, ref) => {
                         {
                             minBufferMs: 1500,
                             maxBufferMs: 1800,
-                            bufferForPlaybackAfterRebufferMs:1500,
-                            bufferForPlaybackMs:1500
+                            bufferForPlaybackAfterRebufferMs: 1500,
+                            bufferForPlaybackMs: 1500
                         }
                     }
 
                     onReadyForDisplay={() => setloading(false)}
-                    
+
                     onLoadStart={() => setloading(true)}
                     onVideoLoadStart={(e) => console.log(e)}
                     //onVideoProgress={(e)=>console.log(e)}
@@ -207,10 +207,7 @@ const styles = StyleSheet.create
     (
         {
             Container:
-            {
-
-
-                height: height - 148,
+            {   height: height,
                 width: width
 
             }

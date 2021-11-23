@@ -95,14 +95,9 @@ export const FetchComments = (videoID) => {
 
 
 
+
             let list = []
             let lastKey = null
-
-
-
-
-
-
 
             comments.docs.forEach
                 (

@@ -21,7 +21,7 @@ import {
     from "../redux/Actions/HomeActions"
 
 
-const { height, width } = Dimensions.get('screen')
+const { height, width } = Dimensions.get('window')
 
 const Home = ({navigation}) => {
 
@@ -68,7 +68,7 @@ const Home = ({navigation}) => {
         });
         // Use viewable items in state or as intended
     })
-    const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 90 })
+    const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 100 })
 
     useEffect
         (
@@ -137,9 +137,8 @@ const Home = ({navigation}) => {
                 onViewableItemsChanged={onViewRef.current}
 
                 keyExtractor={(item) => item.id}
-                snapToInterval={height - 250}
+                snapToInterval={height}
 
-                snapToAlignment={'center'}
 
                 onEndReached={
                     () => fetchMoreVideos()

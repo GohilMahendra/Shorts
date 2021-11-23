@@ -25,8 +25,11 @@ const HomeTabNavigator = () => {
                         headerShown: false,
 
                         tabBarHideOnKeyboard: true,
+                
                         tabBarStyle: {
-                            backgroundColor: 'black',
+                            backgroundColor: 'transparent',
+                            position:'absolute',
+
                             height: 50,
                             paddingHorizontal: 20,
 
