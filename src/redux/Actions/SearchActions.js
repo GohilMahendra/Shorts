@@ -1,8 +1,9 @@
 
 import firestore, { firebase } from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth";
 import { SEARCH_POST_FAILED, SEARCH_POST_REQUEST, SEARCH_POST_SUCCESS } from "../Types/SearchTypes";
 import { ADD_COMMENTS_FAILED } from "../Types/CommentTypes";
+
+
 const MAX_FETCH_LIMIT = 10
 
 export const SearchUser = (search) => {
@@ -14,13 +15,33 @@ export const SearchUser = (search) => {
                     type: SEARCH_POST_REQUEST
                 }
             )
-            const result = await
-                firestore()
+
+            let qry=null
+
+          
+            switch(search[0])
+            {
+                case '@':
+                    qry=firestore()
                     .collection('Users')
-                    .where('userName','>=',search)
-                    .where('userName','<=',search+'\uf8ff')
+                    .where('userID','>=',search)
+                    .where('userID','<=',search+'\uf8ff')
                     .limit(MAX_FETCH_LIMIT)
-                    .get()
+                    break;
+              
+                default:
+                    qry=firestore()
+                        .collection('Users')
+                        .where('userName','>=',search)
+                        .where('userName','<=',search+'\uf8ff')
+                        .limit(MAX_FETCH_LIMIT)
+                        break
+            }
+            
+
+           
+
+            const result =await qry.get()
 
         
             let post=[]

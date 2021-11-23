@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer ,useNavigation} from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
 
@@ -15,6 +15,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 import CreaterVideoPlayer from '../screens/Creater/CreaterVideoPlayer'
 import CreaterDetails from '../screens/Creater/CreaterDetails'
+import Search from '../screens/Search/Search'
 
 
 
@@ -22,6 +23,7 @@ const HomeInnerStackNavigator = () => {
 
     const HomeStack = createStackNavigator()
 
+    const navigation=useNavigation()
     return (
 
         <HomeStack.Navigator
@@ -37,23 +39,16 @@ const HomeInnerStackNavigator = () => {
                         headerTransparent:true,
                         headerTitle:"",
                         headerLeft:null,
-                        headerRight:()=>
-                        (
-                            <TouchableOpacity>
-                                <FontAwesome5Icon
-                                name="search"
-                                color='#fff'
-                                size={25}
-                                style={{marginHorizontal:20}}
-
-                                ></FontAwesome5Icon>
-                            </TouchableOpacity>
-                        )
+                     
                     }
                 }
                 component={Home}
             ></HomeStack.Screen>
 
+            <HomeStack.Screen
+            name="Search"
+            component={Search}
+            />
 
 
             <HomeStack.Screen

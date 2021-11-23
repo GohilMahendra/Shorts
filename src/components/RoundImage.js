@@ -1,60 +1,68 @@
-
-
-
-
 import React from "react"
+import { Image, View, Text, StyleSheet } from 'react-native'
 
-import { Image, View } from 'react-native'
-export default RoundImage=({imageURL})=>
-{
+export default RoundImage = ({ imageURL, userName = "" }) => {
 
-
-    return(
+    return (
         <View
-        style={
-            {
-                height:75,
-                width:75,
-                alignSelf:'center',
-                borderRadius:75,
-                justifyContent:"center",
-                alignItems:"center",
-                backgroundColor:"#fff"
-
-            }
-        }
+            style={styles.Container}
         >
 
-
-
-        
-            <Image
-            source={
-                {
-                    uri:imageURL,
-                    
-                }
+            {imageURL != "" ?
+                <Image
+                    source={
+                        {
+                            uri: imageURL,
+                        }
+                    }
+                    style={styles.imgProfile}
+                >
+                </Image>
+                :
+                <View
+                    style={styles.noImageContainer}
+                >
+                    <Text>{userName[0, 2]}</Text>
+                </View>
             }
-            style={
-                {
-                    height:70,
-                    width:70,
-                    borderRadius:70,
-                    
-                   // backgroundColor:'#fff',
-                    resizeMode:'cover',
-                                  }
-            }
-            >
-
-            </Image>
-           
-
-        
 
         </View>
 
     )
-
-
 }
+
+const styles = StyleSheet.create
+    (
+        {
+            Container:
+            {
+                height: 75,
+                width: 75,
+                alignSelf: 'center',
+                borderRadius: 75,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fff"
+
+            },
+            imgProfile:
+            {
+                height: 70,
+                width: 70,
+                borderRadius: 70,
+
+                // backgroundColor:'#fff',
+                resizeMode: 'cover',
+            },
+            noImageContainer:
+            {
+
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: "center"
+
+            }
+
+
+        }
+    )

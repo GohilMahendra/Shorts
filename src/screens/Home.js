@@ -3,10 +3,13 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from "react"
 import {
     Dimensions,
     RefreshControlBase,
+    TouchableOpacity,
     View,
 } from 'react-native'
 
 import { FlatList } from "react-native-gesture-handler"
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
+import { Header } from "react-native/Libraries/NewAppScreen"
 
 import { useDispatch, useSelector } from "react-redux"
 import VideoPlayer from "../components/VideoPlayer"
@@ -20,7 +23,7 @@ import {
 
 const { height, width } = Dimensions.get('screen')
 
-const Home = () => {
+const Home = ({navigation}) => {
 
 
     const dispatch = useDispatch()
@@ -85,6 +88,42 @@ const Home = () => {
             }}
         >
 
+            
+          
+            <View
+            style={
+                {
+                    height:50,
+                    width:50,
+                    alignSelf:"flex-end",
+                    flexDirection:'row',
+                    position:"absolute",
+                    alignItems:'center',
+                    justifyContent:'space-between',
+                    top:0,
+                    
+                    zIndex:2,
+                    marginHorizontal:20
+                }
+            }
+            >
+                
+                <TouchableOpacity
+                onPress={
+                    ()=>navigation.navigate('Search')
+                }
+                >
+
+                <FontAwesome5Icon
+                name="search"
+                color={"#fff"}
+               // style={{alignSelf:"flex-end"}}
+                size={25}
+                ></FontAwesome5Icon>
+                </TouchableOpacity>
+
+            </View>
+          
             <FlatList
                 ref={listRef}
                 style={{ flex: 1 }}

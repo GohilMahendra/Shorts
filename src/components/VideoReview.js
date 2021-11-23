@@ -122,6 +122,8 @@ const VideoReview = (props) => {
 
     const IsLiked = async () => {
 
+
+
         try {
             const res = await firestore()
                 .collection('Likes')
@@ -151,6 +153,9 @@ const VideoReview = (props) => {
         )
 
     const LikeAction = async () => {
+
+     
+        setliked(!liked)
         const res = await firestore()
             .collection('Likes')
             .doc(data.id)
@@ -160,7 +165,7 @@ const VideoReview = (props) => {
 
         if (res.exists) {
 
-            setliked(false)
+          
 
             setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
 
@@ -200,7 +205,7 @@ const VideoReview = (props) => {
         else {
             setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
 
-            setliked(true)
+          
             await firestore()
                 .collection('Likes')
                 .doc(data.id)
@@ -255,31 +260,11 @@ const VideoReview = (props) => {
             >
 
 
-                {
-                    channel.photoURL != "" ?
-
                         <RoundImage
                             imageURL={channel.photoURL}
                         >
                         </RoundImage>
-                        :
-                        <View
-                            style={
-                                {
-
-                                    height: 70,
-                                    width: 70,
-                                    borderRadius: 70,
-                                    alignItems: "center",
-                                    justifyContent: 'center'
-
-                                }
-                            }
-                        >
-                            <Text>{channel.userName[0, 2]}</Text>
-                        </View>
-
-                }
+                     
 
             </TouchableOpacity>
             <TouchableOpacity
@@ -427,9 +412,7 @@ const styles = StyleSheet.create
             },
             blurBackground:
             {
-                backgroundColor: "#fff"
-                ,
-
+                backgroundColor: "#fff",
                 height: 70,
                 width: 70,
                 borderRadius: 15,

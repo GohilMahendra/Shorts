@@ -2,56 +2,70 @@
 import React from "react"
 
 
-import { View,Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-const SearchResultCard=(props)=>
-{
+import RoundImage from "../RoundImage";
+const SearchResultCard = (props) => {
 
-    const {data}=props
-    return(
+    const { data } = props
+    return (
         <View
-        style={{
-           
-            backgroundColor:'black',
-            height:100,
-          
-
-
-        }}
+            style={styles.Container}
         >
+            <View
+                style={
+                    {
+                        flexDirection: 'row',
 
-            <Text
-            style={{
-                color:'#fff'
-            }}
+                    }
+                }
             >
-                {data.userName}
+                <RoundImage
+                    imageURL={data.photoURL}
+                />
 
-            </Text>
-            <Text
-            style={{
-                color:'#fff'
-            }}
-            >
-                {data.userID}
-e
-            </Text>
+                <View
+                    style={
+                        {
+                            marginHorizontal: 25,
+                            justifyContent: 'center',
 
-                   {/* <View
-          style={
-              {
-                  height:70,
-                  width:70,
-                  borderRadius:70,
-                  backgroundColor:"#fff"
-                  
-              }
-          }
-          >
+                        }
+                    }
+                >
+                    <Text
+                        style={{
+                            color: '#fff',
+                            fontSize: 20
+                        }}
+                    >
+                        {data.userName}
 
-          </View>*/}
-        </View> 
+                    </Text>
+                    <Text
+                        style={{
+                            color: '#fff'
+                        }}
+                    >
+                        {data.userID}
+                        
+                    </Text>
+                </View>
+            </View>
+        </View>
     )
 
 }
+const styles = StyleSheet.create
+    (
+        {
+            Container:
+            {
+
+                height: 100,
+                backgroundColor: "transparent"
+
+            }
+        }
+    )
 export default SearchResultCard

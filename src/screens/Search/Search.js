@@ -21,6 +21,7 @@ const Search=({navigation})=>
     const dispatch=useDispatch()
     const results=useSelector(state=>state.Search.searchResults)
 
+    console.log(results)
   
     const renderItem=({item,index})=>
     {
@@ -28,7 +29,7 @@ const Search=({navigation})=>
             <TouchableOpacity
             
             onPress={
-                ()=>navigation.navigate('userDetails',{
+                ()=>navigation.navigate('CreaterDetails',{
                  
                     channelID:item.id,
                   
