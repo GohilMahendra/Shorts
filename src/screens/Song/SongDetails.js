@@ -10,11 +10,11 @@ import { TextInput, TouchableOpacity, FlatList, ScrollView, createNativeWrapper 
 import LinearGradient from "react-native-linear-gradient"
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
 import { useDispatch, useSelector } from "react-redux"
-import SongPlayer from "../components/Songs/SongPlayer"
+import SongPlayer from "../../components/Songs/SongPlayer"
 
-import VideoPreviewCard from '../components/VideoPreviewCard'
-import { Colors } from "../constants/colors"
-import { getSongDetails, getSongVideos } from "../redux/Actions/SongActions"
+import VideoPreviewCard from '../../components/VideoPreviewCard'
+import { Colors } from "../../constants/colors"
+import { getSongDetails, getSongVideos } from "../../redux/Actions/SongActions"
 
 
 const SongDetails = ({ navigation }) => {
@@ -80,32 +80,17 @@ const SongDetails = ({ navigation }) => {
 
     return (
         <View
-            style={
-                {
-                    flex: 1,
-                    backgroundColor: Colors.black
-                }
-            }
+            style={styles.Container}
         >
             <View
                 style={
-                    {
-                        height: '30%',
-                        justifyContent: 'center',
-                        backgroundColor: Colors.Teal
-                    }
+                    styles.songDetailsContainer
                 }
             >
-              
+
                 <View
                     style={
-                        {
-                            flexDirection: 'row',
-                            height: 150,
-                            marginTop: 10,
-                            //justifyContent:'space-between',
-                            padding: 15
-                        }
+                        styles.songDetailsRowContainer
                     }
                 >
                     <Image
@@ -125,11 +110,7 @@ const SongDetails = ({ navigation }) => {
                     ></Image>
 
                     <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }}
+                        style={styles.songNameContainer}
                     >
                         <FontAwesome5Icon
                             name="music"
@@ -144,10 +125,7 @@ const SongDetails = ({ navigation }) => {
                         <Text
 
                             style={
-                                {
-                                    fontSize: 25,
-                                    textAlignVertical: 'center'
-                                }
+                                styles.txtSongName
                             }
 
                         >
@@ -155,7 +133,7 @@ const SongDetails = ({ navigation }) => {
                         </Text>
                     </View>
                 </View>
-              </View>
+            </View>
 
             <View
                 style={{
@@ -193,4 +171,41 @@ const SongDetails = ({ navigation }) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create
+    (
+        {
+            Container:
+            {
+                flex: 1,
+                backgroundColor: Colors.black
+            },
+            songDetailsContainer:
+            {
+                height: '30%',
+                justifyContent: 'center',
+                backgroundColor: Colors.Teal
+            },
+            songDetailsRowContainer:
+            {
+                flexDirection: 'row',
+                height: 150,
+                marginTop: 10,
+                //justifyContent:'space-between',
+                padding: 15
+            },
+            songNameContainer:
+            {
+                flexDirection: "row",
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            },
+            txtSongName:
+            {
+                fontSize: 25,
+                textAlignVertical: 'center'
+            }
+
+        }
+    )
 export default SongDetails

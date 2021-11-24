@@ -131,7 +131,6 @@ const Home = ({navigation}) => {
                 maxToRenderPerBatch={5}
                 data={Videos}
 
-
                 viewabilityConfig={viewConfigRef.current}
 
                 onViewableItemsChanged={onViewRef.current}
