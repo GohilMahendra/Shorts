@@ -21,7 +21,7 @@ export const getHomeFeedVideos = (following=false) => {
             {
 
 
-                console.log('following logic')
+               // console.log('following logic')
                 const followingList=await firestore()
                                     .collection('Following')
                                     .doc(auth().currentUser.uid)

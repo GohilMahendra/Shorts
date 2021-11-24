@@ -21,7 +21,7 @@ const PreviewThumb=(props)=>
         ={
             {
                 flex:1,
-                borderRadius:20
+               
             }
         }
         >

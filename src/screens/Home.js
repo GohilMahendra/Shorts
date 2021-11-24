@@ -109,10 +109,10 @@ const Home = ({ navigation }) => {
     useEffect
         (
             () => {
-               fetchMoreVideos()
+               fetchVideos()
 
             },
-            []
+            [watchFollowing]
         )
 
     return (

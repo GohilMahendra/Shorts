@@ -17,8 +17,6 @@ const CreaterDetails = ({ navigation }) => {
 
     const videos = useSelector(state => state.Creater.CreaterVideos)
 
-    
-
     const userDetails = useSelector(state => state.Creater.CreaterProfile)
 
     const CreaterVideosLoad = useSelector(state => state.Creater.CreaterVideosLoad)

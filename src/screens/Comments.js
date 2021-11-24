@@ -1,9 +1,4 @@
-
-
-import { catchClause } from '@babel/types'
-import firestore, { firebase } from '@react-native-firebase/firestore'
 import React, { useEffect, useState } from 'react'
-
 
 import { useRoute } from "@react-navigation/native";
 import { StyleSheet, Text, View } from 'react-native'

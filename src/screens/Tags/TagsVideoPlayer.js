@@ -31,7 +31,7 @@ const TagsVideoPlayer = ({ navigation }) => {
     )
 
 
-    const curruntVideo = useState(route.params.index)
+
     const renderItem = ({ item, index }) => {
 
         return (

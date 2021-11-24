@@ -321,6 +321,8 @@ export const getMoreCreaterVideos = (createrID) => {
             const videos =
                 await firestore().collection('Videos')
                     .where('channelID', '==', createrID)
+                    .orderBy(firestore.FieldPath.documentId())
+                    .startAfter(id)
                     .limit(MAX_FETCH_LIMIT)
                     .get()
 
