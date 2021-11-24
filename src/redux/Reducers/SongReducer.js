@@ -1,6 +1,7 @@
 
+import { stat } from "react-native-fs";
 import { GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS } from "../Types/ProfileTypes";
-import { GET_SONG_DETAILS_FAILED, GET_SONG_DETAILS_REQUEST, GET_SONG_DETAILS_SUCCESS, GET_SONG_VIDEOS_FAILED, GET_SONG_VIDEOS_REQUEST, GET_SONG_VIDEOS_SUCCESS } from "../Types/SongTypes";
+import { GET_MORE_SONG_VIDEOS_FAILED, GET_MORE_SONG_VIDEOS_REQUEST, GET_MORE_SONG_VIDEOS_SUCCESS, GET_SONG_DETAILS_FAILED, GET_SONG_DETAILS_REQUEST, GET_SONG_DETAILS_SUCCESS, GET_SONG_VIDEOS_FAILED, GET_SONG_VIDEOS_REQUEST, GET_SONG_VIDEOS_SUCCESS } from "../Types/SongTypes";
 
 const initialstate = {
 
@@ -19,7 +20,7 @@ const initialstate = {
     songVideosLoad: false,
     songVideosLoadError: null,
 
-    songVideossMoreLoad: false,
+    songVideosMoreLoad: false,
     songVideosMoreLoadError: null,
 
 
@@ -58,6 +59,25 @@ const SongReducer = (state = initialstate, action) => {
         case GET_SONG_VIDEOS_FAILED:
             return {...state}
 
+        case GET_MORE_SONG_VIDEOS_REQUEST:
+            return {
+                ...state,
+                songVideosMoreLoad:true,
+                songVideosMoreLoadError:null
+            }
+        case GET_MORE_SONG_VIDEOS_SUCCESS:
+            return {
+                ...state,
+                songVideosMoreLoad:false,
+                songVideos:[...state.songVideos,...action.payload.Videos],
+                lastKeysongVideos:action.payload.lastKey
+            }
+        case GET_MORE_SONG_VIDEOS_FAILED:
+            return {
+                ...state,
+                songVideosMoreLoadError:action.payload,
+                songVideosMoreLoad:false
+            }
         default:
             return state
 

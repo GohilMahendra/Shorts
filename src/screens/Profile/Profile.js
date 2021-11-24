@@ -18,8 +18,6 @@ import { getProfileDetails, getProfileVideos, logOut } from '../../redux/Actions
 import RoundImage from '../../components/RoundImage'
 
 
-
-
 import {
 
 } from
@@ -99,7 +97,7 @@ const Profile = ({ navigation }) => {
 
                 dispatch(getProfileDetails())
 
-                // getVideosList()
+                 getVideosList()
             },
             []
         )

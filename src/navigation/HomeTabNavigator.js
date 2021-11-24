@@ -77,16 +77,17 @@ const HomeTabNavigator = () => {
                             tabBarIcon: ({ size, focused, color }) =>
 
 
-                                <FontAwesome5 size={size} color={"#fff"} name="plus"
+                                <FontAwesome5 size={size} color={"#fff"} name="video"
                                     style={
                                         {
-                                            backgroundColor: (focused) ? Colors.Teal : Colors.baige,
-                                            borderRadius: 30,
-                                            width: 50,
+                                            backgroundColor: (focused) ? 'transparent' : 'blue',
+                                            borderRadius: 65,
+                                            width: 65,
                                             borderWidth: 2,
-                                            borderTopColor: "green",
-                                            borderBottomColor: 'skyblue',
-                                            height: 50,
+                                           
+                                            
+                                            borderColor:(focused)?'gold':'transparent',
+                                            height: 65,
                                             // color:'#fff',
                                             textAlignVertical: 'center',
                                             textAlign: 'center',
@@ -94,7 +95,7 @@ const HomeTabNavigator = () => {
                                             justifyContent: 'center',
                                             transform: [
                                                 {
-                                                    translateY: -25
+                                                    translateY: -15
                                                 }
                                             ],
                                             //   bottom: 15,

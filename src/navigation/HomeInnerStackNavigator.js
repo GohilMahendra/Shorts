@@ -16,6 +16,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 import CreaterVideoPlayer from '../screens/Creater/CreaterVideoPlayer'
 import CreaterDetails from '../screens/Creater/CreaterDetails'
 import Search from '../screens/Search/Search'
+import SongVideoPlayer from '../screens/Song/SongVideoPlayer'
 
 
 
@@ -129,7 +130,11 @@ const HomeInnerStackNavigator = () => {
                 }
                 component={SongDetails}
             ></HomeStack.Screen>
-       
+            <HomeStack.Screen
+            
+            name={"SongVideoPlayer"}
+            component={SongVideoPlayer}
+            ></HomeStack.Screen>
 
 
 

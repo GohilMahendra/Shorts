@@ -55,7 +55,7 @@ const HomeFeedReducer = (state = initialstate, action) => {
                 ...state,
                 HomeVideossMoreLoad:false,
                 lastKeyHomeVideos:action.payload.lastKey,
-                HomeVideos:[...HomeVideos,action.payload.Videos]
+                HomeVideos:[...state.HomeVideos,...action.payload.Videos]
             }
             
         case GET_MORE_HOME_FEED_VIDEOS_FAILED:
@@ -64,6 +64,8 @@ const HomeFeedReducer = (state = initialstate, action) => {
                 HomeVideossMoreLoad:false,
                 HomeVideosMoreLoadError:action.payload
             }
+
+        
         default:
             return state
 

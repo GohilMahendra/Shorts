@@ -40,7 +40,7 @@ const SongDetails = ({ navigation }) => {
             <TouchableOpacity
                 onPress={
                     () => navigation.navigate(
-                        "UserVideoPlayer",
+                        "SongVideoPlayer",
                         {
                             id: item.id,
                             index: index

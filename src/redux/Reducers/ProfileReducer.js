@@ -1,11 +1,14 @@
 
-import { GET_USER_DETAILS_FAILED,
-     GET_USER_DETAILS_REQUEST,
-      GET_USER_DETAILS_SUCCESS,
-      GET_USER_VIDEOS_FAILED,
-       GET_USER_VIDEOS_REQUEST, 
-       GET_USER_VIDEOS_SUCCESS,
-       LOG_OUT_REQUEST } from "../Types/ProfileTypes";
+import { stat } from "react-native-fs";
+import {
+    GET_MORE_USER_VIDEOS_FAILED, GET_MORE_USER_VIDEOS_REQUEST, GET_MORE_USER_VIDEOS_SUCCESS, GET_USER_DETAILS_FAILED,
+    GET_USER_DETAILS_REQUEST,
+    GET_USER_DETAILS_SUCCESS,
+    GET_USER_VIDEOS_FAILED,
+    GET_USER_VIDEOS_REQUEST,
+    GET_USER_VIDEOS_SUCCESS,
+    LOG_OUT_REQUEST
+} from "../Types/ProfileTypes";
 
 const initialstate = {
 
@@ -23,13 +26,13 @@ const initialstate = {
     UserVideos: [],
 
 
-    UserDetailsLoad:false,
-    UserDetailsError:null,
+    UserDetailsLoad: false,
+    UserDetailsError: null,
 
     UserVideosLoad: false,
     UserVideosLoadError: null,
 
-    UserVideossMoreLoad: false,
+    UserVideosMoreLoad: false,
     UserVideosMoreLoadError: null,
 
 
@@ -44,19 +47,23 @@ const ProfileReducer = (state = initialstate, action) => {
 
 
         case GET_USER_DETAILS_REQUEST:
-            return {...state,
-                UserDetailsLoad:true,
-                UserDetailsError:null,
+            return {
+                ...state,
+                UserDetailsLoad: true,
+                UserDetailsError: null,
             }
         case GET_USER_DETAILS_SUCCESS:
-          //  console.log(action.payload, "payload")
-            return { ...state,
-                UserDetailsLoad:false,
-                userProfile: action.payload.user }
+            //  console.log(action.payload, "payload")
+            return {
+                ...state,
+                UserDetailsLoad: false,
+                userProfile: action.payload.user
+            }
         case GET_USER_DETAILS_FAILED:
-            return {...state,
-                UserDetailsLoad:false,
-                UserDetailsError:action.payload,
+            return {
+                ...state,
+                UserDetailsLoad: false,
+                UserDetailsError: action.payload,
             }
 
         case GET_USER_VIDEOS_REQUEST:
@@ -84,6 +91,29 @@ const ProfileReducer = (state = initialstate, action) => {
                 UserVideosLoadError: action.payload
             }
 
+        case GET_MORE_USER_VIDEOS_REQUEST:
+            return {
+                ...state,
+                UserVideosMoreLoad: true,
+                UserVideosMoreLoadError: null
+
+            }
+
+        case GET_MORE_USER_VIDEOS_SUCCESS:
+            return {
+                ...state,
+                UserVideosMoreLoad: false,
+                UserVideos: [...state.UserVideos, ...action.payload.Videos],
+                lastKeyUserVideos: action.payload.lastKey
+            }
+
+        case GET_MORE_USER_VIDEOS_FAILED:
+            return {
+                ...state,
+                UserVideosMoreLoad: false,
+                UserVideosMoreLoadError: action.payload
+
+            }
         case LOG_OUT_REQUEST:
             return initialstate
 

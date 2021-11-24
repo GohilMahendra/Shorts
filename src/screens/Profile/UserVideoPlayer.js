@@ -26,14 +26,9 @@ const UserVideoPlayer=({navigation})=>
 
     const dispatch=useDispatch()
   
-
-    //useSelector(state=>console.log(state))
     
-    const Videos=
-  
-    useSelector(
-            state=>state.Profile.UserVideos
-    )
+    const Videos=    useSelector(
+            state=>state.Profile.UserVideos)
 
    // const curruntVideo=useState(route.params.index)
     const renderItem=({item,index})=>
@@ -62,14 +57,12 @@ const UserVideoPlayer=({navigation})=>
               flex:1
             }}
 
-            // initialScrollIndex={
-            //     Videos.length>0?route.params.index:0
-            // }
+             initialScrollIndex={route.params!=undefined?route.params.index:0}
             data={Videos}
             keyExtractor={(item)=>item.id}
             scrollEnabled={true}
             snapToInterval={height}
-            maxToRenderPerBatch={2}
+            maxToRenderPerBatch={5}
 
             //snapToInterval={curruntVideo}
             renderItem={renderItem}

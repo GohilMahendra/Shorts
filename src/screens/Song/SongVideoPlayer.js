@@ -89,7 +89,7 @@ const SongVideoPlayer=({navigation})=>
           //  snapToInterval={height}
             maxToRenderPerBatch={10}
 
-            initialScrollIndex={route.params?.index}
+            initialScrollIndex={(route.params!=undefined)?route.params.index:0}
 
             viewabilityConfig={viewConfigRef.current}
 

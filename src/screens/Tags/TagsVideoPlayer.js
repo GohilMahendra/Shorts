@@ -69,9 +69,9 @@ const TagsVideoPlayer = ({ navigation }) => {
                     flex: 1
                 }}
 
-                // initialScrollIndex={
-                //     Videos.length>0?route.params.index:0
-                // }
+                
+               
+                initialScrollIndex={(route.params!=undefined)?route.params.index:0}
                 data={Videos}
                 keyExtractor={(item) => item.id}
 
