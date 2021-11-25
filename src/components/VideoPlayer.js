@@ -10,6 +10,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from "@react-navigation/core";
 
+import auth from '@react-native-firebase/auth'
 import Animated, { useAnimatedStyle, useSharedValue, withDecay, withDelay, withRepeat, withSpring }  from "react-native-reanimated";
 import { TapGestureHandler } from "react-native-gesture-handler";
 
@@ -25,6 +26,139 @@ export default VideoPlayer = forwardRef((props, ref) => {
     const [paused, setpaused] = useState(false)
 
     const [like,setlike]=useState(false)
+   
+
+    const [dynamic, setdynamic] = useState
+    (
+        {
+            likes: data.likes,
+            comments: data.comments,
+
+        }
+    )
+
+    const IsLiked = async () => {
+
+
+
+        try {
+            const res = await firestore()
+                .collection('Likes')
+                .doc(data.id)
+                .collection('lookups')
+                .doc(auth().currentUser.uid)
+                .get()
+
+            if (res.exists) {
+                setlike(true)
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect
+        (
+            () => {
+                IsLiked()
+
+
+            }
+            ,
+            []
+        )
+
+        const LikeAction = async () => {
+
+     
+            setlike(!liked)
+            const res = await firestore()
+                .collection('Likes')
+                .doc(data.id)
+                .collection('lookups')
+                .doc(auth().currentUser.uid)
+                .get()
+    
+            if (res.exists) {
+    
+              
+    
+                setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
+    
+                await firestore()
+                    .collection('Likes')
+                    .doc(data.id)
+                    .collection('lookups')
+                    .doc(auth().currentUser.uid)
+                    .delete()
+    
+                await firestore()
+                    .collection('Videos')
+                    .doc(data.id)
+                    .update
+                    (
+                        {
+                            likes: firebase
+                                .firestore
+                                .FieldValue
+                                .increment(-1)
+                        }
+                    )
+    
+                await firestore()
+                    .collection('Users')
+                    .doc(data.channelID)
+                    .update
+                    (
+                        {
+                            likes: firebase
+                                .firestore
+                                .FieldValue
+                                .increment(-1)
+                        }
+                    )
+            }
+            else {
+                setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
+    
+              
+                await firestore()
+                    .collection('Likes')
+                    .doc(data.id)
+                    .collection('lookups')
+                    .doc(auth().currentUser.uid)
+                    .set({})
+    
+                await firestore()
+                    .collection('Videos')
+                    .doc(data.id)
+                    .update
+                    (
+                        {
+                            likes: firebase.firestore
+                                .FieldValue
+                                .increment(1)
+                        }
+                    )
+            }
+    
+            await firestore()
+                .collection('Users')
+                .doc(data.channelID)
+                .update
+                (
+                    {
+                        likes: firebase
+                            .firestore
+                            .FieldValue
+                            .increment(1)
+                    }
+                )
+    
+    
+        }
+   
     const navigation = useNavigation()
 
 

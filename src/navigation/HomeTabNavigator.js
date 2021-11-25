@@ -25,10 +25,10 @@ const HomeTabNavigator = () => {
                         headerShown: false,
 
                         tabBarHideOnKeyboard: true,
-                
+
                         tabBarStyle: {
                             backgroundColor: 'transparent',
-                            position:'absolute',
+                            position: 'absolute',
 
                             height: 50,
                             paddingHorizontal: 20,
@@ -84,9 +84,9 @@ const HomeTabNavigator = () => {
                                             borderRadius: 65,
                                             width: 65,
                                             borderWidth: 2,
-                                           
-                                            
-                                            borderColor:(focused)?'gold':'transparent',
+
+
+                                            borderColor: (focused) ? 'gold' : 'transparent',
                                             height: 65,
                                             // color:'#fff',
                                             textAlignVertical: 'center',

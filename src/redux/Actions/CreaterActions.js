@@ -19,128 +19,11 @@ import {
 const MAX_FETCH_LIMIT = 1
 
 
+import {
+    followOperations,
+    unFollowOperations
+} from '../../functions/Creater/FollowOperations'
 
-const followOperations = async (createrID) => {
-    try {
-        let follow1 = await firestore()
-            .collection('Following').
-            doc(auth().currentUser.uid)
-            .collection('LookUps')
-            .doc(createrID)
-            .set(
-                {
-
-                }
-            )
-
-        let follow2 = await firestore()
-            .collection('Followers')
-            .doc(createrID)
-            .collection('Lookups')
-            .doc(auth().currentUser.uid)
-            .set(
-                {
-
-                }
-            )
-
-        let increaseFollowerFromCreater = await
-            firestore()
-                .collection('Users')
-                .doc(createrID)
-                .update
-                (
-                    {
-                        Followers: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(1)
-                    }
-                )
-
-        let increaseFollowingFromUser = await
-            firestore()
-                .collection('Users')
-                .doc(auth().currentUser.uid)
-                .update
-                (
-                    {
-                        Following: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(1)
-                    }
-                )
-
-
-        return { follow1, follow2, increaseFollowerFromCreater, increaseFollowingFromUser }
-
-    }
-    catch (err) {
-        console.log(err, "FOlLOW")
-    }
-}
-
-
-const unFollowOperations = async (createrID) => {
-    try {
-
-        let del1 = await firestore()
-            .collection('Following').
-            doc(auth().currentUser.uid)
-            .collection('LookUps')
-            .doc(createrID)
-            .delete()
-
-        let del2 = await firestore()
-            .collection('Followers')
-            .doc(createrID)
-            .collection('Lookups')
-            .doc(auth().currentUser.uid)
-            .delete()
-
-        let decreseFollowerFromCreater = await
-            firestore()
-                .collection('Users')
-                .doc(createrID)
-                .update
-                (
-                    {
-                        Followers: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(-1)
-                    }
-                )
-
-        let decreaseFollowingFromUser = await
-            firestore()
-                .collection('Users')
-                .doc(auth().currentUser.uid)
-                .update
-                (
-                    {
-                        Following: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(-1)
-                    }
-                )
-
-
-        return {
-            decreaseFollowingFromUser, decreseFollowerFromCreater
-            , del1, del2
-        }
-
-    }
-    catch
-    (err) {
-
-        console.log(err, "unFOllow")
-    }
-
-}
 
 
 export const followUnFollow = (createrID) => {
@@ -201,7 +84,7 @@ export const getCreaterDetails = (createrID) => {
                     .doc(createrID)
                     .get()
 
-            //     console.log(creater,"creater Action")
+
 
             const data = {
                 id: creater.id,
@@ -317,7 +200,7 @@ export const getMoreCreaterVideos = (createrID) => {
             const id = getState().Creater.lastKeyCreaterVideos
 
             console.log(id, 'id')
-            dispatch( {type: GET_MORE_CREATER_VIDEOS_REQUEST})
+            dispatch({ type: GET_MORE_CREATER_VIDEOS_REQUEST })
             const videos =
                 await firestore().collection('Videos')
                     .where('channelID', '==', createrID)
@@ -363,7 +246,7 @@ export const getMoreCreaterVideos = (createrID) => {
         }
         catch (err) {
 
-            console.log(err,"error in njdfnd")
+            console.log(err, "error in njdfnd")
             dispatch(
                 {
                     type: GET_MORE_CREATER_VIDEOS_FAILED,

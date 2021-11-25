@@ -7,39 +7,40 @@ const MAX_FETCH_LIMIT = 1
 export const getProfileDetails = () => {
 
     return async (dispatch, getState) => {
-        try {
-            dispatch({type:GET_USER_DETAILS_REQUEST})
-            
-            
-            const user = await
-                firestore()
-                    .collection('Users')
-                    .doc(
-                        auth().currentUser.uid
-                    )
-                    .get()
+        dispatch({ type: GET_USER_DETAILS_REQUEST })
 
-           
-         console.log(user)
-            dispatch(
-                {
-                    type: GET_USER_DETAILS_SUCCESS,
-                    payload: {
-                        user: user.data()
+
+        const user =
+            firestore()
+                .collection('Users')
+                .doc(
+                    auth().currentUser.uid
+                )
+                .onSnapshot(
+                    (child) => {
+                        dispatch(
+                            {
+                                type: GET_USER_DETAILS_SUCCESS,
+                                payload: {
+                                    user: child.data()
+                                }
+                            }
+                        )
+
+                    },
+                    (error) => {
+                        console.log(error)
+                        dispatch(
+                            {
+                                type: GET_USER_DETAILS_FAILED,
+                                payload: error
+                            }
+                        )
+
                     }
-                }
-            )
-        }
+                )
 
-        catch (err) {
-            console.log(err)
-            dispatch(
-                {
-                    type: GET_USER_DETAILS_FAILED,
-                    payload: err
-                }
-            )
-        }
+            return ()=>user()
 
     }
 
@@ -120,14 +121,14 @@ export const getProfileVideos = () => {
 
 export const getMoreProfileVideos = () => {
 
-    return async (dispatch,getState) => {
-      
+    return async (dispatch, getState) => {
+
         try {
 
-            const id=getState().Profile.lastKeyUserVideos
+            const id = getState().Profile.lastKeyUserVideos
 
-            if(id==null)
-            return
+            if (id == null)
+                return
 
             dispatch(
                 {

@@ -16,48 +16,48 @@ const ProfileInnerStackNavigator = () => {
 
     return (
 
-            <HomeStack.Navigator
-              
+        <HomeStack.Navigator
 
-                initialRouteName="Profile"
-               
-            >
+
+            initialRouteName="Profile"
+
+        >
 
             <HomeStack.Screen
-            name="Profile"
-            options={
-                {
-                    headerShown:false
+                name="Profile"
+                options={
+                    {
+                        headerShown: false
+                    }
                 }
-            }
-            component={Profile}
+                component={Profile}
             ></HomeStack.Screen>
-              <HomeStack.Screen
-            name="Edit"
-            options={
-                {
-                    headerShown:false
+            <HomeStack.Screen
+                name="Edit"
+                options={
+                    {
+                        headerShown: false
+                    }
                 }
-            }
-            component={EditProfile}
-            ></HomeStack.Screen>
-
-<HomeStack.Screen
-            name="UserVideoPlayer"
-            options={
-                {
-                    headerShown:false
-                }
-            }
-            component={UserVideoPlayer}
+                component={EditProfile}
             ></HomeStack.Screen>
 
+            <HomeStack.Screen
+                name="UserVideoPlayer"
+                options={
+                    {
+                        headerShown: false
+                    }
+                }
+                component={UserVideoPlayer}
+            ></HomeStack.Screen>
 
 
-           
-          </HomeStack.Navigator>
+
+
+        </HomeStack.Navigator>
     )
-      
+
 
 }
 

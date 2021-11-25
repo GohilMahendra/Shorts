@@ -17,10 +17,12 @@ import RoundImage from "./RoundImage";
 
 import Share from "react-native-share";
 import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
+import { Dislike, isExist, LikeVideo } from "../functions/VideoPlayer/LikesOperations";
+import { createIconSetFromFontello } from "react-native-vector-icons";
 
 const VideoReview = (props) => {
 
-    const { data, channel } = props
+    const { data, channel,like } = props
 
     const navigation = useNavigation()
 
@@ -121,127 +123,26 @@ const VideoReview = (props) => {
 
 
 
-    const IsLiked = async () => {
-
-
-
-        try {
-            const res = await firestore()
-                .collection('Likes')
-                .doc(data.id)
-                .collection('lookups')
-                .doc(auth().currentUser.uid)
-                .get()
-
-            if (res.exists) {
-                setliked(true)
-            }
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-
-    useEffect
-        (
-            () => {
-                IsLiked()
-
-
-            }
-            ,
-            []
-        )
 
     const LikeAction = async () => {
 
-     
         setliked(!liked)
-        const res = await firestore()
-            .collection('Likes')
-            .doc(data.id)
-            .collection('lookups')
-            .doc(auth().currentUser.uid)
-            .get()
+        const res = await isExist(data.id)
 
-        if (res.exists) {
-
-          
+        if (res) {
 
             setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
-
-            await firestore()
-                .collection('Likes')
-                .doc(data.id)
-                .collection('lookups')
-                .doc(auth().currentUser.uid)
-                .delete()
-
-            await firestore()
-                .collection('Videos')
-                .doc(data.id)
-                .update
-                (
-                    {
-                        likes: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(-1)
-                    }
-                )
-
-            await firestore()
-                .collection('Users')
-                .doc(data.channelID)
-                .update
-                (
-                    {
-                        likes: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(-1)
-                    }
-                )
+           let response=await Dislike(data.id,data.channelID)
+           console.log(response)
         }
         else {
             setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
-
-          
-            await firestore()
-                .collection('Likes')
-                .doc(data.id)
-                .collection('lookups')
-                .doc(auth().currentUser.uid)
-                .set({})
-
-            await firestore()
-                .collection('Videos')
-                .doc(data.id)
-                .update
-                (
-                    {
-                        likes: firebase.firestore
-                            .FieldValue
-                            .increment(1)
-                    }
-                )
-        }
-
-        await firestore()
-            .collection('Users')
-            .doc(data.channelID)
-            .update
-            (
-                {
-                    likes: firebase
-                        .firestore
-                        .FieldValue
-                        .increment(1)
-                }
-            )
+            let response=await LikeVideo(data.id,data.channelID)
+            console.log(response)
 
 
     }
+}
 
 
     return (

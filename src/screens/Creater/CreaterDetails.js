@@ -87,10 +87,14 @@ const CreaterDetails = ({ navigation }) => {
         dispatch(getMoreCreaterVideos(p.params.channelID))
     }
 
-    const fetchVideos=()=>
+
+    const refreashCreater=()=>
     {
+        dispatch(getCreaterDetails(p.params.channelID))
         dispatch(getCreaterVideos(p.params.channelID))
     }
+
+
 
     useEffect(
         () => {
@@ -254,7 +258,7 @@ const CreaterDetails = ({ navigation }) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={CreaterVideosLoad}
-                            onRefresh={()=>fetchVideos()}
+                            onRefresh={()=>refreashCreater()}
                         ></RefreshControl>
                     }
 

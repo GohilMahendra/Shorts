@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-import { NavigationContainer ,useNavigation} from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
 
@@ -24,7 +24,7 @@ const HomeInnerStackNavigator = () => {
 
     const HomeStack = createStackNavigator()
 
-    const navigation=useNavigation()
+    const navigation = useNavigation()
     return (
 
         <HomeStack.Navigator
@@ -37,18 +37,18 @@ const HomeInnerStackNavigator = () => {
                 options={
                     {
                         headerShown: true,
-                        headerTransparent:true,
-                        headerTitle:"",
-                        headerLeft:null,
-                     
+                        headerTransparent: true,
+                        headerTitle: "",
+                        headerLeft: null,
+
                     }
                 }
                 component={Home}
             ></HomeStack.Screen>
 
             <HomeStack.Screen
-            name="Search"
-            component={Search}
+                name="Search"
+                component={Search}
             />
 
 
@@ -82,24 +82,24 @@ const HomeInnerStackNavigator = () => {
                 }
                 component={Tags}
             ></HomeStack.Screen>
-             <HomeStack.Screen
+            <HomeStack.Screen
                 name="TagsVideoPlayer"
                 options={
                     {
                         headerShown: false,
-                        
+
                     }
                 }
                 component={TagsVideoPlayer}
             ></HomeStack.Screen>
-            
-           
-             <HomeStack.Screen
+
+
+            <HomeStack.Screen
                 name="CreaterVideoPlayer"
                 options={
                     {
                         headerShown: false,
-                        
+
                     }
                 }
                 component={CreaterVideoPlayer}
@@ -111,29 +111,31 @@ const HomeInnerStackNavigator = () => {
             <HomeStack.Screen
                 name="Songs"
                 options={
-                    ({ route }) => ({ title: route.params.name,
-                       
-                        
+                    ({ route }) => ({
+                        title: route.params.name,
+
+
                         headerStyle:
                         {
-                            backgroundColor:'black',
-                            
+                            backgroundColor: 'black',
+
 
 
                         },
                         headerTitleStyle:
                         {
-                            color:'#fff'
+                            color: '#fff'
                         },
-                       headerTintColor:'#fff',
-                        headerTitleAlign:"center" })
+                        headerTintColor: '#fff',
+                        headerTitleAlign: "center"
+                    })
                 }
                 component={SongDetails}
             ></HomeStack.Screen>
             <HomeStack.Screen
-            
-            name={"SongVideoPlayer"}
-            component={SongVideoPlayer}
+
+                name={"SongVideoPlayer"}
+                component={SongVideoPlayer}
             ></HomeStack.Screen>
 
 

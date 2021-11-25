@@ -115,13 +115,7 @@ const Profile = ({ navigation }) => {
             >
                 <ScrollView
 
-                    refreshControl={
-                        <RefreshControl
-
-                            refreshing={UserDetailsLoad}
-                            onRefresh={() => dispatch(getProfileDetails())}
-                        ></RefreshControl>
-                    }
+              
                 >
 
                     <RoundImage
