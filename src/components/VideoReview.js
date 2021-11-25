@@ -1,15 +1,11 @@
 import { firebase } from "@react-native-firebase/firestore";
-import React, { useDebugValue, useCallback, useRef, useEffect, useState } from "react";
+import React, { useDebugValue, useCallback, useRef, useEffect, useState, useImperativeHandle, forwardRef } from "react";
 
 import { View, Image, Text, StyleSheet, Dimensions, Animated, Pressable } from 'react-native'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { useNavigation } from "@react-navigation/native";
 
-
-
-import firestore from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth'
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoundImage from "./RoundImage";
@@ -18,14 +14,72 @@ import RoundImage from "./RoundImage";
 import Share from "react-native-share";
 import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
 import { Dislike, isExist, LikeVideo } from "../functions/VideoPlayer/LikesOperations";
-import { createIconSetFromFontello } from "react-native-vector-icons";
 
-const VideoReview = (props) => {
+const VideoReview = forwardRef((props, ref) => {
 
-    const { data, channel,like } = props
+    const { data, channel, like } = props
 
+
+   
     const navigation = useNavigation()
 
+    const [liked, setliked] = useState(like)
+
+
+    const [dynamic, setdynamic] = useState
+        (
+            {
+                likes: data.likes,
+                comments: data.comments,
+
+            }
+        )
+
+
+
+    const anim = useRef(new Animated.Value(1));
+
+    const IsLiked = async () => {
+        try {
+            const exists = await isExist(data.id)
+            setliked(exists)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    useEffect(
+        () => {
+
+            console.log('like')
+
+        }
+        , [like]
+    )
+
+    useEffect(
+        () => {
+
+            IsLiked()
+        },
+        []
+    )
+
+    useImperativeHandle(
+        ref,
+        () => ({
+             testMethod : () => {
+                if(!liked)
+                {
+                LikeAction()
+                }
+
+            }
+
+        })
+    )
 
     const DonwloadVideo = async () => {
 
@@ -43,15 +97,13 @@ const VideoReview = (props) => {
                     },
 
                 )
-
         }
         catch (err) {
             console.log(err)
         }
-
-
-
     }
+
+
 
     const share = async () => {
 
@@ -75,21 +127,7 @@ const VideoReview = (props) => {
             });
     }
 
-    const [liked, setliked] = useState(false)
 
-
-    const [dynamic, setdynamic] = useState
-        (
-            {
-                likes: data.likes,
-                comments: data.comments,
-
-            }
-        )
-
-
-
-    const anim = useRef(new Animated.Value(1));
 
 
     useEffect(() => {
@@ -120,10 +158,6 @@ const VideoReview = (props) => {
 
 
 
-
-
-
-
     const LikeAction = async () => {
 
         setliked(!liked)
@@ -132,17 +166,16 @@ const VideoReview = (props) => {
         if (res) {
 
             setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
-           let response=await Dislike(data.id,data.channelID)
-           console.log(response)
+            await Dislike(data.id, data.channelID)
+
         }
         else {
+
             setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
-            let response=await LikeVideo(data.id,data.channelID)
-            console.log(response)
+            await LikeVideo(data.id, data.channelID)
 
-
+        }
     }
-}
 
 
     return (
@@ -162,11 +195,11 @@ const VideoReview = (props) => {
             >
 
 
-                        <RoundImage
-                            imageURL={channel.photoURL}
-                        >
-                        </RoundImage>
-                     
+                <RoundImage
+                    imageURL={channel.photoURL}
+                >
+                </RoundImage>
+
 
             </TouchableOpacity>
             <TouchableOpacity
@@ -186,9 +219,11 @@ const VideoReview = (props) => {
 
                         <Animated.View
 
-                            style={{ transform: [{ 
-                                scale: anim.current 
-                                }] }}>
+                            style={{
+                                transform: [{
+                                    scale: anim.current
+                                }]
+                            }}>
 
                             <FontAwesome5
                                 name="heart"
@@ -250,9 +285,6 @@ const VideoReview = (props) => {
 
                     </View>
 
-
-
-
                 </View>
             </TouchableOpacity>
 
@@ -266,8 +298,6 @@ const VideoReview = (props) => {
                     <View
                         style={styles.blurBackground}
                     >
-
-
                     </View>
 
                     <View
@@ -295,7 +325,7 @@ const VideoReview = (props) => {
     )
 
 }
-
+)
 const styles = StyleSheet.create
     (
         {
@@ -329,5 +359,6 @@ const styles = StyleSheet.create
             }
         }
     )
+
 
 export default VideoReview

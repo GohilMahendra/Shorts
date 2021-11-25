@@ -46,7 +46,7 @@ const SongInfoBox = ({ data }) => {
                             TextAnim.current,
                             {
                                 toValue: 1.
-                                , duration: 5000,
+                                , duration: 7000,
                                 easing: Easing.inOut(Easing.ease),
                                 useNativeDriver: false
                             }
@@ -79,7 +79,7 @@ const SongInfoBox = ({ data }) => {
                     RoundAnimation.current,
                     {
                         toValue: 1,
-                        duration: 5000,
+                        duration: 2000,
                         useNativeDriver: false,
                         easing: Easing.linear
 
@@ -133,12 +133,12 @@ const SongInfoBox = ({ data }) => {
                     <Text
                         style={
                             {
-                                fontSize: 20,
-                                width: 250,
+                                fontSize: 25,
+                                width:500,
                                 color: Colors.White,
                                 direction: "rtl",
 
-                                fontFamily:Fonts.Playball_Regular,
+                                fontFamily:Fonts.Genos_Regular,
                                 textAlignVertical: 'center',
 
                             }

@@ -47,6 +47,13 @@ const HomeInnerStackNavigator = () => {
             ></HomeStack.Screen>
 
             <HomeStack.Screen
+                options={
+                    {
+                        headerTransparent:true,
+                        title:''
+                    }
+                }
+              
                 name="Search"
                 component={Search}
             />

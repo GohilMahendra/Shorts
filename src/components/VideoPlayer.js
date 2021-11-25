@@ -11,185 +11,94 @@ import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from "@react-navigation/core";
 
 import auth from '@react-native-firebase/auth'
-import Animated, { useAnimatedStyle, useSharedValue, withDecay, withDelay, withRepeat, withSpring }  from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withDecay, withDelay, withRepeat, withSpring } from "react-native-reanimated";
 import { TapGestureHandler } from "react-native-gesture-handler";
+import { isExist } from "../functions/VideoPlayer/LikesOperations";
 
 const { height, width } = Dimensions.get('window')
 export default VideoPlayer = forwardRef((props, ref) => {
 
 
 
-    const AnimatedView=Animated.createAnimatedComponent(View)
+    const AnimatedView = Animated.createAnimatedComponent(View)
 
     const { data } = props
 
     const [paused, setpaused] = useState(false)
 
-    const [like,setlike]=useState(false)
-   
+    const [like, setlike] = useState(false)
 
-    const [dynamic, setdynamic] = useState
-    (
+    const childReviewRef=useRef()
+
+    const [channel, setchannel] = useState(
         {
-            likes: data.likes,
-            comments: data.comments,
-
+            userName: "",
+            userID: "",
+            varified: false,
+            Followers: 0,
+            photoURL: "",
+            Following: 0,
+            likes: 0,
         }
     )
 
-    const IsLiked = async () => {
+    const [loading, setloading] = useState(false)
+
+    const getUserDetails = async () => {
+        const userDetails = await firestore()
+            .collection('Users')
+            .doc(data.channelID).get()
+
+        setchannel(userDetails.data())
 
 
-
-        try {
-            const res = await firestore()
-                .collection('Likes')
-                .doc(data.id)
-                .collection('lookups')
-                .doc(auth().currentUser.uid)
-                .get()
-
-            if (res.exists) {
-                setlike(true)
-            }
-        }
-        catch (err) {
-            console.log(err)
-        }
     }
+
 
     useEffect
         (
             () => {
-                IsLiked()
-
-
+                getUserDetails()
+               
             }
             ,
             []
         )
 
-        const LikeAction = async () => {
 
-     
-            setlike(!liked)
-            const res = await firestore()
-                .collection('Likes')
-                .doc(data.id)
-                .collection('lookups')
-                .doc(auth().currentUser.uid)
-                .get()
-    
-            if (res.exists) {
-    
-              
-    
-                setdynamic({ ...dynamic, likes: dynamic.likes - 1 })
-    
-                await firestore()
-                    .collection('Likes')
-                    .doc(data.id)
-                    .collection('lookups')
-                    .doc(auth().currentUser.uid)
-                    .delete()
-    
-                await firestore()
-                    .collection('Videos')
-                    .doc(data.id)
-                    .update
-                    (
-                        {
-                            likes: firebase
-                                .firestore
-                                .FieldValue
-                                .increment(-1)
-                        }
-                    )
-    
-                await firestore()
-                    .collection('Users')
-                    .doc(data.channelID)
-                    .update
-                    (
-                        {
-                            likes: firebase
-                                .firestore
-                                .FieldValue
-                                .increment(-1)
-                        }
-                    )
-            }
-            else {
-                setdynamic({ ...dynamic, likes: dynamic.likes + 1 })
-    
-              
-                await firestore()
-                    .collection('Likes')
-                    .doc(data.id)
-                    .collection('lookups')
-                    .doc(auth().currentUser.uid)
-                    .set({})
-    
-                await firestore()
-                    .collection('Videos')
-                    .doc(data.id)
-                    .update
-                    (
-                        {
-                            likes: firebase.firestore
-                                .FieldValue
-                                .increment(1)
-                        }
-                    )
-            }
-    
-            await firestore()
-                .collection('Users')
-                .doc(data.channelID)
-                .update
-                (
-                    {
-                        likes: firebase
-                            .firestore
-                            .FieldValue
-                            .increment(1)
-                    }
-                )
-    
-    
-        }
-   
+
     const navigation = useNavigation()
 
 
-    const TapRef=useRef()
-    const scale=useSharedValue(0)
+    const TapRef = useRef()
+    const scale = useSharedValue(0)
 
-    const animStyle=useAnimatedStyle(
-        ()=>
-       (
-        {
-            transform:[{
-                scale:Math.max(scale.value,0)
-            }]
-        }
-       )
-    )
-    
-    const onDoubleTap=useCallback(
-        ()=>
-        {
-
-      //  console.log('double tap',scale.value)
-        scale.value=withSpring(1,undefined,(isfinshed)=>{
-
-            if(isfinshed)
+    const animStyle = useAnimatedStyle(
+        () =>
+        (
             {
-                scale.value=withDelay(400,withSpring(0))
+                transform: [{
+                    scale: Math.max(scale.value, 0)
+                }]
             }
-        })
+        )
+    )
+
+    const onDoubleTap = useCallback(
+        () => {
+
+
+
+          
+           childReviewRef.current.testMethod()
+            scale.value = withSpring(1, undefined, (isfinshed) => {
+
+                if (isfinshed) {
+                    scale.value = withDelay(400, withSpring(0))
+                }
+            })
         },
-    []
+        []
     )
     useImperativeHandle(
         ref,
@@ -212,123 +121,87 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
 
 
-    const [channel, setchannel] = useState(
-        {
-            userName: "",
-            userID: "",
-            varified: false,
-            Followers: 0,
-            photoURL: "",
-            Following: 0,
-            likes: 0,
-        }
-    )
-
-
-
-
-    const getUserDetails = async () => {
-        const userDetails = await firestore()
-            .collection('Users')
-            .doc(data.channelID).get()
-
-        setchannel(userDetails.data())
-
-
-    }
-
-
-    const VideoRef = useRef()
-
-
-
-    const [loading, setloading] = useState(false)
-
-    useEffect
-        (
-            () => {
-                getUserDetails()
-            }, []
-        )
-
     return (
         <View
             style={styles.Container}
         >
 
-                <TapGestureHandler
+            <TapGestureHandler
                 waitFor={TapRef}
-                onActivated={()=>setpaused(!paused)}
-                >
+                onActivated={() => setpaused(!paused)}
+            >
                 <TapGestureHandler
-                ref={TapRef}
-                numberOfTaps={2}
-                maxDelayMs={200}
-                onActivated={()=>onDoubleTap()}
+                    ref={TapRef}
+                    numberOfTaps={2}
+                    maxDelayMs={200}
+                    onActivated={() => onDoubleTap()}
                 >
-                <View>
-                <Video
+                    <View>
+                        <Video
 
 
-                    ref={ref}
+                            ref={ref}
 
-                    onAudioFocusChanged={
-                        () => setpaused(!paused)
-                    }
+                            onAudioFocusChanged={
+                                () => setpaused(!paused)
+                            }
 
 
-                    key={data.id}
-                    source={
-                        {
-                            uri: data.VideoUrl,
-                            cache: true,
+                            key={data.id}
+                            source={
+                                {
+                                    uri: data.VideoUrl,
+                                    cache: true,
 
-                        }
-                    }
+                                }
+                            }
 
-                    repeat={false}
-                    resizeMode={"cover"}
+                            repeat={false}
+                            resizeMode={"cover"}
 
-                    posterResizeMode={"cover"}
-                    paused={paused}
-                    playInBackground={false}
+                            posterResizeMode={"cover"}
+                            paused={paused}
+                            playInBackground={false}
 
-                    preventsDisplaySleepDuringVideoPlayback={true}
-                    filterEnable={true}
+                            preventsDisplaySleepDuringVideoPlayback={true}
+                            filterEnable={true}
 
-                    poster={data.VideoThumb}
+                            poster={data.VideoThumb}
 
-                    bufferConfig={
-                        {
-                            minBufferMs: 1500,
-                            maxBufferMs: 1800,
-                            bufferForPlaybackAfterRebufferMs: 1500,
-                            bufferForPlaybackMs: 1500
-                        }
-                    }
+                            bufferConfig={
+                                {
+                                    minBufferMs: 1500,
+                                    maxBufferMs: 1800,
+                                    bufferForPlaybackAfterRebufferMs: 1500,
+                                    bufferForPlaybackMs: 1500
+                                }
+                            }
 
-                    onReadyForDisplay={() => setloading(false)}
+                            onReadyForDisplay={() => setloading(false)}
 
-                    onLoadStart={() => setloading(true)}
-                    onVideoLoadStart={(e) => console.log(e)}
-                    //onVideoProgress={(e)=>console.log(e)}
-                    // onProgress={(e)=>console.log(e)}
-                    onVideoError={(err) => console.log(err)}
-                    style={{
-                        height: '100%',
-                        width: '100%',
-                        //backgroundColor:'blue'
-                    }}
-                >
+                            onLoadStart={() => setloading(true)}
+                            onVideoLoadStart={(e) => console.log(e)}
+                            //onVideoProgress={(e)=>console.log(e)}
+                            // onProgress={(e)=>console.log(e)}
+                            onVideoError={(err) => console.log(err)}
+                            style={{
+                                height: '100%',
+                                width: '100%',
+                                //backgroundColor:'blue'
+                            }}
+                        >
 
-                </Video>
-            </View>
+                        </Video>
+                    </View>
+                </TapGestureHandler>
             </TapGestureHandler>
-            </TapGestureHandler>
-          
+
             <VideoReview
                 data={data}
                 channel={channel}
+                like={like}
+                ref={ref=>{childReviewRef.current=ref}}
+              
             ></VideoReview>
             <VideoDetails
                 data={data}
@@ -340,7 +213,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                 style={{
                     position: 'absolute',
                     top: '50%',
-                    alignSelf:'center'
+                    alignSelf: 'center'
 
                 }}
 
@@ -362,7 +235,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                 style={{
                     position: 'absolute',
                     opacity: 1,
-                 
+
                     alignSelf: "center",
                     top: "45%"
                 }}
@@ -371,32 +244,32 @@ export default VideoPlayer = forwardRef((props, ref) => {
             </FontAwesome5Icon>}
 
             <AnimatedView
-            style={
-                [{
-                    position:'absolute',
-                    top:'45%',
-                    alignSelf:'center',
-                },
-                animStyle
-                ]}
+                style={
+                    [{
+                        position: 'absolute',
+                        top: '45%',
+                        alignSelf: 'center',
+                    },
+                        animStyle
+                    ]}
             >
                 <FontAwesome5Icon
-                name="heart"
-                style={
-                    {
-                        textShadowOffset:{
-                            height:3,
-                            width:3
-                        },
-                      
-                      
-                        textShadowColor:'black',
-                       
+                    name="heart"
+                    style={
+                        {
+                            textShadowOffset: {
+                                height: 3,
+                                width: 3
+                            },
+
+
+                            textShadowColor: 'black',
+
+                        }
                     }
-                }
-                solid={true}
-                color={'red'}
-                size={100}
+                    solid={true}
+                    color={'red'}
+                    size={100}
                 ></FontAwesome5Icon>
             </AnimatedView>
 
@@ -411,7 +284,8 @@ const styles = StyleSheet.create
     (
         {
             Container:
-            {   height: height,
+            {
+                height: height,
                 width: width
 
             }

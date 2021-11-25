@@ -10,6 +10,10 @@ export const SearchUser = (search) => {
 
     return async (dispatch, getState) => {
         try {
+
+            if(search[0]=='@' && search.length<2)
+            return
+
             dispatch(
                 {
                     type: SEARCH_POST_REQUEST
