@@ -152,75 +152,46 @@ const EditProfile = () => {
 
     return (
         <View
-            style={{
-                flex: 1,
-                backgroundColor: Colors.MateBlack,
-                alignItems: "center",
-
-            }}
+            style={styles.Container}
         >
 
-            <RoundImage
+            <View
+                style={
+                    {
+                        marginTop: 20
+                    }
+                }
+            >
+                <RoundImage
+                    imageURL={auth().currentUser.photoURL}
+                />
 
-                imageURL={auth().currentUser.photoURL}
-            />
+            </View>
 
             <TouchableOpacity
 
 
-                style={
-                    {
-                        backgroundColor:'#282C35',
-                        alignItems: 'center',
-                        alignSelf: 'center',
-                        padding: 10,
-                        margin: 10,
-                        borderRadius: 15,
-                        elevation: 15
-                    }
-                }
+                style={styles.BtnProfile}
 
                 onPress={
                     () => chooseImage()
                 }
             >
                 <Text
-                    style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#fff'
-                    }}
+                    style={styles.txtProfilePicture}
                 >Change Profile Picture</Text>
             </TouchableOpacity>
             <View
-                style={{
-                    flexDirection: 'row',
-                    height: 50,
-                    margin: 20,
-                    borderRadius: 20,
-                    backgroundColor: Colors.Teal,
-                    justifyContent: 'center'
-
-                }}
+                style={styles.userNameContainer}
             >
                 <Text
-                    style={{
-                        padding: 5,
-                        textAlign: 'center',
-                        textAlignVertical: 'center',
-                        color: Colors.White
-
-                    }}
-                >UserName</Text>
+                    style={styles.txtUserName}
+                >USER NAME</Text>
                 <TextInput
                     value={userName}
+
                     onChangeText={text => setuserName(text)}
-                    style={{
-                        backgroundColor: Colors.White,
-                        flex: 1,
-                        textAlign: 'center',
-                        color: Colors.grey
-                    }}
+                    style={styles.textInput}
 
                 >
 
@@ -230,23 +201,12 @@ const EditProfile = () => {
             <TouchableOpacity
 
                 onPress={() => update()}
-                style={{
-                    backgroundColor: 'blue',
-                    height: 50,
-                    justifyContent: "center",
-                    padding: 10,
-                    borderRadius: 15
-                }}
+                style={styles.btnUpdate}
             >
                 <Text
-                    style={{
-                        color: Colors.White,
-                        fontSize: 20,
-                        textAlign: 'center',
-                        justifyContent: "center"
-                    }}
+                    style={styles.txtUpdate}
                 >
-                    SAVE CHNAGES
+                    UPDATE PROFILE
                 </Text>
             </TouchableOpacity>
         </View>
@@ -261,12 +221,77 @@ const styles = StyleSheet.create
         {
             Container:
             {
+                flex: 1,
+
+                backgroundColor: 'black',
+                alignItems: "center",
 
             },
             textInput:
             {
+                backgroundColor: Colors.White,
+                flex: 1,
 
+                height: 50,
+                marginHorizontal: 20,
+                borderRadius: 15,
+                textAlign: 'center',
+                color: 'black'
+            },
+            BtnProfile:
+
+            {
+                backgroundColor: '#EBF0F6',
+                alignItems: 'center',
+                alignSelf: 'center',
+                padding: 10,
+                margin: 20,
+                borderRadius: 15,
+                elevation: 15
+            },
+            txtProfilePicture:
+            {
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: 'black'
+            },
+            userNameContainer:
+            {
+                margin: 20,
+                borderRadius: 20,
+                height: 100,
+
+                width: '100%',
+                justifyContent: 'center'
+
+            },
+            txtUserName:
+            {
+
+                textAlign: 'center',
+                textAlignVertical: 'center',
+                color: Colors.White,
+                fontSize: 20,
+                margin: 10
+
+            },
+            btnUpdate:
+            {
+                backgroundColor: '#77ACF1',
+                height: 50,
+                elevation: 10,
+                justifyContent: "center",
+                padding: 10,
+                borderRadius: 15
+            },
+            txtUpdate:
+            {
+                color: Colors.White,
+                fontSize: 20,
+                textAlign: 'center',
+                justifyContent: "center"
             }
+
 
 
         }

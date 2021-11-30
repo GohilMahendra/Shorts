@@ -21,7 +21,7 @@ import {
 
 const MAX_ITEM_PER_BATCH = 2
 
-export const MakeComment = (comment, todaysDateTime, { videoID }) => {
+export const MakeComment = (comment, { videoID }) => {
 
     return async (dispatch) => {
 
@@ -55,6 +55,8 @@ export const MakeComment = (comment, todaysDateTime, { videoID }) => {
                 }
             }
 
+            const todaysDateTime=new Date().toISOString()
+            
             const res = await firestore()
                 .collection('Comments')
                 .doc(

@@ -244,11 +244,10 @@ const VideoUpload = ({onPress}) => {
                 return
             }
 
-           const uri= await captureTumbnail()
+            const uri= await captureTumbnail()
             const VideoThumb=await UploadThumbOnServer(uri)
         
-        console.log(VideoThumb)
-
+          
             const VideoUrl=await UploadVideoFull(VideoLoaction)
             const songID= await UploadSongOnServer(VideoThumb)
          

@@ -97,7 +97,7 @@ const Profile = ({ navigation }) => {
 
                 dispatch(getProfileDetails())
 
-                 getVideosList()
+                getVideosList()
             },
             []
         )
@@ -115,7 +115,7 @@ const Profile = ({ navigation }) => {
             >
                 <ScrollView
 
-              
+
                 >
 
                     <RoundImage

@@ -50,14 +50,6 @@ const VideoReview = forwardRef((props, ref) => {
     }
 
 
-    useEffect(
-        () => {
-
-            console.log('like')
-
-        }
-        , [like]
-    )
 
     useEffect(
         () => {
@@ -84,7 +76,7 @@ const VideoReview = forwardRef((props, ref) => {
     const DonwloadVideo = async () => {
 
         try {
-            RNFS.downloadFile
+            await RNFS.downloadFile
                 (
                     {
                         fromUrl: data.VideoUrl,
@@ -92,7 +84,7 @@ const VideoReview = forwardRef((props, ref) => {
                         toFile: RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
 
                         progress: (res) => console.log(
-                            res.bytesWritten / res.contentLength),
+                           res),
 
                     },
 
@@ -109,12 +101,12 @@ const VideoReview = forwardRef((props, ref) => {
 
         DonwloadVideo()
 
-        // console.log("share")
+        console.log("share")
         Share.open({
             saveToFiles: true,
 
             showAppsToView: false,
-            url: 'file:///' + RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
+            url:'file:///'+ RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
             title: 'Share Video FIle',
             message: "Dont forget to give star on GITHUB"
         })

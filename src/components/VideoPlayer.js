@@ -14,7 +14,7 @@ import auth from '@react-native-firebase/auth'
 import Animated, { useAnimatedStyle, useSharedValue, withDecay, withDelay, withRepeat, withSpring } from "react-native-reanimated";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { isExist } from "../functions/VideoPlayer/LikesOperations";
-
+import convertToProxyURL from 'react-native-video-cache';
 const { height, width } = Dimensions.get('window')
 export default VideoPlayer = forwardRef((props, ref) => {
 
@@ -65,11 +65,6 @@ export default VideoPlayer = forwardRef((props, ref) => {
             []
         )
 
-
-
-    const navigation = useNavigation()
-
-
     const TapRef = useRef()
     const scale = useSharedValue(0)
 
@@ -85,11 +80,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
     )
 
     const onDoubleTap = useCallback(
-        () => {
-
-
-
-          
+        () => {          
            childReviewRef.current.testMethod()
             scale.value = withSpring(1, undefined, (isfinshed) => {
 
@@ -133,7 +124,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                 <TapGestureHandler
                     ref={TapRef}
                     numberOfTaps={2}
-                    maxDelayMs={200}
+                    maxDelayMs={400}
                     onActivated={() => onDoubleTap()}
                 >
                     <View>
@@ -150,7 +141,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                             key={data.id}
                             source={
                                 {
-                                    uri: data.VideoUrl,
+                                    uri: convertToProxyURL(data.VideoUrl),
                                     cache: true,
 
                                 }
@@ -170,10 +161,10 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
                             bufferConfig={
                                 {
-                                    minBufferMs: 1500,
-                                    maxBufferMs: 1800,
-                                    bufferForPlaybackAfterRebufferMs: 1500,
-                                    bufferForPlaybackMs: 1500
+                                    minBufferMs: 15000,
+                                    maxBufferMs: 18000,
+                                    bufferForPlaybackAfterRebufferMs: 15000,
+                                    bufferForPlaybackMs: 15000
                                 }
                             }
 

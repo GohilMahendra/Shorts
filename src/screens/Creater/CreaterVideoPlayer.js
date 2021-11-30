@@ -97,6 +97,7 @@ const CreaterVideoPlayer=({navigation})=>
 
             viewabilityConfig={viewConfigRef.current}
 
+            initialScrollIndex={route.params!=undefined?route.params.index:0}
             onViewableItemsChanged={onViewRef.current}
             
             snapToInterval={height}

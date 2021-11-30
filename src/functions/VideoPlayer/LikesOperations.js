@@ -1,5 +1,5 @@
 
-import firestore,{firebase} from '@react-native-firebase/firestore'
+import firestore, { firebase } from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 export const Dislike = async (videoID, channelID) => {
 
@@ -39,7 +39,7 @@ export const Dislike = async (videoID, channelID) => {
                 }
             )
 
-        
+
     }
     catch (err) {
         console.log(err)
@@ -87,7 +87,7 @@ export const LikeVideo = async (videoID, channelID) => {
                 }
             )
 
-        
+
     }
     catch (err) {
         console.log(err)

@@ -104,7 +104,7 @@ const SongInfoBox = ({ data }) => {
                 horizontal
                 style={
                     {
-                        width: '80%'
+                        width: '60%'
                     }
                 }
             >
@@ -157,6 +157,7 @@ const SongInfoBox = ({ data }) => {
                 <Animated.View
 
                     style={{
+                        width:"40%",
                         transform: [{
                             rotate: RoundAnimation.current.interpolate({
                                 inputRange: [0, 1],

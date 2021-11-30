@@ -1,21 +1,10 @@
-
-
-
-
 import React, { useEffect, useState,useRef } from "react";
-
-
-import auth from '@react-native-firebase/auth'
 import {View ,Animated,Text, TouchableOpacity, Dimensions, StyleSheet} from 'react-native'
 
-
-import firestore from '@react-native-firebase/firestore'
-import { Easing, tan } from "react-native-reanimated";
-import { combineReducers } from "redux";
 import { useNavigation } from "@react-navigation/core";
-import RoundImage from "./RoundImage";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import SongInfoBox from "./SongInfoBox";
+import {Fonts} from '../constants/Fonts'
+
 const {height,width}=Dimensions.get('screen')
 const VideoDetails=(props)=>
 {
@@ -42,7 +31,7 @@ const VideoDetails=(props)=>
             style={
                styles.txtTitle
             }
-            >{data.Title}</Text>
+            >jhbdf hsdbfjhds jhsdbfjhbdsh sbdfjhbhjds jhsbdfh</Text>
              
             <View
             style={
@@ -54,12 +43,10 @@ const VideoDetails=(props)=>
             >
 
             <Text
+            numberOfLines={2}
+         
               style={
-                {
-                    color:"#fff",
-                    fontSize:20,
-                    marginRight:20
-                }
+                styles.txtTitle
             }
             >{data.channelName}</Text>
        
@@ -94,7 +81,7 @@ const VideoDetails=(props)=>
                     style={
                       styles.txtTag
                     }
-                    >{tag}</Text>
+                    >dhjfbsb</Text>
                     </TouchableOpacity>
                     )
                    })
@@ -115,25 +102,39 @@ const styles=StyleSheet.create
             position:'absolute',
             left:15,
             bottom:70,
+          //  width:"75%"
         
         },
         txtTitle:
         {
             color:"#fff",
-            fontSize:20
+            fontSize:20,
+            width:"75%",
+            
+            fontFamily:Fonts.Genos_Regular,
+            
         },
         txtchannelID:
         {
 
             fontSize:20,
-            color:"#fff"
+            color:"#fff",
+            fontFamily:Fonts.SpaceMono_Regular,
+
            
          },
         txtTag:
         {
 
             fontSize:20,
-            color:"#fff"
+            color:"#fff",
+            textShadowColor:'#fff',
+            textShadowOffset:{
+                height:2,width:2
+            },
+            textShadowRadius:5,
+            fontFamily:Fonts.Genos_Regular
+    
            
         }
     }

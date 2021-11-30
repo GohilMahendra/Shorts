@@ -4,11 +4,26 @@ import auth from "@react-native-firebase/auth";
 import { GET_MORE_USER_VIDEOS_FAILED, GET_MORE_USER_VIDEOS_REQUEST, GET_MORE_USER_VIDEOS_SUCCESS, GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS, LOG_OUT_REQUEST } from "../Types/ProfileTypes";
 const MAX_FETCH_LIMIT = 1
 
+
+export const UpdateProfile=()=>
+{
+    return async(dispatch)=>
+    {
+        try
+        {
+
+        }
+        catch(err)
+        {
+            
+        }
+    }
+}
+
 export const getProfileDetails = () => {
 
     return async (dispatch, getState) => {
         dispatch({ type: GET_USER_DETAILS_REQUEST })
-
 
         const user =
             firestore()
