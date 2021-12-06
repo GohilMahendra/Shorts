@@ -1,49 +1,109 @@
 
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import storage from "@react-native-firebase/storage";
 
 import {
     UploadThumbOnServer, getVideopath,
     UploadVideoFull, UploadSongOnServer
 } from "../../functions/Profile/Upload";
-import { GET_MORE_USER_VIDEOS_FAILED, GET_MORE_USER_VIDEOS_REQUEST, GET_MORE_USER_VIDEOS_SUCCESS, GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT_REQUEST, RESET_PASSWORD_LINK_FAILED, RESET_PASSWORD_LINK_REQUEST, RESET_PASSWORD_LINK_SUCCESS, SIGNUP_USER_FAILED, SIGNUP_USER_REQUEST, SIGNUP_USER_SUCCESS, UPLOAD_VIDEO_FAILED, UPLOAD_VIDEO_REQUEST, UPLOAD_VIDEO_SUCCESS } from "../Types/ProfileTypes";
+import { GET_MORE_USER_VIDEOS_FAILED, GET_MORE_USER_VIDEOS_REQUEST, GET_MORE_USER_VIDEOS_SUCCESS, GET_USER_DETAILS_FAILED, GET_USER_DETAILS_REQUEST, GET_USER_DETAILS_SUCCESS, GET_USER_VIDEOS_FAILED, GET_USER_VIDEOS_REQUEST, GET_USER_VIDEOS_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT_REQUEST, RESET_PASSWORD_LINK_FAILED, RESET_PASSWORD_LINK_REQUEST, RESET_PASSWORD_LINK_SUCCESS, SIGNUP_USER_FAILED, SIGNUP_USER_REQUEST, SIGNUP_USER_SUCCESS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPLOAD_VIDEO_FAILED, UPLOAD_VIDEO_REQUEST, UPLOAD_VIDEO_SUCCESS } from "../Types/ProfileTypes";
 import { ActivityIndicator, Alert } from "react-native";
 
 const MAX_FETCH_LIMIT = 1
 
 
+export const updateUserData = (username = "", path = "") => {
+    return async (dispatch) => {
+        try {
 
-export const signInUser=(email,password)=>
-{
-
-    return async(dispatch)=>
-    {
-        try
-        {
-
-            if(email=="" || password=="")
-            {
-                Alert.alert("NULL FIELD ERROR","PLEASE FILL FIELDS REQUIRED")
+            if (username == "") {
+                Alert.alert("NULL USERNAME", "CANT UPDATE TO NULL")
                 return
             }
 
-            dispatch({type:LOGIN_REQUEST})
+            dispatch({ type: UPDATE_PROFILE_REQUEST })
 
-            const user = await auth().signInWithEmailAndPassword(email, password)
+            const changeUser = await firestore().collection('Users').doc(
+                auth().currentUser.uid
+            ).update
+                (
+                    {
+                        userName: username
+                    }
+                )
 
-            dispatch({type:LOGIN_SUCCESS})
+            const changeAuth = await auth().currentUser.updateProfile(
+                {
+                    displayName: username
+                }
+            )
+
+            if(path!="" && path!=undefined && path!=null)
+            {
+                const updatepath = 'Profile/' +
+                 auth().currentUser.uid + '/' + auth().currentUser.uid
+
+                let ref = storage().ref(updatepath)
+        
+                let task = await ref.putFile(path)
+        
+                let storagepath = await ref.getDownloadURL()
+
+                const changeUser = await firestore().collection('Users').doc(
+                    auth().currentUser.uid
+                ).update
+                    (
+                        {
+                            photoURL: storagepath
+                        }
+                    )
+        
+                const changeAuth = await auth().currentUser.updateProfile(
+                    {
+                        photoURL:storagepath
+                    }
+                )
+
+            }
+
+
+            dispatch({type:UPDATE_PROFILE_SUCCESS})
+
         }
-        catch(err)
-        {
-
-            dispatch({type:LOGIN_FAILED,payload:err})
+        catch (err) {
+            console.log(err)
+            dispatch({ type: UPDATE_PROFILE_FAILED, payload: err })
         }
     }
 }
 
-export const registerUser = (email, password, displayName, userID) => 
-{
-    return async(dispatch) => {
+
+export const signInUser = (email, password) => {
+
+    return async (dispatch) => {
+        try {
+
+            if (email == "" || password == "") {
+                Alert.alert("NULL FIELD ERROR", "PLEASE FILL FIELDS REQUIRED")
+                return
+            }
+
+            dispatch({ type: LOGIN_REQUEST })
+
+            const user = await auth().signInWithEmailAndPassword(email, password)
+
+            dispatch({ type: LOGIN_SUCCESS })
+        }
+        catch (err) {
+
+            dispatch({ type: LOGIN_FAILED, payload: err })
+        }
+    }
+}
+
+export const registerUser = (email, password, displayName, userID) => {
+    return async (dispatch) => {
         try {
             if (displayName === "" || userID === "" || email === "" || password === "") {
                 Alert.alert("Error in Field", "Field is Empty please fill It!!")
@@ -52,7 +112,7 @@ export const registerUser = (email, password, displayName, userID) =>
 
             dispatch({ type: SIGNUP_USER_REQUEST })
 
-         
+
             const user = await auth().createUserWithEmailAndPassword(email, password)
 
             const ref = await firestore()
@@ -71,7 +131,7 @@ export const registerUser = (email, password, displayName, userID) =>
                     }
                 )
 
-               // console.log(ref)
+            // console.log(ref)
             await auth().currentUser.updateProfile(
                 {
                     displayName: displayName,

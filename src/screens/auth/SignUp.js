@@ -63,7 +63,7 @@ const SignUp = ({ navigation }) => {
 
             dispatch(registerUser(email, password, userName, userID))
 
-            if (auth().currentUser != undefined && registerUserError === null)
+            if (registerUserError === null)
                 navigation.navigate('Login')
 
 

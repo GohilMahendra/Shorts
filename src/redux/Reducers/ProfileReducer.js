@@ -17,6 +17,9 @@ import {
     SIGNUP_USER_FAILED,
     SIGNUP_USER_REQUEST,
     SIGNUP_USER_SUCCESS,
+    UPDATE_PROFILE_FAILED,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
     UPLOAD_VIDEO_FAILED,
     UPLOAD_VIDEO_REQUEST,
     UPLOAD_VIDEO_SUCCESS
@@ -45,6 +48,9 @@ const initialstate = {
 
     registerUserLoading: false,
     registerUserError: null,
+
+    updateProfileError:null,
+    updateProfileLoading:false,
 
     resetPasswordError: null,
     resetPasswordLoading: false,
@@ -209,6 +215,24 @@ const ProfileReducer = (state = initialstate, action) => {
                 ...state,
                 loginUserError: action.payload,
                 loginUserLoading: false
+            }
+
+        case UPDATE_PROFILE_REQUEST:
+            return {
+                ...state,
+                updateProfileError:null,
+                updateProfileLoading:true
+            }
+        case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                updateProfileLoading:false
+            }
+        case UPDATE_PROFILE_FAILED:
+            return {
+                ...state,
+                updateProfileError:action.payload,
+                updateProfileLoading:false
             }
         default:
             return state

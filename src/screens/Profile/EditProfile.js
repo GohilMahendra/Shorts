@@ -25,6 +25,10 @@ import { firebase } from "@react-native-firebase/firestore"
 
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
+import { useDispatch, useSelector } from "react-redux"
+import { stat } from "react-native-fs"
+import { updateUserData } from "../../redux/Actions/ProfileActions"
+import { ActivityIndicator } from "react-native"
 
 const EditProfile = () => {
 
@@ -32,97 +36,15 @@ const EditProfile = () => {
     const [userName, setuserName] = useState(auth().currentUser.displayName)
     const [path, setpath] = useState("")
 
-    const [loading, setloading] = useState(false)
+    const dispatch = useDispatch()
+    const updateProfileLoading = useSelector(state => state.Profile.updateProfileLoading)
+    const updateProfileError = useSelector(state => state.Profile.updateProfileError)
 
+    console.log(updateProfileLoading, updateProfileError)
     const update = async () => {
 
-        try {
+        dispatch(updateUserData(userName, path))
 
-            const changeUser = await firestore().collection('Users').doc(
-                auth().currentUser.uid
-            ).update
-                (
-                    {
-                        userName: userName
-                    }
-                )
-
-            const changeAuth = await auth().currentUser.updateProfile(
-                {
-                    displayName: userName
-                }
-            )
-
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-
-
-
-
-        if (path != "")
-            await changeImageFromDatabase(path)
-        else
-            setloading(false)
-    }
-
-    const ChangeImageData = async (newUrl) => {
-
-
-        try {
-
-            const changeUser = await firestore().collection('Users').doc(
-                auth().currentUser.uid
-            ).update
-                (
-                    {
-                        photoURL: newUrl
-                    }
-                )
-
-            const changeAuth = await auth().currentUser.updateProfile(
-                {
-                    photoURL: newUrl
-                }
-            )
-
-
-            setloading(false)
-            console.log(changeAuth, changeUser)
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-
-
-    }
-
-
-    const changeImageFromDatabase = async (uri) => {
-
-        try {
-
-
-            const path = 'Profile/' + auth().currentUser.uid + '/' + auth().currentUser.uid
-
-            let ref = storage().ref(path)
-
-            let task = await ref.putFile(uri)
-
-            console.log(task)
-            let storagepath = await ref.getDownloadURL()
-
-
-
-            await ChangeImageData(storagepath)
-
-        }
-        catch (err) {
-            console.log(err)
-        }
 
     }
 
@@ -203,12 +125,25 @@ const EditProfile = () => {
                 onPress={() => update()}
                 style={styles.btnUpdate}
             >
-                <Text
-                    style={styles.txtUpdate}
-                >
-                    UPDATE PROFILE
-                </Text>
+                {
+                    updateProfileLoading ?
+                        <ActivityIndicator
+                            size={25}
+                            color='#fff'
+
+
+                        /> :
+                        <Text
+                            style={styles.txtUpdate}
+                        >
+                            UPDATE PROFILE
+                        </Text>
+                }
             </TouchableOpacity>
+          {updateProfileError!=null &&  <View style={styles.errorContainer}>
+                <Text style={styles.txtError}>error while updating Profile Try Again !!!</Text>
+            </View>}
+
         </View>
     )
 
@@ -264,6 +199,22 @@ const styles = StyleSheet.create
                 width: '100%',
                 justifyContent: 'center'
 
+            },
+            errorContainer:
+            {
+                height: 50,
+            
+                margin: 10,
+                padding:10,
+                borderRadius: 15,
+                backgroundColor: 'red',
+                alignItems: 'center',
+                justifyContent: 'center'
+
+            },
+            txtError:
+            {
+                color: '#fff'
             },
             txtUserName:
             {
