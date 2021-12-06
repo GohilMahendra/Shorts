@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from "@react-navigation/core"
 import React, { useEffect, useState } from "react"
 
 
-import { View, Image, Text, StyleSheet }
+import { View, Image, Text, StyleSheet, RefreshControl }
     from 'react-native'
 import { TextInput, TouchableOpacity, FlatList } from "react-native-gesture-handler"
 
@@ -71,11 +71,16 @@ const TagList = ({tags}) => {
        
    }
 
+   const fetchTagVideos=()=>
+   {
+    dispatch(getTagVideos(tags))
+   }
     useEffect(
         () => {
 
+            fetchTagVideos()
           
-            dispatch(getTagVideos(tags))
+          
         }, []
     )
 
@@ -105,6 +110,13 @@ const TagList = ({tags}) => {
                         }
                     }
 
+
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={load}
+                        onRefresh={()=>fetchTagVideos()}
+                        ></RefreshControl>
+                    }
 
                     onEndReached={
                         ()=>fetchMoreTagVideos()

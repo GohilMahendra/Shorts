@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import {
     View, Text, FlatList, Dimensions
 } from "react-native";
@@ -54,9 +54,7 @@ const UserVideoPlayer = ({ navigation }) => {
     }
 
 
-    console.log(ref.current.ScrollToIndex())
-
-    const ref=useRef()
+    
     return (
 
         <View
@@ -68,8 +66,7 @@ const UserVideoPlayer = ({ navigation }) => {
 
             <FlatList
 
-               ref={ref}
-                style={{
+              style={{
 
                     flex: 1
                 }}

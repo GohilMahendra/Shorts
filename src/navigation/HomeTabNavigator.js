@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import React, { Profiler, useEffect } from "react"
+import React, { Profiler, useContext, useEffect } from "react"
 
 
 import {
@@ -9,6 +9,7 @@ import { colors } from "react-native-elements"
 import LinearGradient from "react-native-linear-gradient"
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { themeContext } from "../../App"
 import { Colors } from "../constants/colors"
 import MakeVideo from "../screens/MakeVideo"
 import HomeInnerStackNavigator from "./HomeInnerStackNavigator"
@@ -16,6 +17,8 @@ import ProfileInnerStackNavigator from "./ProfileInnerStackNavigator"
 const HomeTabNavigator = () => {
 
     const HomeTab = createBottomTabNavigator()
+
+    const {theme}=useContext(themeContext)
     return (
         <View
             style={{ flex: 1, backgroundColor: 'black' }}
@@ -106,9 +109,9 @@ const HomeTabNavigator = () => {
 
                                             }
                                         }
-                                        colors={[(focused) ?Colors.Teal : "violet"
-                                            , (focused) ? "violet" : "blue"
-                                          
+                                        colors={[(focused) ?theme.gradient_color1:theme.gradient_color2
+                                            , (focused) ? theme.gradient_color2 : theme.gradient_color1
+                                         
                                         ]}
                                     >
                                         <FontAwesome5 size={size} color={"#fff"} name="video"
@@ -143,7 +146,9 @@ const HomeTabNavigator = () => {
                     options={
                         {
                             tabBarIcon: ({ size, focused, color }) =>
-                                <FontAwesome5
+                           (   
+                         
+                            <FontAwesome5
                                     style={
                                         {
                                             textShadowColor: '#fff',
@@ -162,6 +167,8 @@ const HomeTabNavigator = () => {
                                     solid={true}
                                     color={(focused) ? "#fff" : "grey"} name="user">
                                 </FontAwesome5>
+                             
+                           )
                             ,
                             title: ""
 

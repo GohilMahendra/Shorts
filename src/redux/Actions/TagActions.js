@@ -72,7 +72,7 @@ export const getTagVideos = (tags) => {
 
 }
 
-const getMoreTagVideos = () => {
+export const getMoreTagVideos = () => {
 
     return async (dispatch, getState) => {
 

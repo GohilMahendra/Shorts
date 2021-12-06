@@ -1,7 +1,7 @@
 
 
 
-import React, { useState, useEffect } from "react";
+import React, { useRef} from "react";
 
 import {
     View, Text, FlatList, Dimensions

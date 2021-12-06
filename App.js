@@ -13,24 +13,25 @@ import { Provider } from 'react-redux';
 import RootStackNavigator from './src/navigation/RootStackNavigator';
 import store from './src/redux/store/store';
 
+import {  themes} from "./src/constants/themes";
 
 export const themeContext=React.createContext()
 const App= () => {
   
 
-  const [color,setcolor]=useState("red")
+  const [theme,settheme]=useState(themes[0])
 
-  const themeData={color,setcolor}
+  const themeData={theme,settheme}
  
   return (
     
-    <ThemeContext.Provider value={themeData}>
+    <themeContext.Provider value={themeData}>
     <Provider store={store}>
 
      <RootStackNavigator/>
  
      </Provider>
-     </ThemeContext.Provider>
+     </themeContext.Provider>
   );
 };
 

@@ -13,42 +13,26 @@ const SearchResultCard = (props) => {
             style={styles.Container}
         >
             <View
-                style={
-                    {
-                        flexDirection: 'row',
-
-                    }
-                }
+                style={styles.rowContainer}
             >
                 <RoundImage
                     imageURL={data.photoURL}
                 />
 
                 <View
-                    style={
-                        {
-                            marginHorizontal: 25,
-                            justifyContent: 'center',
-
-                        }
-                    }
+                    style={styles.textContainer}
                 >
                     <Text
-                        style={{
-                            color: '#fff',
-                            fontSize: 20
-                        }}
+                        style={styles.txtUserName}
                     >
                         {data.userName}
 
                     </Text>
                     <Text
-                        style={{
-                            color: '#fff'
-                        }}
+                        style={styles.txtUserID}
                     >
                         {data.userID}
-                        
+
                     </Text>
                 </View>
             </View>
@@ -65,7 +49,33 @@ const styles = StyleSheet.create
                 height: 100,
                 backgroundColor: "transparent"
 
+            },
+            textContainer:
+            {
+                marginHorizontal: 25,
+                justifyContent: 'center',
+
+            },
+            txtUserName:
+            {
+                color: '#fff',
+                fontSize: 20
+            },
+            txtUserID:
+            {
+                color: '#fff'
+            },
+            rowContainer:
+            {
+                flexDirection: 'row',
+                backgroundColor: '#383838',
+                borderRadius: 15,
+                borderTopLeftRadius: 50,
+                borderBottomLeftRadius: 50,
+                elevation: 10
+
             }
+
         }
     )
 export default SearchResultCard

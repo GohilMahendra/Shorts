@@ -1,7 +1,7 @@
 
 
 import { useRoute } from "@react-navigation/core"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 
 
 import { View, Image, Text, StyleSheet, RefreshControl }
@@ -25,11 +25,9 @@ const SongDetails = ({ navigation }) => {
 
     const data = p.params.data
 
-    const videoUrl = data.VideoUrl
-   
+    const {theme}=useContext(themeContext)
     const dispatch = useDispatch()
 
-    const {color,setcolor}=React.useContext(ThemeContext)
     const videos = useSelector(state => state.Songs.songVideos)
 
     const SongDetails = useSelector(state => state.Songs.SongDetails)
@@ -95,7 +93,7 @@ const SongDetails = ({ navigation }) => {
                 start={{x:0,y:1}}
                 end={{x:1,y:0}}
                 style={styles.gradientContainer}
-                colors={["blue","violet"]}
+                colors={[theme.gradient_color1,theme.gradient_color2]}
                 >
 
                     <View
@@ -106,17 +104,7 @@ const SongDetails = ({ navigation }) => {
                         <SongPlayer
                             data={data}
                         />
-                            <TouchableOpacity
-                            onPress={()=>setcolor("black")}
-                            style={
-                                {
-                                    height:50,
-                                    width:50,
-                                    backgroundColor:color
-                                }
-                            }
-                            >
-                                </TouchableOpacity>
+                           
                         <View
                             style={styles.songNameContainer}
                         >
@@ -216,8 +204,8 @@ const styles = StyleSheet.create
             songNameContainer:
             {
                 flexDirection: "row",
+                flexWrap:'wrap',
                
-                justifyContent: 'space-between',
                 alignItems: 'center',
               //  flexWrap:'wrap',
             },

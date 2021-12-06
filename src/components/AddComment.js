@@ -15,8 +15,6 @@ const AddComments = (videoID) => {
     const dispatch = useDispatch()
     const [comment, setcomment] = useState("")
 
-    const [height, setheight] = useState(0)
-  
 
     const ReviewRef = useRef()
 
@@ -31,7 +29,6 @@ const AddComments = (videoID) => {
         <View
             style={styles.Container}>
 
-            <ScrollView>
 
                 <View
                     style={styles.innerContainer}
@@ -42,20 +39,17 @@ const AddComments = (videoID) => {
 
                         value={comment}
 
-                        onContentSizeChange={
-                            e => setheight(e.nativeEvent.contentSize.height)
-                        }
+                      
                         onChangeText={(text) => setcomment(text)}
                         style={[
                             styles.txtComment
-                            ,
-                            { height: Math.max(50, height) },
+                           
                         ]}
                         multiline={true}
 
                         numberOfLines={4}
 
-                        maxLength={150}
+                       // maxLength={150}
                         returnKeyType="send"
                         returnKeyLabel="submit"
                         clearButtonMode={"always"}
@@ -87,7 +81,7 @@ const AddComments = (videoID) => {
 
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+           
         </View>
     )
 }
@@ -100,13 +94,15 @@ const styles = StyleSheet.create
                 backgroundColor: "transparent",
                 position: 'absolute',
                 bottom: 5,
-                maxHeight: 100,
+                margin:20,
+                maxHeight: 200,
             },
             innerContainer:
 
             {
                 flexDirection: 'row',
-                flex: 1
+                flex: 1,
+                justifyContent:"space-evenly"
 
             },
             txtComment:
@@ -117,7 +113,7 @@ const styles = StyleSheet.create
                 backgroundColor: '#282C35',
                 margin: 20,
                 borderWidth: 0.5,
-                maxHeight: 100,
+                maxHeight: 200,
                 borderRadius: 15,
 
             },

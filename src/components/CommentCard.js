@@ -103,7 +103,7 @@ const styles = StyleSheet.create
 
             {
                 flex: 1,
-                opacity: 0.2,
+                opacity: 0.1,
                 backgroundColor: '#fff',
                 borderRadius: 20
             },

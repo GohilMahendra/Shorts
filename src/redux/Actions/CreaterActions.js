@@ -198,7 +198,11 @@ export const getMoreCreaterVideos = (createrID) => {
         try {
             const id = getState().Creater.lastKeyCreaterVideos
 
-            console.log(id, 'id')
+            if(id===null)
+            {
+           
+            return
+            }
             dispatch({ type: GET_MORE_CREATER_VIDEOS_REQUEST })
             const videos =
                 await firestore().collection('Videos')

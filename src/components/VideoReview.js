@@ -79,7 +79,7 @@ const VideoReview = forwardRef((props, ref) => {
     const DonwloadVideo = async () => {
 
         try {
-            await RNFS.downloadFile
+             RNFS.downloadFile
                 (
                     {
                         fromUrl: data.VideoUrl,
@@ -91,7 +91,14 @@ const VideoReview = forwardRef((props, ref) => {
 
                     },
 
+                ).promise.then
+                (
+                    share()
                 )
+                .catch(err)
+                {
+                    console.log(err)
+                }
         }
         catch (err) {
             console.log(err)
@@ -100,20 +107,18 @@ const VideoReview = forwardRef((props, ref) => {
 
 
 
-    const share = async () => {
+    const share = () => {
 
-        DonwloadVideo()
-
+     
         Share.open({
             saveToFiles: true,
 
             showAppsToView: false,
-            url:getPath( RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4'),
+            url:"file:///"+RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
             title: 'Share Video FIle',
             message: "Dont forget to give star on GITHUB"
         })
             .then((res) => {
-
                 console.log(res);
             })
             .catch((err) => {
@@ -283,7 +288,8 @@ const VideoReview = forwardRef((props, ref) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => share()}
+            
+                onPress={() => DonwloadVideo()}
             >
                 <View
                     style={styles.effectContainer}
@@ -335,6 +341,7 @@ const styles = StyleSheet.create
             effectContainer:
             {
                 alignItems: 'center',
+                elevation:10,
                 justifyContent: 'center',
                 marginVertical: 10
             },
@@ -344,12 +351,13 @@ const styles = StyleSheet.create
                 height: 70,
                 width: 70,
                 borderRadius: 15,
-                opacity: 0.1
+                opacity: 0.3
             },
             blurFreeView:
 
             {
-                position: "absolute"
+                position: "absolute",
+                elevation:10
             }
         }
     )

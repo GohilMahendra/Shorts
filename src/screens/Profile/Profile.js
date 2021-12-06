@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Image, RefreshControl, StyleSheet, Text, View } from 'react-native'
 
@@ -18,27 +18,24 @@ import { getProfileDetails, getProfileVideos, logOut } from '../../redux/Actions
 import RoundImage from '../../components/RoundImage'
 
 
-import {
-
-} from
-    'react-native-elements'
+import { Snackbar } from
+    'react-native-paper'
 import { Colors } from '../../constants/colors'
 import InfoBox from '../../components/UserDetails/InfoBox'
+import LinearGradient from 'react-native-linear-gradient'
+import { themeContext } from '../../../App'
+import { themes } from '../../constants/themes'
 
 const Profile = ({ navigation }) => {
 
     const dispatch = useDispatch()
     const userDetails = useSelector(state => state.Profile.userProfile)
-
-
-
     const UserDetailsLoad = useSelector(state => state.Profile.UserDetailsLoad)
     const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
 
-    console.log(userDetails)
-    const [selected, setselected] = useState([])
+    const {theme,settheme}=useContext(themeContext)
 
-
+    console.log(theme)
     const videos = useSelector(
         state => state.Profile.UserVideos
     )
@@ -113,65 +110,69 @@ const Profile = ({ navigation }) => {
                 style={styles.detailsContainer}
 
             >
+
                 <ScrollView
-
-
+                style={{flex:1}}
                 >
 
-                    <RoundImage
-                        imageURL={auth().currentUser.photoURL}
-                    />
-
-                    <Text
-                        style={{
-                            color: '#fff',
-                            fontSize: 20,
-                            alignSelf: 'center'
-                        }}
+                    <LinearGradient
+                    start={{x:0,y:0}}
+                    end={{x:1,y:1}}
+                    style={{flex:1}}
+                    colors={[theme.gradient_color1,theme.gradient_color2]}
                     >
-                        {auth().currentUser.displayName}
-                    </Text>
+                        <View style={styles.imgContainer}>
+                        <RoundImage
+                            imageURL={auth().currentUser.photoURL}
+                        />
+                        </View>
 
-                    <InfoBox
-                        followers={userDetails.Followers}
-                        following={userDetails.Following}
-                        likes={userDetails.likes}
-                    />
-
-                    <View
-                        style={styles.btnContainer
-                        }
-                    >
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Edit')}
-                            style={styles.btnEditProfile}
+                        <Text
+                            style={styles.txtuserName}
                         >
-                            <Text style={[styles.text, { color: 'black' }]}>EDIT PROFILE</Text>
-                        </TouchableOpacity>
+                            {auth().currentUser.displayName}
+                        </Text>
 
-                        <TouchableOpacity
-                            onPress={() => logout()}
-                            style={styles.btnLogout}
+                        <InfoBox
+                            followers={userDetails.Followers}
+                            following={userDetails.Following}
+                            likes={userDetails.likes}
+                        />
+
+                        <View
+                            style={styles.btnContainer
+                            }
                         >
-                            <Text style={[styles.text, { color: Colors.White }]}>
-                                Log out
-                            </Text>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Edit')}
+                                style={styles.btnEditProfile}
+                            >
+                                <Text style={[styles.text, { color: 'black' }]}>EDIT PROFILE</Text>
+                            </TouchableOpacity>
 
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity
+                                onPress={() => logout()}
+                                style={styles.btnLogout}
+                            >
+                                <Text style={[styles.text, { color: Colors.White }]}>
+                                    Log out
+                                </Text>
+
+                            </TouchableOpacity>
+                         
+                        </View>
+
+                    </LinearGradient>
                 </ScrollView>
+
             </View>
+
 
             <View
                 style={styles.VideoContainer}
             >
                 <FlatList
-                    style={
-                        {
-                            margin: 10,
-
-                        }
-                    }
+                    style={styles.listContainer}
 
 
                     refreshControl={
@@ -223,18 +224,30 @@ const styles = StyleSheet.create
 
 
             },
+            imgContainer:
+            {
+                margin:10
+            },
             btnEditProfile:
             {
                 alignSelf: 'center',
                 alignItems: 'center',
                 backgroundColor: '#fff',
                 padding: 10,
+                elevation:10,
                 borderRadius: 10
+            },
+            txtuserName:
+            {
+                color: '#fff',
+                fontSize: 20,
+                alignSelf: 'center'
             },
             btnContainer:
 
             {
                 flexDirection: "row",
+                margin:10,
                 justifyContent: 'space-evenly'
             },
             btnLogout:
@@ -243,18 +256,22 @@ const styles = StyleSheet.create
                 alignItems: 'center',
                 backgroundColor: 'red',
                 padding: 10,
+                elevation:10,
                 borderRadius: 10
             },
             VideoContainer:
 
             {
-                height: '70%'
+                height: '60%',
             },
             detailsContainer:
             {
                 height: '40%',
+            
+            },
+            listContainer:
+            {
                 margin: 10,
-                backgroundColor: 'transparent',
 
             },
             Container:

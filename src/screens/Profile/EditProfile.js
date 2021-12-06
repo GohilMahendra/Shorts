@@ -1,6 +1,7 @@
 
 import React
-, { useState }
+, { useContext,
+useState }
     from "react"
 
 import {
@@ -29,6 +30,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { stat } from "react-native-fs"
 import { updateUserData } from "../../redux/Actions/ProfileActions"
 import { ActivityIndicator } from "react-native"
+import LinearGradient from "react-native-linear-gradient"
+import { themes } from "../../constants/themes"
+import { themeContext } from "../../../App"
 
 const EditProfile = () => {
 
@@ -36,6 +40,7 @@ const EditProfile = () => {
     const [userName, setuserName] = useState(auth().currentUser.displayName)
     const [path, setpath] = useState("")
 
+    const {theme,settheme}=useContext(themeContext)
     const dispatch = useDispatch()
     const updateProfileLoading = useSelector(state => state.Profile.updateProfileLoading)
     const updateProfileError = useSelector(state => state.Profile.updateProfileError)
@@ -125,6 +130,7 @@ const EditProfile = () => {
                 onPress={() => update()}
                 style={styles.btnUpdate}
             >
+                
                 {
                     updateProfileLoading ?
                         <ActivityIndicator
@@ -144,6 +150,57 @@ const EditProfile = () => {
                 <Text style={styles.txtError}>error while updating Profile Try Again !!!</Text>
             </View>}
 
+            <View
+            
+         
+            style={
+                {
+                    marginVertical:20
+                }
+            }
+            >
+                <Text style={styles.txtUserName}>SELECT THEME</Text>
+
+              
+              <View style={styles.rowContainer}>
+                <TouchableOpacity
+                onPress={()=>settheme(themes[0])}
+                style={styles.btnTheme}
+                >
+                    
+                    <LinearGradient
+                    style={styles.gradientTheme}
+                    colors={[themes[0].gradient_color1,themes[0].gradient_color2]}
+                    >
+
+                    </LinearGradient>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>settheme(themes[1])}
+                style={styles.btnTheme}
+                >
+                    
+                    <LinearGradient
+                    style={styles.gradientTheme}
+                    colors={[themes[1].gradient_color1,themes[1].gradient_color2]}
+                    >
+
+                    </LinearGradient>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>settheme(themes[2])}
+                style={styles.btnTheme}
+                >
+                    
+                    <LinearGradient
+                    style={styles.gradientTheme}
+                    colors={[themes[2].gradient_color1,themes[2].gradient_color2]}
+                    >
+
+                    </LinearGradient>
+                </TouchableOpacity>
+                </View>
+            </View>
         </View>
     )
 
@@ -172,6 +229,19 @@ const styles = StyleSheet.create
                 borderRadius: 15,
                 textAlign: 'center',
                 color: 'black'
+            },
+            btnTheme:
+            {
+                height:50,
+                width:100,
+                margin:10,
+               // margin:20,
+                borderRadius:15,
+            },
+            gradientTheme:
+            {
+                flex:1,
+                borderRadius:15
             },
             BtnProfile:
 
@@ -210,6 +280,14 @@ const styles = StyleSheet.create
                 backgroundColor: 'red',
                 alignItems: 'center',
                 justifyContent: 'center'
+
+            },
+            rowContainer:
+            {
+                flexDirection:'row',
+                alignItems:'center'
+                ,
+                justifyContent:'space-around'
 
             },
             txtError:

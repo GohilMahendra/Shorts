@@ -18,7 +18,8 @@ const UploadingLoad=()=>
             width:200,
 
             borderRadius:20,
-           // backgroundColor:'#fff',
+            elevation:15,
+           backgroundColor:'#fff',
             alignItems:'center'
 
         }}
@@ -33,6 +34,7 @@ const UploadingLoad=()=>
             <ActivityIndicator
             animating={true}
             size={'large'}
+            color="black"
             >
                 
             </ActivityIndicator>

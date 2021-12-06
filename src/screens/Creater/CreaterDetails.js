@@ -1,9 +1,11 @@
 import { useRoute } from "@react-navigation/core"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 
 import { View, Image, Text, StyleSheet, RefreshControl, Animated } from 'react-native'
 import { TouchableOpacity, FlatList, ScrollView } from "react-native-gesture-handler"
+import LinearGradient from "react-native-linear-gradient"
 import { useDispatch, useSelector } from "react-redux"
+import { themeContext } from "../../../App"
 import InfoBox from "../../components/UserDetails/InfoBox"
 import VideoPreviewCard from '../../components/VideoPreviewCard'
 import { Colors } from "../../constants/colors"
@@ -14,6 +16,9 @@ const CreaterDetails = ({ navigation }) => {
     const p = useRoute()
 
     const dispatch = useDispatch()
+
+
+    const { theme } = useContext(themeContext)
 
     const videos = useSelector(state => state.Creater.CreaterVideos)
 
@@ -142,7 +147,7 @@ const CreaterDetails = ({ navigation }) => {
                         <View
                             style={styles.noImageConatiner}
                         >
-                            <Text></Text>
+                            <Text>{(userDetails.CreateName != undefined) ? userDetails.CreaterName.substr(0, 2) : ""}</Text>
                         </View>}
 
                     <View
@@ -197,32 +202,38 @@ const CreaterDetails = ({ navigation }) => {
                             }
                         }
                     >
-                        <TouchableOpacity
-
-                            onPress={() => unfollowFollow(p.params.channelID)}
-                            style={styles.btnFollow}
+                        <LinearGradient
+                            style={styles.gradientBtn}
+                            colors={[theme.gradient_color1, theme.gradient_color2]}
                         >
-                            <Text
-                                style={styles.txtFollwing}
-                            >{
-                                    userDetails.isFollowing ? "Following" : "Follow"
-                                }</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity
+
+                                onPress={() => unfollowFollow(p.params.channelID)}
+                                style={styles.btnFollow}
+                            >
+                                <Text
+                                    style={styles.txtFollwing}
+                                >{
+                                        userDetails.isFollowing ? "Following" : "Follow"
+                                    }</Text>
+
+                            </TouchableOpacity>
+                        </LinearGradient>
                     </Animated.View>
                 </View>
 
 
             </ScrollView>
-            
-                <View
-            
-            style={
-                {
-                   height:"60%"
-                    
+
+            <View
+
+                style={
+                    {
+                        height: "60%"
+
+                    }
                 }
-            }
-                >
+            >
 
                 <FlatList
                     style={
@@ -252,7 +263,7 @@ const CreaterDetails = ({ navigation }) => {
                 >
 
                 </FlatList>
-               
+
 
 
             </View>
@@ -273,7 +284,7 @@ const styles = StyleSheet.create(
         btnFollow:
 
         {
-            backgroundColor: "#002366",
+
             padding: 10,
             alignSelf: 'center',
             justifyContent: 'center',
@@ -304,6 +315,11 @@ const styles = StyleSheet.create(
             width: 100,
             alignSelf: 'center',
             borderRadius: 100
+        },
+        gradientBtn:
+        {
+            flex: 1,
+            borderRadius: 15
         },
         noImageConatiner:
         {

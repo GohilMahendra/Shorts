@@ -15,7 +15,7 @@ import { uploadVideo } from "../redux/Actions/ProfileActions";
 const VideoUpload = ({ onPress }) => {
   
     const ImageRef = useRef()
-    const [loading, setLoading] = useState(false)
+  //  const [loading, setLoading] = useState(false)
     const [VideoLoaction, setVideoLocation] = useState("")
     const [Title, setTitle] = useState("")
     const [discription, setdeiscription] = useState("")
@@ -82,7 +82,7 @@ const VideoUpload = ({ onPress }) => {
     function varify() {
         let varified = true
         let error = null
-        if (Title == "" || Title == undefined || VideoLoaction == "" || VideoLoaction == undefined) {
+        if (Title == ""||discription=="" || Title == undefined || VideoLoaction == "" || VideoLoaction == undefined) {
             varified = false
             error = "Please add title Or video for Upload"
         }
@@ -102,7 +102,7 @@ const VideoUpload = ({ onPress }) => {
             }
             const uri=await captureTumbnail()
             const tags=maketags(Tags)
-            dispatch(uploadVideo(Title,tags,SongName,Duration,SongCover,VideoLoaction,uri)) 
+            dispatch(uploadVideo(Title,tags,SongName,Duration,SongCover,VideoLoaction,uri,discription)) 
           
         }
         catch (err) {
@@ -191,14 +191,17 @@ const VideoUpload = ({ onPress }) => {
 
                 <TextInput
                     placeholder="Discription"
+
                     style={styles.txtInputDesc}
                     value={discription}
 
+                    multiline={true}
+                    numberOfLines={5}
                     onChangeText={text => setdeiscription(text)}
                 />
 
                 <TextInput
-                    placeholder="hashTags (Max 5 allowed ) ex. #dev2021,#loveshorts"
+                    placeholder="hashTags (Max 5 allowed with spaces) ex. #dev2021 #loveshorts"
                     style={
                         styles.txtInputTags
                     }
@@ -302,15 +305,15 @@ const styles = StyleSheet.create
             {
                 borderWidth: 1,
                 margin: 15,
+                padding:10,
                 borderRadius: 10
             },
             txtInputDesc:
             {
-                borderWidth: 1,
+               borderWidth: 1,
                 margin: 15,
                 height: 100,
-                elevation:2,
-                borderRadius: 10
+                borderRadius: 15
             },
 
             txtInputTags:
@@ -318,6 +321,7 @@ const styles = StyleSheet.create
                 borderWidth: 1,
                 margin: 15,
                 height: 100,
+                padding:20,
                 borderRadius: 15,
                 color: 'blue'
             },

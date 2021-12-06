@@ -18,6 +18,7 @@ import {
     FETCH_MORE_COMMENTS_REQUEST,
 
 } from '../Types/CommentTypes'
+import { Alert } from 'react-native'
 
 const MAX_ITEM_PER_BATCH = 2
 
@@ -26,6 +27,11 @@ export const MakeComment = (comment, { videoID }) => {
     return async (dispatch) => {
 
         try {
+
+            if(comment==="")
+            {
+                Alert.alert("Write Something","Dont let other confuse!!")
+            }
 
             dispatch({ type: ADD_COMMENTS_REQUEST })
             if (comment != "") {

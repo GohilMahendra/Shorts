@@ -92,10 +92,14 @@ const HomeInnerStackNavigator = () => {
             <HomeStack.Screen
                 name="TagsVideoPlayer"
                 options={
-                    {
-                        headerShown: false,
+                   {
+                    
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
 
-                    }
+                    
+                   }
                 }
                 component={TagsVideoPlayer}
             ></HomeStack.Screen>

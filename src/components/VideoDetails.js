@@ -39,6 +39,13 @@ const VideoDetails=(props)=>
                 styles.txtTitle
             }
             >{data.channelName}</Text>
+             <Text
+            numberOfLines={2}
+         
+              style={
+                styles.txtTitle
+            }
+            >{data.discription}</Text>
             </View>
 
             <View

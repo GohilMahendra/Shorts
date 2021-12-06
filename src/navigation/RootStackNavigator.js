@@ -56,7 +56,8 @@ const RootStackNavigator = () => {
                     {
                         {
                            headerShown: true,
-                           
+                           headerTintColor:'#fff',
+                           headerTitleAlign:"center",
                             headerStyle:
                             {
                                 backgroundColor:'black',

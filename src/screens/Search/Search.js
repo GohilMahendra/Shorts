@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import {View,Text} from 'react-native'
+import {View,Text, StyleSheet} from 'react-native'
 import { FlatList, TextInput, TouchableOpacity } from "react-native-gesture-handler"
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
 
@@ -20,8 +20,6 @@ const Search=({navigation})=>
 
     const dispatch=useDispatch()
     const results=useSelector(state=>state.Search.searchResults)
-
-    console.log(results)
   
     const renderItem=({item,index})=>
     {
@@ -68,58 +66,28 @@ const Search=({navigation})=>
     return(
       
         <View
-        style={{
-            flex:1,
-            backgroundColor:'black'
-        }}
+        style={styles.Container}
         >
 
         <View
-        style={{
-            flexDirection:'row',
-            margin:10,
-            height:50,
-            borderRadius:20,
-            backgroundColor:'#383838',
-
-            
-        }}
+        style={styles.rowContainer}
         >
 
+        <TextInput
+        value={search}
+        onChangeText={text=>setsearch(text)}
+        style={styles.txtInputSearch}
+        >
 
-
+        </TextInput>
         <FontAwesome5Icon
         name="search"
         size={20}
         color="#fff"
-        style={
-            {
-                alignSelf:'center',
-                margin:10
-            }
-        }
+        style={styles.iconSearch}
         
      
         />
-
-        <TextInput
-        
-
-        value={search}
-        onChangeText={text=>setsearch(text)}
-
-
-        style={
-            {
-               flex:1,
-               color:'#fff',
-               fontSize:20
-               
-            }
-        }
-        >
-
-        </TextInput>
 
        </View>
        <FlatList
@@ -142,4 +110,41 @@ const Search=({navigation})=>
         </View>
     )
 }
+
+const styles=StyleSheet.create
+(
+    {
+        Container:
+        {
+            flex:1,
+            backgroundColor:'black'
+        },
+        rowContainer:
+        {
+            flexDirection:'row',
+            marginLeft:50,
+            marginRight:10,
+            marginVertical:5,
+            height:50,
+            borderRadius:10,
+            backgroundColor:'#383838',
+
+            
+        },
+        txtInputSearch:
+        {
+           flex:1,
+           color:'#fff',
+           fontSize:20
+           
+        },
+        iconSearch:
+        {
+            alignSelf:'center',
+            margin:10
+        }
+    
+    
+    }
+)
 export default Search

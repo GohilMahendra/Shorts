@@ -167,7 +167,7 @@ export const sendResetPasswordLink = (email) => {
 
 }
 
-export const uploadVideo = (Title, tags, SongName = "", Duration, SongCover = "", videolocation, uri) => {
+export const uploadVideo = (Title, tags, SongName = "", Duration, SongCover = "", videolocation, uri,discription) => {
     return async (dispatch) => {
 
         try {
@@ -199,6 +199,7 @@ export const uploadVideo = (Title, tags, SongName = "", Duration, SongCover = ""
                 VideoUrl: VideoUrl,
                 VideoThumb: VideoThumb,
                 Date: todaysDate,
+                discription:discription,
 
                 //Uploaders Channal Details
                 channelID: auth().currentUser.uid,
@@ -364,7 +365,7 @@ export const getMoreProfileVideos = () => {
 
             const id = getState().Profile.lastKeyUserVideos
 
-            if (id == null)
+            if (id === null)
                 return
 
             dispatch(

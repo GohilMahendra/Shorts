@@ -25,6 +25,7 @@ const HomeFeedReducer = (state = initialstate, action) => {
             return {
                 ...state,
                 HomeVideosLoad: true,
+                HomeVideos:[],
                 HomeVideosLoadError: null
             }
         case GET_HOME_FEED_VIDEOS_SUCCESS:
