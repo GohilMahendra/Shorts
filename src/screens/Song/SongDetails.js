@@ -6,10 +6,12 @@ import React, { useEffect, useState } from "react"
 
 import { View, Image, Text, StyleSheet, RefreshControl }
     from 'react-native'
+import { ThemeContext } from "react-native-elements"
 import { TextInput, TouchableOpacity, FlatList, ScrollView, createNativeWrapper } from "react-native-gesture-handler"
 import LinearGradient from "react-native-linear-gradient"
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5"
 import { useDispatch, useSelector } from "react-redux"
+import { themeContext } from "../../../App"
 import SongPlayer from "../../components/Songs/SongPlayer"
 
 import VideoPreviewCard from '../../components/VideoPreviewCard'
@@ -22,10 +24,12 @@ const SongDetails = ({ navigation }) => {
     const p = useRoute()
 
     const data = p.params.data
-    console.log(p)
 
+    const videoUrl = data.VideoUrl
+   
     const dispatch = useDispatch()
 
+    const {color,setcolor}=React.useContext(ThemeContext)
     const videos = useSelector(state => state.Songs.songVideos)
 
     const SongDetails = useSelector(state => state.Songs.SongDetails)
@@ -87,59 +91,58 @@ const SongDetails = ({ navigation }) => {
                     styles.songDetailsContainer
                 }
             >
-
-                <View
-                    style={
-                        styles.songDetailsRowContainer
-                    }
+                <LinearGradient
+                start={{x:0,y:1}}
+                end={{x:1,y:0}}
+                style={styles.gradientContainer}
+                colors={["blue","violet"]}
                 >
-                    <Image
-                        source={
-                            {
-                                uri: data.SongCover
-                            }
-                        }
-                        style={
-                            {
-                                height: 100,
-                                width: 100,
-                                borderRadius: 15
-                            }
-                        }
-                        resizeMode={"cover"}
-                    ></Image>
 
                     <View
-                        style={styles.songNameContainer}
+                        style={
+                            styles.songDetailsRowContainer
+                        }
                     >
-                        <FontAwesome5Icon
-                            name="music"
-                            size={20}
+                        <SongPlayer
+                            data={data}
+                        />
+                            <TouchableOpacity
+                            onPress={()=>setcolor("black")}
                             style={
                                 {
-                                    marginHorizontal: 20,
-                                    textAlignVertical: 'center'
+                                    height:50,
+                                    width:50,
+                                    backgroundColor:color
                                 }
                             }
-                        />
-                        <Text
-
-                            style={
-                                styles.txtSongName
-                            }
-
+                            >
+                                </TouchableOpacity>
+                        <View
+                            style={styles.songNameContainer}
                         >
-                            {data.SongName}
-                        </Text>
+                            <FontAwesome5Icon
+                            color="#fff"
+                                name="music"
+                                size={20}
+                                style={styles.iconStyle}
+                            />
+                            <Text
+
+                                style={
+                                    styles.txtSongName
+                                }
+
+                            >
+                                {data.SongName}
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                </LinearGradient>
+
             </View>
 
             <View
-                style={{
-                    height: '70%',
-                    backgroundColor: Colors.black
-                }}
+                style={styles.videosContainer}
             >
                 <FlatList
                     style={
@@ -194,15 +197,34 @@ const styles = StyleSheet.create
                 //justifyContent:'space-between',
                 padding: 15
             },
+            iconStyle:
+            {
+                marginHorizontal: 20,
+                textAlignVertical: 'center'
+            },
+        
+            gradientContainer:  
+            {
+                flex:1,
+                justifyContent:'center'
+            },
+            videosContainer:
+            {
+                height: '70%',
+                backgroundColor: Colors.black
+            },
             songNameContainer:
             {
                 flexDirection: "row",
+               
                 justifyContent: 'space-between',
-                alignItems: 'center'
+                alignItems: 'center',
+              //  flexWrap:'wrap',
             },
             txtSongName:
             {
                 fontSize: 25,
+                color:"#fff",
                 textAlignVertical: 'center'
             }
 

@@ -24,11 +24,9 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
     const { data } = props
 
+    const navigation = useNavigation()
     const [paused, setpaused] = useState(false)
-
-    const [like, setlike] = useState(false)
-
-    const childReviewRef=useRef()
+    const childReviewRef = useRef()
 
     const [channel, setchannel] = useState(
         {
@@ -48,18 +46,29 @@ export default VideoPlayer = forwardRef((props, ref) => {
         const userDetails = await firestore()
             .collection('Users')
             .doc(data.channelID).get()
-
         setchannel(userDetails.data())
-
-
     }
-
 
     useEffect
         (
             () => {
+                const subscription = navigation.addListener(
+                    'blur',
+                    () => {
+
+                        if (!paused)
+                            setpaused(true)
+                    }
+                )
+                return () => subscription()
+            },
+            []
+        )
+    useEffect
+        (
+            () => {
                 getUserDetails()
-               
+
             }
             ,
             []
@@ -67,6 +76,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
     const TapRef = useRef()
     const scale = useSharedValue(0)
+    const videoRef = useRef()
 
     const animStyle = useAnimatedStyle(
         () =>
@@ -80,8 +90,8 @@ export default VideoPlayer = forwardRef((props, ref) => {
     )
 
     const onDoubleTap = useCallback(
-        () => {          
-           childReviewRef.current.testMethod()
+        () => {
+            childReviewRef.current.testMethod()
             scale.value = withSpring(1, undefined, (isfinshed) => {
 
                 if (isfinshed) {
@@ -111,7 +121,6 @@ export default VideoPlayer = forwardRef((props, ref) => {
     )
 
 
-
     return (
         <View
             style={styles.Container}
@@ -128,37 +137,24 @@ export default VideoPlayer = forwardRef((props, ref) => {
                     onActivated={() => onDoubleTap()}
                 >
                     <View>
+
                         <Video
-
-
-                            ref={ref}
-
-                            onAudioFocusChanged={
-                                () => setpaused(!paused)
-                            }
-
-
+                            ref={videoRef}
                             key={data.id}
                             source={
                                 {
                                     uri: convertToProxyURL(data.VideoUrl),
                                     cache: true,
-
                                 }
                             }
-
                             repeat={false}
                             resizeMode={"cover"}
-
                             posterResizeMode={"cover"}
                             paused={paused}
                             playInBackground={false}
-
                             preventsDisplaySleepDuringVideoPlayback={true}
                             filterEnable={true}
-
                             poster={data.VideoThumb}
-
                             bufferConfig={
                                 {
                                     minBufferMs: 15000,
@@ -167,33 +163,29 @@ export default VideoPlayer = forwardRef((props, ref) => {
                                     bufferForPlaybackMs: 15000
                                 }
                             }
-
                             onReadyForDisplay={() => setloading(false)}
-
                             onLoadStart={() => setloading(true)}
                             onVideoLoadStart={(e) => console.log(e)}
                             //onVideoProgress={(e)=>console.log(e)}
                             // onProgress={(e)=>console.log(e)}
                             onVideoError={(err) => console.log(err)}
-                            style={{
-                                height: '100%',
-                                width: '100%',
-                                //backgroundColor:'blue'
-                            }}
+                            style={styles.videoPlayer}
                         >
 
                         </Video>
                     </View>
+
                 </TapGestureHandler>
+
             </TapGestureHandler>
 
             <VideoReview
                 data={data}
                 channel={channel}
-                like={like}
-                ref={ref=>{childReviewRef.current=ref}}
-              
+                //  like={like}
+                ref={ref => { childReviewRef.current = ref }}
             ></VideoReview>
+
             <VideoDetails
                 data={data}
                 channel={channel}
@@ -201,38 +193,36 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
             <ActivityIndicator
                 animating={loading}
-                style={{
-                    position: 'absolute',
-                    top: '50%',
-                    alignSelf: 'center'
-
-                }}
-
+                style={styles.loadingIndicater}
                 color={"#fff"}
-
                 size={'large'}
             >
 
             </ActivityIndicator>
-
-
-            {paused && <FontAwesome5Icon
-
-                name="play"
-                color="#fff"
-
-                solid={false}
-                size={100}
-                style={{
-                    position: 'absolute',
-                    opacity: 1,
-
-                    alignSelf: "center",
-                    top: "45%"
-                }}
-            >
-
-            </FontAwesome5Icon>}
+            {paused &&
+                <View
+                    style={styles.pauseContainer}
+                >
+                    <View
+                        style={styles.blurEffectView}
+                    >
+                    </View>
+                    <View
+                        style={styles.blurFreeView}
+                    >
+                        <FontAwesome5Icon
+                            name="play"
+                            size={40}
+                            style={
+                                {
+                                    margin: 20
+                                }
+                            }
+                            color="silver"
+                        ></FontAwesome5Icon>
+                    </View>
+                </View>
+            }
 
             <AnimatedView
                 style={
@@ -252,10 +242,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                                 height: 3,
                                 width: 3
                             },
-
-
                             textShadowColor: 'black',
-
                         }
                     }
                     solid={true}
@@ -263,7 +250,6 @@ export default VideoPlayer = forwardRef((props, ref) => {
                     size={100}
                 ></FontAwesome5Icon>
             </AnimatedView>
-
 
         </View>
     )
@@ -279,7 +265,49 @@ const styles = StyleSheet.create
                 height: height,
                 width: width
 
-            }
+            },
+            loadingIndicater:
+            {
+                position: 'absolute',
+                top: '50%',
+                alignSelf: 'center'
+
+            },
+            blurFreeView:
+            {
+                flex: 1,
+                borderRadius: 100,
+                height: 100,
+                width: 100,
+                position: 'absolute',
+                alignItems: 'center',
+                justifyContent: 'center'
+            },
+            blurEffectView:
+            {
+                opacity: 0.7,
+                height: 100,
+                width: 100,
+                backgroundColor: 'black',
+                borderRadius: 100
+            },
+            videoPlayer:
+            {
+                height: '100%',
+                width: '100%',
+                //backgroundColor:'blue'
+            },
+            pauseContainer:
+            {
+                height: 100,
+                width: 100,
+                position: 'absolute',
+                opacity: 1,
+                alignSelf: "center",
+                top: "45%"
+            },
+
+
         }
     )
 

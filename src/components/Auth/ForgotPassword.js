@@ -1,106 +1,173 @@
-import React ,{useState}from "react"
-import { StyleSheet,View,TextInput, Text} from "react-native"
-import {
-    TouchableOpacity
-} from 'react-native-gesture-handler'
+import React, { useState } from "react"
+import { StyleSheet, View,TouchableOpacity, TextInput, Text, ActivityIndicator } from "react-native"
 
 
 import auth from '@react-native-firebase/auth'
+import { useDispatch, useSelector } from "react-redux"
+import { sendResetPasswordLink } from "../../redux/Actions/ProfileActions"
 
-const ForgotPassword=(
-
-)=>
-{
-
-
-    const [email,setemail]=useState("")
+const ForgotPassword = (props) => {
 
 
+    const [email, setemail] = useState("")
 
-    const sendPasswordChangeLink=async()=>
-    {
+    const {onPress}=props
+    const resetPasswordLoading = useSelector(state => state.Profile.resetPasswordLoading)
+    const resetPasswordError = useSelector(state => state.Profile.resetPasswordError)
 
+    const dispatch = useDispatch()
+    const sendPasswordChangeLink = async () => {
 
-        console.log(auth().currentUser)
-        const mrthods=await auth().sendPasswordResetEmail(email)
+        if (email != "" && email != null) {
 
-
-        console.log(mrthods)
-
+            dispatch(sendResetPasswordLink(email))
+        }
     }
-
-    return(
+   
+    return (
         <View
-            style={{
-                height:'30%',
-                width:'90%',
-                alignSelf:'center',
-                borderRadius:30,
-                position:'absolute',
-                top:'30%',
-                backgroundColor:"#de5d83",
-                alignItems:'center'
-            }}
+            style={styles.Container}
+        >
+
+            <TouchableOpacity
+                onPress={()=>onPress()}
+                style={styles.btnClose}
+            >
+                <Text
+                    style={styles.txtClose}
+                >X</Text>
+            </TouchableOpacity>
+            <Text
+                style={styles.txtHeader}
+            >
+                ENTER EMAIL FOR SEND FORGOT LINK
+            </Text>
+
+            <TextInput
+                value={email}
+                placeholder="Enter email ......"
+                onChangeText={(text) => setemail(text)}
+                style={[styles.textInput, { width: '100%', backgroundColor: '#fff', elevation: 10 }]}
             >
 
+            </TextInput>
+
+            <TouchableOpacity
+        
+
+               // disabled={resetPasswordLoading?true:false}
+                style={styles.btnSend}
+                onPress={() => sendPasswordChangeLink()}
+            >
+               {
+                   resetPasswordLoading?
+                  <ActivityIndicator
+                  size={25}
+                  color="#fff"
+                  />:
+                  <Text
+                  style={styles.txtBtnSend}
+              >SEND LINK</Text>
+               }
+            </TouchableOpacity>
+
+           {resetPasswordError!=null && <View
+                style={styles.errorView}
+            >
                 <Text
-                style={
-                    {
-                        padding:5,
-                        backgroundColor:'black',
-                        color:"#fff"
-                    }
-                }
-                >
-                    ENTER EMAIL FOR SEND FORGOT LINK
-                </Text>
+                    style={styles.txtError}
+                >ERROR IN SENDING LINK PLEASE TRY AGAIN</Text>
+            </View>}
 
-               <TextInput
-               value={email}
-               onChangeText={(text)=>setemail(text)}
-               style={[styles.textInput,{width:'100%',backgroundColor:'black',marginHorizontal:20}]}
-               >
-
-               </TextInput>
-
-                <TouchableOpacity
-                style={
-                    {
-                        backgroundColor:"blue",
-                        height:50,
-                        borderRadius:15,
-                        justifyContent:'center',
-                        padding:10,
-                    }
-                }
-                onPress={()=>sendPasswordChangeLink()}
-                >
-                    <Text
-                    style={{
-                        color:"#fff"
-                    }}
-                    >SEND LINK</Text>
-                </TouchableOpacity>
-            
-            </View>
+        </View>
     )
 }
 
-const styles=StyleSheet.create(
+const styles = StyleSheet.create(
     {
+        Container:
+        {
+            height: '70%',
+
+            width: '100%',
+            alignSelf: 'center',
+            borderRadius: 15,
+            position: 'absolute',
+            top: '10%',
+            backgroundColor: "white",
+            // justifyContent:'center',
+            //alignItems:'center'
+        },
         textInput:
         {
 
             color: '#fff',
             backgroundColor: "#282C35",
             height: 50,
-            textAlign:'center',
+            color:"black",
+            textAlign: 'center',
             marginVertical: 10,
-            marginHorizontal:20,
-            padding:10,
+            padding: 10,
             borderRadius: 15
 
         },
+        btnClose:
+        {
+            margin: 20,
+
+            alignSelf: "flex-end",
+        },
+
+        btnSend:
+
+        {
+            backgroundColor: "blue",
+            height: 50,
+            elevation: 10,
+            marginVertical: 10,
+            borderRadius: 10,
+            justifyContent: 'center',
+            padding: 10,
+            alignSelf: 'center',
+            alignItems: 'center',
+            width: '80%'
+        },
+        txtHeader:
+        {
+            padding: 5,
+            fontSize: 15,
+            margin: 20,
+            alignSelf: 'center'
+
+        },
+        txtClose:
+        {
+            fontSize: 20,
+            fontWeight: 'bold',
+
+        },
+        errorView:
+        {
+            backgroundColor: "red",
+            justifyContent: "center",
+            alignItems: 'center',
+            padding: 10,
+            borderRadius: 15,
+            margin: 10
+        },
+        txtError:
+        {
+            color: '#fff'
+        },
+
+        txtBtnSend:
+        {
+            color: "#fff"
+        }
+
+
+
+
     }
 )
 export default ForgotPassword

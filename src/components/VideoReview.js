@@ -14,6 +14,7 @@ import RoundImage from "./RoundImage";
 import Share from "react-native-share";
 import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
 import { Dislike, isExist, LikeVideo } from "../functions/VideoPlayer/LikesOperations";
+import getPath from "@flyerhq/react-native-android-uri-path";
 
 const VideoReview = forwardRef((props, ref) => {
 
@@ -23,7 +24,9 @@ const VideoReview = forwardRef((props, ref) => {
    
     const navigation = useNavigation()
 
+
     const [liked, setliked] = useState(like)
+
 
 
     const [dynamic, setdynamic] = useState
@@ -101,12 +104,11 @@ const VideoReview = forwardRef((props, ref) => {
 
         DonwloadVideo()
 
-        console.log("share")
         Share.open({
             saveToFiles: true,
 
             showAppsToView: false,
-            url:'file:///'+ RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
+            url:getPath( RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4'),
             title: 'Share Video FIle',
             message: "Dont forget to give star on GITHUB"
         })

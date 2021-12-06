@@ -5,6 +5,8 @@ import React, { Profiler, useEffect } from "react"
 import {
     View, Alert, BackHandler
 } from 'react-native'
+import { colors } from "react-native-elements"
+import LinearGradient from "react-native-linear-gradient"
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Colors } from "../constants/colors"
@@ -74,37 +76,61 @@ const HomeTabNavigator = () => {
 
                     options={
                         {
-                            tabBarIcon: ({ size, focused, color }) =>
-
-
-                                <FontAwesome5 size={size} color={"#fff"} name="video"
+                            tabBarIcon: ({ size, focused, color }) => (
+                                <View
                                     style={
                                         {
-                                            backgroundColor: (focused) ? 'transparent' : 'blue',
+                                            height:focused? 70:65,
+                                            width: focused?70: 65,
                                             borderRadius: 65,
-                                            width: 65,
-                                            borderWidth: 2,
-
-
-                                            borderColor: (focused) ? 'gold' : 'transparent',
-                                            height: 65,
-                                            // color:'#fff',
-                                            textAlignVertical: 'center',
-                                            textAlign: 'center',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
+                                            borderColor:"#fff",
                                             transform: [
                                                 {
                                                     translateY: -15
                                                 }
                                             ],
-                                            //   bottom: 15,
-                                            padding: 5
                                         }
                                     }
                                 >
+                                    <LinearGradient
+                                    
 
-                                </FontAwesome5>,
+                                    start={{x:0,y:0}}
+                                 //   angle={5}
+                                    end={{x:1,y:1}}
+                                        style={
+                                            {
+                                             
+                                                flex:1,
+                                                borderRadius: 65
+
+                                            }
+                                        }
+                                        colors={[(focused) ?Colors.Teal : "violet"
+                                            , (focused) ? "violet" : "blue"
+                                          
+                                        ]}
+                                    >
+                                        <FontAwesome5 size={size} color={"#fff"} name="video"
+                                            style={
+                                                {
+                                                    // backgroundColor: (focused) ? 'transparent' : 'blue',
+                                                    borderRadius: 65,
+                                                    flex: 1,                                            // color:'#fff',
+                                                    textAlignVertical: 'center',
+                                                    textAlign: 'center',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    padding: 5
+                                                }
+                                            }
+                                        >
+
+                                        </FontAwesome5>
+                                    </LinearGradient>
+                                </View>
+
+                            ),
                             title: ""
                         }
                     }

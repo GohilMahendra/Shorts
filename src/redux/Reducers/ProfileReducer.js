@@ -7,7 +7,19 @@ import {
     GET_USER_VIDEOS_FAILED,
     GET_USER_VIDEOS_REQUEST,
     GET_USER_VIDEOS_SUCCESS,
-    LOG_OUT_REQUEST
+    LOGIN_FAILED,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOG_OUT_REQUEST,
+    RESET_PASSWORD_LINK_FAILED,
+    RESET_PASSWORD_LINK_REQUEST,
+    RESET_PASSWORD_LINK_SUCCESS,
+    SIGNUP_USER_FAILED,
+    SIGNUP_USER_REQUEST,
+    SIGNUP_USER_SUCCESS,
+    UPLOAD_VIDEO_FAILED,
+    UPLOAD_VIDEO_REQUEST,
+    UPLOAD_VIDEO_SUCCESS
 } from "../Types/ProfileTypes";
 
 const initialstate = {
@@ -25,9 +37,20 @@ const initialstate = {
 
     UserVideos: [],
 
+    uploadLoading: false,
+    uploadError: null,
 
     UserDetailsLoad: false,
     UserDetailsError: null,
+
+    registerUserLoading: false,
+    registerUserError: null,
+
+    resetPasswordError: null,
+    resetPasswordLoading: false,
+
+    loginUserError: null,
+    loginUserLoading: false,
 
     UserVideosLoad: false,
     UserVideosLoadError: null,
@@ -117,6 +140,76 @@ const ProfileReducer = (state = initialstate, action) => {
         case LOG_OUT_REQUEST:
             return initialstate
 
+        case UPLOAD_VIDEO_REQUEST:
+            return {
+                ...state,
+                uploadError: null,
+                uploadLoading: true
+            }
+        case UPLOAD_VIDEO_SUCCESS:
+            return {
+                ...state,
+                uploadLoading: false
+            }
+        case UPLOAD_VIDEO_FAILED:
+            return {
+                ...state,
+                uploadError: action.payload,
+                uploadLoading: false
+            }
+        case RESET_PASSWORD_LINK_REQUEST:
+            return {
+                ...state,
+                resetPasswordError: null,
+                resetPasswordLoading: true
+            }
+        case RESET_PASSWORD_LINK_SUCCESS:
+            return {
+                ...state,
+                resetPasswordLoading: false
+            }
+        case RESET_PASSWORD_LINK_FAILED:
+            return {
+                ...state,
+                resetPasswordError: action.payload,
+                resetPasswordLoading: false
+            }
+
+        case SIGNUP_USER_REQUEST:
+            return {
+                ...state,
+                registerUserError: null,
+                registerUserLoading: true
+            }
+        case SIGNUP_USER_SUCCESS:
+            return {
+                ...state,
+                registerUserLoading: false
+            }
+        case SIGNUP_USER_FAILED:
+            return {
+                ...state,
+                registerUserError: action.payload,
+                registerUserLoading: false
+            }
+
+        case LOGIN_REQUEST:
+            return {
+                ...state,
+                loginUserError: null,
+                loginUserLoading: true
+            }
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                loginUserLoading: false
+            }
+        case LOGIN_FAILED:
+            return {
+                ...state,
+                loginUserError: action.payload,
+                loginUserLoading: false
+            }
         default:
             return state
 

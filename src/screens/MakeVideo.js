@@ -13,20 +13,7 @@ import Modal from 'react-native-modal'
 import VideoUpload from "../components/VideoUpload"
 import { Easing, Value } from "react-native-reanimated"
 const MakeVideo = () => {
-
-    let date = new Date()
-
-
-    const todaysDate = date.toISOString()
-
-    console.log(todaysDate)
-
     const [visible, setVisble] = useState(false)
-
-
-    
-
-    const TimeStamp = date.valueOf()
 
     const HideModal = () => {
         setVisble(false)
@@ -37,7 +24,6 @@ const MakeVideo = () => {
         <View
             style={styles.Container}
         >
-
             <TouchableOpacity
                 onPress={() => setVisble(true)}
                 style={
@@ -69,15 +55,10 @@ const MakeVideo = () => {
                     }
                 >Upload Video</Text>
             </TouchableOpacity>
-
-
-
-            
-
             <Modal
                 onBackButtonPress={() => setVisble(false)}
 
-            
+
                 isVisible={visible}
             >
                 <VideoUpload

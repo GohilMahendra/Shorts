@@ -46,7 +46,7 @@ const SongInfoBox = ({ data }) => {
                             TextAnim.current,
                             {
                                 toValue: 1.
-                                , duration: 7000,
+                                , duration: 7500,
                                 easing: Easing.inOut(Easing.ease),
                                 useNativeDriver: false
                             }
@@ -63,7 +63,12 @@ const SongInfoBox = ({ data }) => {
                         )
 
 
-                ])
+                ]
+                
+                )
+            
+        ,
+        
         ).start()
     }
 
@@ -79,7 +84,7 @@ const SongInfoBox = ({ data }) => {
                     RoundAnimation.current,
                     {
                         toValue: 1,
-                        duration: 2000,
+                        duration: 5000,
                         useNativeDriver: false,
                         easing: Easing.linear
 

@@ -1,53 +1,60 @@
 
 import React, { useEffect, useState } from "react"
 
-import { StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native"
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
 import LinearGradient from "react-native-linear-gradient"
 import auth from "@react-native-firebase/auth"
 import ForgotPassword from "../../components/Auth/ForgotPassword"
 
-
-import firestore from "@react-native-firebase/firestore";
-import { useValue } from "react-native-reanimated"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import Modal from 'react-native-modal'
+import { signInUser } from "../../redux/Actions/ProfileActions"
+import { Item } from "react-native-paper/lib/typescript/components/List/List"
 const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-
+    const dispatch= useDispatch()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const [passwordForgot, setPasswordForgot] = useState(false)
 
-    useEffect
-        (
-            () => {
+    const loginUserLoading=useSelector(state=>state.Profile.loginUserLoading)
+    const loginUserError=useSelector(state=>state.Profile.loginUserError)
+
+    const hideModal=()=>
+    {
+        setPasswordForgot(false)
+    }
+
+    // useEffect
+    //     (
+    //         () => {
 
 
-                const subscription = auth().onAuthStateChanged
-                    (
-                        (user) => {
+    //             const subscription = auth().onAuthStateChanged
+    //                 (
+    //                     (user) => {
 
-                            console.log(user)
+    //                         if (user) {
+    //                             navigation.navigate("HomeTabs")
+    //                         }
+    //                     }
+    //                 )
 
-                            if (user != null) {
-                                navigation.navigate("HomeTabs")
-                            }
-                        }
-                    )
+    //             return () => subscription()
+    //         },
 
-                return () => subscription()
-            },
-
-            []
-        )
+    //         []
+    //     )
     const onSignIn = async () => {
-        const user = await auth().signInWithEmailAndPassword(email, password)
 
-
-
-        if (user) {
-            navigation.navigate('HomeTabs')
+        if(email==="" || password==="")
+        {
+            Alert.alert("Null value","email or password is filled")
+            return
         }
+  
+        dispatch(signInUser(email,password))
     }
     return (
 
@@ -100,12 +107,25 @@ const Login = ({ navigation }) => {
                 onPress={() => onSignIn()}
                 style={styles.btnContainer}
             >
-
+                {
+                    loginUserLoading?
+                   <ActivityIndicator
+                   color='#fff'
+                   size={30}
+                   />
+                    :
+                    
                 <Text
-                    style={styles.btnText}
-                >Sign In</Text>
+                style={styles.btnText}
+            >Sign In</Text>
+                }
             </TouchableOpacity>
 
+               {loginUserError!=null && <View
+                style={styles.errorContainer}
+                >
+                    <Text style={styles.txterror}>Erro while Sign IN !!!!!!!</Text>
+                </View>}
             <TouchableOpacity
                 onPress={() => setPasswordForgot(true)}
             >
@@ -129,11 +149,18 @@ const Login = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            {passwordForgot &&
-
-                <ForgotPassword />
-            }
-
+                <Modal
+                isVisible={passwordForgot}
+                onBackButtonPress={()=>setPasswordForgot(false)}
+            
+                >
+                    {
+                        passwordForgot &&
+                        <ForgotPassword
+                        onPress={hideModal}
+                        />
+                    }
+                </Modal>
 
         </View>
     )
@@ -181,6 +208,19 @@ const styles = StyleSheet.create
                 color: '#fff',
                 fontSize: 18
 
+            },
+            errorContainer:
+            {
+                height:50,
+                backgroundColor:'red',
+                justifyContent:'center',
+                alignItems:"center",
+                margin:10,
+                borderRadius:15
+            },
+            txterror:
+            {
+                color:'#fff'
             },
             greetingsContainer:
             {

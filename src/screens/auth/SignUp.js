@@ -1,52 +1,39 @@
 
 import React, { useEffect, useState } from "react"
 
-import { StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native"
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
 import LinearGradient from "react-native-linear-gradient"
 
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
 import { launchImageLibrary } from "react-native-image-picker";
-const SignUp = ({navigation}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../redux/Actions/ProfileActions";
+const SignUp = ({ navigation }) => {
 
 
 
-    const [userName,setuserName]=useState("")
-    const [userID,setUserID]=useState("")
-    const [email,setEmail]=useState("")
-
-    const [photoUrl,setphotoUrl]=useState("")
+    const [userName, setuserName] = useState("")
+    const [userID, setUserID] = useState("")
+    const [email, setEmail] = useState("")
 
 
-    const [password,setPassword]=useState("")
-    const [IsAvalibleUserID,setISAvalibleUserID]=useState(false)
+    const dispatch = useDispatch()
+
+    const [password, setPassword] = useState("")
+    const [IsAvalibleUserID, setISAvalibleUserID] = useState(false)
+
+    const registerUserLoading = useSelector(state => state.Profile.registerUserLoading)
+    const registerUserError = useSelector(state => state.Profile.registerUserError)
 
 
+    const setUpUserID = (value) => {
 
 
-    useEffect
-    (
-        ()=>
-        
-        {
-
-            GetIfIDisAvalible()
-
-        },
-        [userID]
-    )
-
-
-    const setUpUserID=(value)=>
-    {
-
-
-        if(value!="")
-        {
-            if(value[0]!='@')
-            {
-                value='@'+value
+        if (value != "") {
+            if (value[0] != '@') {
+                value = '@' + value
             }
 
         }
@@ -54,89 +41,54 @@ const SignUp = ({navigation}) => {
         setUserID(value)
     }
 
-    const UploadINDatabase=async(uid)=>
-    {
 
-        
-        const ref= await firestore().collection('Users').doc(uid).set
-        (
-            {
-                userName:userName,
-                userID:userID,
-                varified:false,
-                Followers:0,
-                photoUrl:"",
-                Following:0,
-                likes:0,
-            }
-        )
+
+    const GetIfIDisAvalible = async () => {
+
+        const qry = firestore().collection('Users').where('userID',
+            '==', userID)
+
+        const user = await qry.get()
+
+        if (!user.exists) {
+            setISAvalibleUserID(true)
+
+        }
     }
 
+    const onSignUp = async () => {
 
-    const GetIfIDisAvalible=async()=>
-    {
+        if (IsAvalibleUserID === true && !userID.includes(' ')) {
 
 
-        // const qry= firestore().collection('Users').where('userID',
-        // '==',userID)
+            dispatch(registerUser(email, password, userName, userID))
 
-        // const user=await qry.get()
+            if (auth().currentUser != undefined && registerUserError === null)
+                navigation.navigate('Login')
 
-        // if(!user.exists)
-        // {
-        //     setISAvalibleUserID(true)
-        
-        // }
-    }
-
-    
-    const onSignUp=async()=>
-    {
-
-        if(IsAvalibleUserID||true)
-        {
-
-        auth().createUserWithEmailAndPassword(email,password).then
-        (
-            (user)=>{console.log(user)
-
-            auth().currentUser.updateProfile(
-                {
-                    displayName:userName,
-
-                }
-            )
-            UploadINDatabase(
-            auth().currentUser.uid
-            )
-
-            navigation.navigate('Login')
-            }
-        )
-        .catch(err=>console.log(err))
 
         }
         else
-        (
-            alert("The UserID alredy Taken")
-        )
+            (
+                Alert.alert("Wrong or common USERID", "The UserID alredy Taken or not Appropiate")
+            )
     }
     return (
 
         <View style={styles.Container}>
 
             <View style={styles.greetingsContainer}>
-            <Text
-                style={styles.greetings}
-            >WELCOME</Text>
-            
-            <Text
-                style={styles.greetingsSupportingText}
-            >Register Here</Text>
+                <Text
+                    style={styles.greetings}
+                >WELCOME</Text>
+
+                <Text
+                    style={styles.greetingsSupportingText}
+                >Register Here</Text>
             </View>
             <TextInput
                 value={userName}
-                onChangeText={(text)=>setuserName(text)}
+                onChangeText={(text) => setuserName(text)}
                 clearButtonMode={"always"}
                 placeholderTextColor="#fff"
                 maxLength={50}
@@ -144,25 +96,35 @@ const SignUp = ({navigation}) => {
 
                 style={styles.textInput}
             />
-           <TextInput
-                value={userID}
-                
-                onChangeText={(text)=>setUpUserID(text)}
-                clearButtonMode={"always"}
-                placeholderTextColor="#fff"
-                maxLength={20}
-            
-                
-                
-                placeholder="UserID..(Unique Name)"
-
-                style={[styles.textInput,{color:(IsAvalibleUserID)?'green':'red'}]}
+            <View
+                style={styles.rowContainer}
             >
 
-            </TextInput>
+                <TextInput
+                    value={userID}
+
+                    onChangeText={(text) => setUpUserID(text)}
+                    clearButtonMode={"always"}
+                    placeholderTextColor="#fff"
+                    maxLength={20}
+                    placeholder="UserID..(Unique Name)"
+
+                    style={[styles.textInput, { color: (IsAvalibleUserID) ? 'green' : 'red' }]}
+                >
+
+                </TextInput>
+                <TouchableOpacity
+                    onPress={() => GetIfIDisAvalible()}
+                    style={styles.btnVarify}
+                >
+                    <Text
+                        style={styles.txtVarify}
+                    >VARIFY</Text>
+                </TouchableOpacity>
+            </View>
             <TextInput
                 value={email}
-                onChangeText={(text)=>setEmail(text)}
+                onChangeText={(text) => setEmail(text)}
                 clearButtonMode={"always"}
                 placeholderTextColor="#fff"
                 maxLength={50}
@@ -174,9 +136,9 @@ const SignUp = ({navigation}) => {
 
             </TextInput>
             <TextInput
-                
+
                 value={password}
-                onChangeText={(text)=>setPassword(text)}
+                onChangeText={(text) => setPassword(text)}
                 maxLength={50}
                 placeholderTextColor="#fff"
                 placeholder="Password  [one Lower one Upper digit length 8]"
@@ -190,26 +152,46 @@ const SignUp = ({navigation}) => {
             >
 
             </TextInput>
-          
+
 
             <TouchableOpacity
-                onPress={()=>onSignUp()}
+                onPress={() => onSignUp()}
                 style={styles.btnContainer}
             >
-                <Text
-                    style={styles.btnText}
-                >Register</Text>
+                {
+                    registerUserLoading ?
+                        <ActivityIndicator
+                            size={25}
+                            color="#fff"
+
+                        />
+                        :
+                        <Text
+                            style={styles.btnText}
+                        >Register</Text>}
             </TouchableOpacity>
+
+            {
+                registerUserError != null
+                &&
+                <View
+                    style={styles.errorContainer}
+                >
+                    <Text style={styles.txtError}>Please add correct info !!!!.....</Text>
+                </View>
+            }
             <View
-            style={styles.signupContainer}
+                style={styles.signupContainer}
             >
                 <Text style={styles.signuptext}>
                     Already Have an Account</Text>
                 <TouchableOpacity
-                onPress={()=>navigation.navigate('Login')}
+                    onPress={() => navigation.navigate('Login')}
                 >
                     <Text style={styles.signupbtn}>Sign In!</Text>
                 </TouchableOpacity>
+
+
             </View>
         </View>
     )
@@ -235,10 +217,10 @@ const styles = StyleSheet.create
                 color: '#fff',
                 backgroundColor: "#282C35",
                 height: 50,
-                textAlign:'center',
+                textAlign: 'center',
                 marginVertical: 10,
-                marginHorizontal:20,
-                padding:10,
+                marginHorizontal: 20,
+                padding: 10,
                 borderRadius: 15
 
             },
@@ -248,11 +230,26 @@ const styles = StyleSheet.create
                 backgroundColor: 'blue',
                 height: 50,
                 width: 100,
-                margin:20,
+                margin: 20,
                 borderRadius: 20,
                 alignSelf: "center",
                 justifyContent: 'center',
                 alignItems: 'center'
+
+            },
+            btnVarify:
+            {
+                backgroundColor: 'blue',
+                height: 50,
+                borderRadius: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 10
+            },
+            txtVarify:
+            {
+                fontSize: 18,
+                color: '#fff'
 
             },
             btnText:
@@ -263,12 +260,18 @@ const styles = StyleSheet.create
             },
             greetingsContainer:
             {
-                alignSelf:"center",
-                padding:15,
-                borderRadius:20,
-                
+                alignSelf: "center",
+                padding: 15,
+                borderRadius: 20,
+
             }
             ,
+            rowContainer:
+            {
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                alignItems: 'center'
+            },
             greetings:
             {
                 color: '#fff',
@@ -283,18 +286,34 @@ const styles = StyleSheet.create
             },
             signupContainer:
             {
-                flexDirection:'row',
-                justifyContent:"space-around",
-                margin:20
+                flexDirection: 'row',
+                justifyContent: "space-around",
+                margin: 20
             },
             signuptext:
             {
-                color:'#fff'
+                color: '#fff'
             },
             signupbtn:
             {
-                color:'#fff'
-            }
+                color: '#fff'
+            },
+            txtError:
+            {
+                color: '#fff',
+                textAlign: "center"
+            },
+            errorContainer:
+            {
+                backgroundColor: "red",
+               // flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 10,
+                padding: 10,
+                borderRadius: 10
+            },
+
 
         }
     )

@@ -16,14 +16,13 @@ import {
     UNFOLLOW_CREATER_SUCCESS
 } from "../Types/CreaterTypes";
 
-const MAX_FETCH_LIMIT = 1
+const MAX_FETCH_LIMIT = 5
 
 
 import {
     followOperations,
     unFollowOperations
 } from '../../functions/Creater/FollowOperations'
-
 
 
 export const followUnFollow = (createrID) => {

@@ -12,36 +12,26 @@ const VideoDetails=(props)=>
     const {data,channel}=props
 
     const navigation=useNavigation()
-  
 
     return(
         <View
         style={styles.Container}
         >
 
-
             <Text
             style={
               styles.txtchannelID
-            }
-           
+            }       
             >{channel.userID}</Text>
-
             <Text
             style={
                styles.txtTitle
             }
-            >jhbdf hsdbfjhds jhsdbfjhbdsh sbdfjhbhjds jhsbdfh</Text>
-             
-            <View
-            style={
-                {
-                    flexDirection:'row',
-                    
-                }
-            }
-            >
+            >{data.Title}</Text>
 
+            <View
+            style={styles.rowContainer}
+            >
             <Text
             numberOfLines={2}
          
@@ -49,14 +39,10 @@ const VideoDetails=(props)=>
                 styles.txtTitle
             }
             >{data.channelName}</Text>
-       
             </View>
-        
-            <View
-           style={{
-               flexDirection:"row"
-           }}
 
+            <View
+           style={styles.tagContinaer}
             >
                {
                    data.Tags.map(tag => {
@@ -75,13 +61,10 @@ const VideoDetails=(props)=>
                     key={tag}
                     >
                     <Text
-
-                
-                    numberOfLines={2}
                     style={
                       styles.txtTag
                     }
-                    >dhjfbsb</Text>
+                    >{tag}</Text>
                     </TouchableOpacity>
                     )
                    })
@@ -114,9 +97,20 @@ const styles=StyleSheet.create
             fontFamily:Fonts.Genos_Regular,
             
         },
+        tagContinaer:
+        {
+            flexDirection:"row",
+            width:'70%',
+            maxWidth:"70%"
+            
+        },
+        rowContainer:    
+        {
+            flexDirection:'row',
+            
+        },
         txtchannelID:
         {
-
             fontSize:20,
             color:"#fff",
             fontFamily:Fonts.SpaceMono_Regular,
@@ -128,11 +122,8 @@ const styles=StyleSheet.create
 
             fontSize:20,
             color:"#fff",
-            textShadowColor:'#fff',
-            textShadowOffset:{
-                height:2,width:2
-            },
-            textShadowRadius:5,
+           // marginHorizontal:10,
+        
             fontFamily:Fonts.Genos_Regular
     
            

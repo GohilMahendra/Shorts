@@ -13,15 +13,23 @@ const UploadingLoad=()=>
             position: 'absolute',
             alignSelf: 'center',
             top:'40%',
+            justifyContent:'center',
             height:200,
             width:200,
+
             borderRadius:20,
            // backgroundColor:'#fff',
             alignItems:'center'
 
         }}
         >
-            <Text>LOADING</Text>
+            <Text
+            style={
+                {
+                    fontSize:25
+                }
+            }
+            >LOADING .....</Text>
             <ActivityIndicator
             animating={true}
             size={'large'}

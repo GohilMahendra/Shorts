@@ -82,14 +82,12 @@ const CreaterDetails = ({ navigation }) => {
     }
 
 
-    const fetchMore=()=>
-    {
+    const fetchMore = () => {
         dispatch(getMoreCreaterVideos(p.params.channelID))
     }
 
 
-    const refreashCreater=()=>
-    {
+    const refreashCreater = () => {
         dispatch(getCreaterDetails(p.params.channelID))
         dispatch(getCreaterVideos(p.params.channelID))
     }
@@ -148,11 +146,7 @@ const CreaterDetails = ({ navigation }) => {
                         </View>}
 
                     <View
-                        style={{
-                            marginTop: 10,
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}
+                        style={styles.detailsContainer}
                     >
                         <Text
                             style={{
@@ -165,10 +159,7 @@ const CreaterDetails = ({ navigation }) => {
                             {userDetails.CreaterName}
                         </Text>
                         <Text
-                            style={{
-                                color: Colors.silver,
-                                fontSize: 18
-                            }}
+                            style={styles.txtCreaterID}
 
                         >
                             {userDetails.CreaterID}
@@ -209,28 +200,10 @@ const CreaterDetails = ({ navigation }) => {
                         <TouchableOpacity
 
                             onPress={() => unfollowFollow(p.params.channelID)}
-                            style={
-                                {
-                                    backgroundColor: "#002366",
-                                    padding: 10,
-                                    alignSelf: 'center',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    borderRadius: 20
-
-                                }
-                            }
+                            style={styles.btnFollow}
                         >
                             <Text
-                                style={
-                                    {
-
-                                        textAlign: 'center',
-                                        color: Colors.White,
-                                        width: 100,
-
-                                    }
-                                }
+                                style={styles.txtFollwing}
                             >{
                                     userDetails.isFollowing ? "Following" : "Follow"
                                 }</Text>
@@ -240,12 +213,17 @@ const CreaterDetails = ({ navigation }) => {
 
 
             </ScrollView>
-            <View
-                style={{
-                    height: '60%',
-                    backgroundColor: Colors.black
-                }}
-            >
+            
+                <View
+            
+            style={
+                {
+                   height:"60%"
+                    
+                }
+            }
+                >
+
                 <FlatList
                     style={
                         {
@@ -258,14 +236,14 @@ const CreaterDetails = ({ navigation }) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={CreaterVideosLoad}
-                            onRefresh={()=>refreashCreater()}
+                            onRefresh={() => refreashCreater()}
                         ></RefreshControl>
                     }
 
                     scrollEnabled={true}
                     data={videos}
                     onEndReached={
-                        ()=>fetchMore()
+                        () => fetchMore()
                     }
                     renderItem={renderItem}
                     numColumns={3}
@@ -274,6 +252,8 @@ const CreaterDetails = ({ navigation }) => {
                 >
 
                 </FlatList>
+               
+
 
             </View>
 
@@ -290,11 +270,33 @@ const styles = StyleSheet.create(
             backgroundColor: Colors.black
 
         },
+        btnFollow:
+
+        {
+            backgroundColor: "#002366",
+            padding: 10,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 20
+
+        },
+        detailsContainer:
+        {
+            marginTop: 10,
+            alignItems: "center",
+            justifyContent: "center"
+        },
         profileContainer:
         {
             backgroundColor: Colors.black,
             margin: 10,
             justifyContent: 'center'
+        },
+        txtCreaterID:
+        {
+            color: Colors.silver,
+            fontSize: 18
         },
         imgProfile:
         {
@@ -312,6 +314,15 @@ const styles = StyleSheet.create(
             borderRadius: 100,
 
         },
+        txtFollwing:
+        {
+
+            textAlign: 'center',
+            color: Colors.White,
+            width: 100,
+
+        }
+
     }
 )
 export default CreaterDetails

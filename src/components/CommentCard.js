@@ -12,31 +12,21 @@ const CommentCard = (props) => {
 
 
     const { data } = props
-
-
     const [userDetails, setUserDetails] = useState({})
-
-
     const getUserDetails = async () => {
 
         const user = await firestore()
         .collection('Users').
         doc(data.id).get()
-
         setUserDetails(user.data())
-
-
     }
     useEffect
         (
-
             () => {
 
                 getUserDetails()
-
             },
             []
-
         )
 
     return (
@@ -104,6 +94,7 @@ const styles = StyleSheet.create
             {
                 maxHeight: 200,
                 height: 150,
+                elevation:10,
                 marginVertical: 10,
                 marginHorizontal: 20
 
