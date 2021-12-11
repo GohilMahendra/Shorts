@@ -1,0 +1,37 @@
+# Check out https://docs.codemagic.io/getting-started/building-a-react-native-app/ for more information
+# Please review and update values in curly braces
+
+workflows:
+  react-native:
+    name: React Native App new
+    environment:
+      groups:
+       
+        - google_play_credentials
+     
+      vars:
+        XCODE_WORKSPACE: 'Shorts'
+        XCODE_SCHEME: 'Shorts'
+
+      node: 
+      xcode: latest
+      cocoapods: default
+
+    scripts:
+      - cd android && chmod +x gradlew
+      - npm install
+
+      - echo $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS | base64 --decode > $FCI_BUILD_DIR/android/app/google-services.json
+
+      - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+      - |
+        # build Android;
+        cd android;
+        ./gradlew assembleRelease;
+
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+
+      - ios/Build/*.ipa
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.ipa
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/*-iphonesimulator/*.app
