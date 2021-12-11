@@ -129,9 +129,17 @@ const CreaterDetails = ({ navigation }) => {
                     }
                 }
             >
+
                 <View
                     style={styles.profileContainer}
                 >
+                    <LinearGradient
+                    style={{
+                        flex:1,
+                        padding:10
+                    }}
+                    colors={[theme.gradient_color1,theme.gradient_color2]}
+                    >
 
                     {userDetails.photoURL ?
                         <Image
@@ -202,14 +210,11 @@ const CreaterDetails = ({ navigation }) => {
                             }
                         }
                     >
-                        <LinearGradient
-                            style={styles.gradientBtn}
-                            colors={[theme.gradient_color1, theme.gradient_color2]}
-                        >
+                      
                             <TouchableOpacity
 
                                 onPress={() => unfollowFollow(p.params.channelID)}
-                                style={styles.btnFollow}
+                                style={[styles.btnFollow,{backgroundColor:theme.background_color}]}
                             >
                                 <Text
                                     style={styles.txtFollwing}
@@ -218,8 +223,9 @@ const CreaterDetails = ({ navigation }) => {
                                     }</Text>
 
                             </TouchableOpacity>
-                        </LinearGradient>
+                       
                     </Animated.View>
+                </LinearGradient>
                 </View>
 
 
@@ -289,7 +295,8 @@ const styles = StyleSheet.create(
             alignSelf: 'center',
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: 20
+            borderRadius: 15,
+            elevation:10
 
         },
         detailsContainer:
@@ -301,7 +308,8 @@ const styles = StyleSheet.create(
         profileContainer:
         {
             backgroundColor: Colors.black,
-            margin: 10,
+           // margin: 10,
+        //   padding:10,
             justifyContent: 'center'
         },
         txtCreaterID:
@@ -311,10 +319,12 @@ const styles = StyleSheet.create(
         },
         imgProfile:
         {
-            height: 100,
-            width: 100,
+            height: 70,
+            width: 70,
             alignSelf: 'center',
-            borderRadius: 100
+            borderWidth:2,
+            borderColor:'#fff',
+            borderRadius: 70
         },
         gradientBtn:
         {
@@ -323,11 +333,11 @@ const styles = StyleSheet.create(
         },
         noImageConatiner:
         {
-            height: 100,
-            width: 100,
+            height: 70,
+            width: 70,
             alignSelf: 'center',
             backgroundColor: 'silver',
-            borderRadius: 100,
+            borderRadius: 70,
 
         },
         txtFollwing:

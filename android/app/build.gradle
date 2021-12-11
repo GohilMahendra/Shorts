@@ -125,12 +125,19 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+
+  dexOptions {
+    javaMaxHeapSize "4g"
+    }
+
     defaultConfig {
         applicationId "com.shorts"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+     multiDexEnabled true
+      
     }
     splits {
         abi {

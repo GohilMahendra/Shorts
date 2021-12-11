@@ -289,6 +289,7 @@ const VideoReview = forwardRef((props, ref) => {
 
             <TouchableOpacity
             
+                            disabled={false}
                 onPress={() => DonwloadVideo()}
             >
                 <View
@@ -347,8 +348,10 @@ const styles = StyleSheet.create
             },
             blurBackground:
             {
-                backgroundColor: "#fff",
+              
                 height: 70,
+                zIndex:2,
+                backgroundColor:"#fff",
                 width: 70,
                 borderRadius: 15,
                 opacity: 0.3

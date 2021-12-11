@@ -33,9 +33,8 @@ const Profile = ({ navigation }) => {
     const UserDetailsLoad = useSelector(state => state.Profile.UserDetailsLoad)
     const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
 
-    const {theme,settheme}=useContext(themeContext)
+   
 
-    console.log(theme)
     const videos = useSelector(
         state => state.Profile.UserVideos
     )

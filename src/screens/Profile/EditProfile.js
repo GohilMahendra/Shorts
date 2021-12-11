@@ -128,7 +128,7 @@ const EditProfile = () => {
             <TouchableOpacity
 
                 onPress={() => update()}
-                style={styles.btnUpdate}
+                style={[styles.btnUpdate,{backgroundColor:theme.background_color}]}
             >
                 
                 {
@@ -163,43 +163,33 @@ const EditProfile = () => {
 
               
               <View style={styles.rowContainer}>
-                <TouchableOpacity
-                onPress={()=>settheme(themes[0])}
+                {
+                    themes.map(
+                        item=>
+                        {
+                            console.log(item)
+                            return(
+                                <TouchableOpacity
+
+                key={item.gradient_color1+item.gradient_color2+item.backgrond_color}
+                onPress={()=>settheme(item)}
                 style={styles.btnTheme}
                 >
                     
                     <LinearGradient
                     style={styles.gradientTheme}
-                    colors={[themes[0].gradient_color1,themes[0].gradient_color2]}
+                    colors={[item.gradient_color1,item.gradient_color2]}
                     >
 
                     </LinearGradient>
                 </TouchableOpacity>
-                <TouchableOpacity
-                onPress={()=>settheme(themes[1])}
-                style={styles.btnTheme}
-                >
-                    
-                    <LinearGradient
-                    style={styles.gradientTheme}
-                    colors={[themes[1].gradient_color1,themes[1].gradient_color2]}
-                    >
 
-                    </LinearGradient>
-                </TouchableOpacity>
-                <TouchableOpacity
-                onPress={()=>settheme(themes[2])}
-                style={styles.btnTheme}
-                >
-                    
-                    <LinearGradient
-                    style={styles.gradientTheme}
-                    colors={[themes[2].gradient_color1,themes[2].gradient_color2]}
-                    >
+                            )
+                        }
+                    )
+                }
 
-                    </LinearGradient>
-                </TouchableOpacity>
-                </View>
+                                </View>
             </View>
         </View>
     )
@@ -285,8 +275,9 @@ const styles = StyleSheet.create
             rowContainer:
             {
                 flexDirection:'row',
-                alignItems:'center'
-                ,
+                alignItems:'center',
+                flexWrap:'wrap',
+                
                 justifyContent:'space-around'
 
             },
@@ -306,7 +297,7 @@ const styles = StyleSheet.create
             },
             btnUpdate:
             {
-                backgroundColor: '#77ACF1',
+              
                 height: 50,
                 elevation: 10,
                 justifyContent: "center",

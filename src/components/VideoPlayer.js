@@ -91,13 +91,16 @@ export default VideoPlayer = forwardRef((props, ref) => {
 
     const onDoubleTap = useCallback(
         () => {
-            childReviewRef.current.testMethod()
+
+           // console.log("double click")
+         
             scale.value = withSpring(1, undefined, (isfinshed) => {
 
                 if (isfinshed) {
-                    scale.value = withDelay(400, withSpring(0))
+                    scale.value = withDelay(600, withSpring(0))
                 }
             })
+            childReviewRef.current.testMethod()
         },
         []
     )
@@ -133,7 +136,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                 <TapGestureHandler
                     ref={TapRef}
                     numberOfTaps={2}
-                    maxDelayMs={400}
+                    maxDelayMs={500}
                     onActivated={() => onDoubleTap()}
                 >
                     <View>
@@ -147,7 +150,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                                     cache: true,
                                 }
                             }
-                            repeat={false}
+                            repeat={true}
                             resizeMode={"cover"}
                             posterResizeMode={"cover"}
                             paused={paused}
@@ -229,6 +232,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                     [{
                         position: 'absolute',
                         top: '45%',
+                        elevation:10,
                         alignSelf: 'center',
                     },
                         animStyle
@@ -246,7 +250,7 @@ export default VideoPlayer = forwardRef((props, ref) => {
                         }
                     }
                     solid={true}
-                    color={'red'}
+                    color={'#fff'}
                     size={100}
                 ></FontAwesome5Icon>
             </AnimatedView>

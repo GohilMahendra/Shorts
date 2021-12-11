@@ -1,9 +1,11 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState,useRef, useContext } from "react";
 import {View ,Animated,Text, TouchableOpacity, Dimensions, StyleSheet} from 'react-native'
 
 import { useNavigation } from "@react-navigation/core";
 import SongInfoBox from "./SongInfoBox";
 import {Fonts} from '../constants/Fonts'
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { themeContext } from "../../App";
 
 const {height,width}=Dimensions.get('screen')
 const VideoDetails=(props)=>
@@ -11,12 +13,18 @@ const VideoDetails=(props)=>
 
     const {data,channel}=props
 
+    const {theme}=useContext(themeContext)
+    
     const navigation=useNavigation()
 
     return(
         <View
         style={styles.Container}
         >
+
+            <View
+            style={{width:'70%'}}
+            >
 
             <Text
             style={
@@ -39,13 +47,7 @@ const VideoDetails=(props)=>
                 styles.txtTitle
             }
             >{data.channelName}</Text>
-             <Text
-            numberOfLines={2}
-         
-              style={
-                styles.txtTitle
-            }
-            >{data.discription}</Text>
+           
             </View>
 
             <View
@@ -68,14 +70,22 @@ const VideoDetails=(props)=>
                     key={tag}
                     >
                     <Text
-                    style={
-                      styles.txtTag
+                    style={[
+                      styles.txtTag,{   backgroundColor:theme.background_color}]
                     }
                     >{tag}</Text>
                     </TouchableOpacity>
                     )
                    })
                }
+                 <Text
+           // numberOfLines={1}
+         
+              style={
+                styles.txtTitle
+            }
+            >{data.discription}</Text>
+            </View>
             </View>
             <SongInfoBox
             data={data}
@@ -99,7 +109,9 @@ const styles=StyleSheet.create
         {
             color:"#fff",
             fontSize:20,
-            width:"75%",
+           // width:'50%',
+          
+            flexWrap:'wrap',
             
             fontFamily:Fonts.Genos_Regular,
             
@@ -107,8 +119,8 @@ const styles=StyleSheet.create
         tagContinaer:
         {
             flexDirection:"row",
-            width:'70%',
-            maxWidth:"70%"
+            flexWrap:'wrap'
+
             
         },
         rowContainer:    
@@ -128,6 +140,11 @@ const styles=StyleSheet.create
         {
 
             fontSize:20,
+            margin:2,
+            padding:2,
+         
+         
+            borderRadius:5,
             color:"#fff",
            // marginHorizontal:10,
         

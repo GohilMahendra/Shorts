@@ -55,7 +55,7 @@ const CreaterVideoPlayer=({navigation})=>
              });
      
               })
-         const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+         const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 70 })
      
          
 
