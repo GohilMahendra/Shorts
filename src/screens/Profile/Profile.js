@@ -121,7 +121,7 @@ const Profile = ({ navigation }) => {
                     colors={[theme.gradient_color1,theme.gradient_color2]}
                     >
                         <View style={styles.imgContainer}>
-                        <RoundImage
+                        {/* <RoundImage
                             imageURL={auth().currentUser.photoURL}
                         />
                         </View>
@@ -131,6 +131,7 @@ const Profile = ({ navigation }) => {
                         >
                             {auth().currentUser.displayName}
                         </Text>
+                         */}
 
                         <InfoBox
                             followers={userDetails.Followers}
