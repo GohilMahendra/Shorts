@@ -8,7 +8,7 @@ export default RoundImage = ({ imageURL, userName = "" }) => {
             style={styles.Container}
         >
 
-            {imageURL != "" ?
+            {imageURL != "" && imageURL != null? 
                 <Image
                     source={
                         {
