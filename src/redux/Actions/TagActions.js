@@ -117,7 +117,7 @@ export const getMoreTagVideos = () => {
 
             dispatch(
                 {
-                    type: FETCH_VIDEO_Tags_SUCCESS,
+                    type: FETCH_MORE_VIDEO_Tags_SUCCESS,
                     payload: {
                         Videos: list,
                         lastKey: lastKey
