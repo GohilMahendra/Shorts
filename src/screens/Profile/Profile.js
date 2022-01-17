@@ -121,7 +121,7 @@ const Profile = ({ navigation }) => {
                     style={{flex:1}}
                     colors={[theme.gradient_color1,theme.gradient_color2]}
                     >
-                        {/*
+                        
                         <View style={styles.imgContainer}>
                         <RoundImage
                             imageURL={auth().currentUser.photoURL}
@@ -133,7 +133,7 @@ const Profile = ({ navigation }) => {
                         >
                             {auth().currentUser.displayName}
                         </Text>
-                         */}
+                        
 
                         <InfoBox
                             followers={userDetails.Followers}
