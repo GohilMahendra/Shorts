@@ -105,6 +105,7 @@ const Profile = ({ navigation }) => {
         <View
             style={styles.Container}
         >
+{/*
             <View
                 style={styles.detailsContainer}
 
@@ -199,7 +200,7 @@ const Profile = ({ navigation }) => {
 
                 </FlatList>
             </View>
-
+*/}
         </View>
     )
 }
