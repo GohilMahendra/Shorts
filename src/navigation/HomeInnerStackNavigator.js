@@ -47,7 +47,8 @@ const HomeInnerStackNavigator = () => {
                 options={
                     {
                         headerTransparent:true,
-                        title:''
+                        headerTitle:"",
+                        headerTintColor:"#fff"
                     }
                 }
               
@@ -60,7 +61,9 @@ const HomeInnerStackNavigator = () => {
                 name="UserVideoPlayer"
                 options={
                     {
-                        headerShown: false
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
                     }
                 }
                 component={UserVideoPlayer}
@@ -70,7 +73,9 @@ const HomeInnerStackNavigator = () => {
                 name="CreaterDetails"
                 options={
                     {
-                        headerShown: false
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
                     }
                 }
                 component={CreaterDetails}
@@ -81,7 +86,9 @@ const HomeInnerStackNavigator = () => {
                 name="Tags"
                 options={
                     {
-                        headerShown: false
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
                     }
                 }
                 component={Tags}
@@ -106,7 +113,9 @@ const HomeInnerStackNavigator = () => {
                 name="CreaterVideoPlayer"
                 options={
                     {
-                        headerShown: false,
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
 
                     }
                 }
@@ -141,7 +150,12 @@ const HomeInnerStackNavigator = () => {
                 component={SongDetails}
             ></HomeStack.Screen>
             <HomeStack.Screen
-
+                options={{
+                        headerTransparent:true,
+                        headerTitle:"",
+                        headerTintColor:"#fff"
+                   
+                  } } 
                 name={"SongVideoPlayer"}
                 component={SongVideoPlayer}
             ></HomeStack.Screen>
