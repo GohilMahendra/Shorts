@@ -123,7 +123,7 @@ const Profile = ({ navigation }) => {
                     colors={[theme.gradient_color1,theme.gradient_color2]}
                     >
 
-{/*
+
                         
                         <View style={styles.imgContainer}>
                         <RoundImage
@@ -137,7 +137,7 @@ const Profile = ({ navigation }) => {
                             {auth().currentUser.displayName}
                         </Text>
                         
-*/} 
+
                         <InfoBox
                             followers={userDetails.Followers}
                             following={userDetails.Following}
@@ -176,7 +176,7 @@ const Profile = ({ navigation }) => {
             <View
                 style={styles.VideoContainer}
             >
-             {/*
+             
                 <FlatList
                     style={styles.listContainer}
 
@@ -203,7 +203,7 @@ const Profile = ({ navigation }) => {
                 >
 
                 </FlatList>
-*/} 
+
             </View>
 
         </View>
