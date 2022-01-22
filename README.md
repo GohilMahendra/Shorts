@@ -8,7 +8,18 @@ Short video app made with react native redux fireabse
 
  - [react native firebase](https://rnfirebase.io/)
  - [codemagic ci/cd](https://codemagic.io)
- 
+## Installation
+
+First for fireabse setup see docs on
+( https://rnfirebase.io/) 
+
+For deployment and see how to manage environment variable on  
+Ci/cd 
+(https://docs.codemagic.io/yaml-quick-start/building-a-react-native-app/) 
+    
+
+
+
 ## Features
 
 - custom themes using contextApi
@@ -58,12 +69,3 @@ Javascript, react native, redux, fireabse
 
 
 
-## Installation
-
-First for fireabse setup see docs on
-( https://rnfirebase.io/) 
-
-For deployment and see how to manage environment variable on  
-Ci/cd 
-(https://docs.codemagic.io/yaml-quick-start/building-a-react-native-app/) 
-    
