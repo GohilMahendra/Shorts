@@ -16,6 +16,8 @@ Short video app made with react native redux fireabse
 - nested navigations
 - react navigation v5/v6
 - animations
+- share video using social handles
+- Like share comment follow/unfollow
 
 
 ## Screenshots
@@ -24,10 +26,10 @@ Short video app made with react native redux fireabse
 ![App Screenshot](https://i.ibb.co/xLGGVtQ/Screenshot-20220121-150058-com-shorts.jpg)
 
 ![App Screenshot](https://i.ibb.co/bHx6JNR/Screenshot-20220121-150302-com-shorts.jpg)
+![App Screenshot](https://i.ibb.co/ts30GVR/Screenshot-20220121-150249-com-shorts.jpg)
 
 
 ![App Screenshot](https://i.ibb.co/KV73cMC/Screenshot-20220121-150223-com-shorts.jpg)
-![App Screenshot](https://i.ibb.co/ts30GVR/Screenshot-20220121-150249-com-shorts.jpg)
 
 
 ![App Screenshot](https://i.ibb.co/3MNG5dr/Screenshot-20220121-150709-com-shorts.jpg)
