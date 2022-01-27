@@ -69,7 +69,11 @@ const TagList = ({tags}) => {
    const fetchMoreTagVideos=()=>
    {
        
+<<<<<<< HEAD
     getMoreTagVideos(tags)
+=======
+    dispatch(getMoreTagVideos(tags))
+>>>>>>> 170ab63f1def17110c9f8fb2add61b931255bdc3
    }
 
    const fetchTagVideos=()=>

@@ -34,8 +34,13 @@ const Profile = ({ navigation }) => {
     const UserDetailsLoad = useSelector(state => state.Profile.UserDetailsLoad)
     const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
 
+<<<<<<< HEAD
    
     const {theme}=useContext(themeContext)
+=======
+   const { theme } = useContext(themeContext)
+
+>>>>>>> 170ab63f1def17110c9f8fb2add61b931255bdc3
 
     const videos = useSelector(
         state => state.Profile.UserVideos
@@ -107,6 +112,7 @@ const Profile = ({ navigation }) => {
         <View
             style={styles.Container}
         >
+
             <View
                 style={styles.detailsContainer}
 
@@ -122,6 +128,9 @@ const Profile = ({ navigation }) => {
                     style={{flex:1}}
                     colors={[theme.gradient_color1,theme.gradient_color2]}
                     >
+
+
+                        
                         <View style={styles.imgContainer}>
                         <RoundImage
                             imageURL={auth().currentUser.photoURL}
@@ -133,6 +142,7 @@ const Profile = ({ navigation }) => {
                         >
                             {auth().currentUser.displayName}
                         </Text>
+                        
 
                         <InfoBox
                             followers={userDetails.Followers}
@@ -172,6 +182,7 @@ const Profile = ({ navigation }) => {
             <View
                 style={styles.VideoContainer}
             >
+             
                 <FlatList
                     style={styles.listContainer}
 
@@ -198,6 +209,7 @@ const Profile = ({ navigation }) => {
                 >
 
                 </FlatList>
+
             </View>
 
         </View>
