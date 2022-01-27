@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
     View, TextInput,
-    Text, StyleSheet, TouchableOpacity, PermissionsAndroid, Pressable, Image, Platform, Alert
+    Text, StyleSheet, TouchableOpacity, PermissionsAndroid, Pressable, Image, Platform, Alert, ActivityIndicator
 } from 'react-native'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 
@@ -10,23 +10,26 @@ import PreviewThumb from "./PreviewThumb";
 import { ScrollView } from "react-native-gesture-handler";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import UploadingLoad from "./UploadingLoad";
+
+import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadVideo } from "../redux/Actions/ProfileActions";
+import { fonts } from "react-native-elements/dist/config";
 const VideoUpload = ({ onPress }) => {
-  
+
     const ImageRef = useRef()
-  //  const [loading, setLoading] = useState(false)
+    //  const [loading, setLoading] = useState(false)
     const [VideoLoaction, setVideoLocation] = useState("")
     const [Title, setTitle] = useState("")
     const [discription, setdeiscription] = useState("")
     const [Duration, setDuration] = useState("")
     const [Tags, setTags] = useState("")
-    const [SongCover,setSongCover]=useState("")
+    const [SongCover, setSongCover] = useState("")
     const [SongName, setSongName] = useState("")
-  
-    const dispatch=useDispatch()
-    const uploadLoading=useSelector(state=>state.Profile.uploadLoading)
-    const uploadError=useSelector(state=>state.Profile.uploadError)
+
+    const dispatch = useDispatch()
+    const uploadLoading = useSelector(state => state.Profile.uploadLoading)
+    const uploadError = useSelector(state => state.Profile.uploadError)
     const maketags = (value) => {
         var arr = []
         if (value != "" && value != null) {
@@ -39,20 +42,41 @@ const VideoUpload = ({ onPress }) => {
     useEffect
         (
             () => {
-                requestCameraPermission()
+
+                if (Platform.OS === 'android')
+                    requestPermission()
             },
             []
         )
 
-    const requestCameraPermission = async () => {
+    const requestPermission = async () => {
+        const granted = await requestStorgePermissiom()
+
+        if (granted["android.permission.READ_EXTERNAL_STORAGE"] == 'granted'
+            && granted["android.permission.WRITE_EXTERNAL_STORAGE"] == 'granted'
+        ) {
+            console.log("permissions granted")
+        }
+        else {
+
+
+            Alert.alert("Permission denial ", "Please grant permission otherwise app would not work proper")
+        
+
+        }
+
+
+    }
+
+    const requestStorgePermissiom = async () => {
         try {
             const granted = await PermissionsAndroid.requestMultiple
                 (
                     [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
                 )
-              
-                return granted
+
+            return granted
         } catch (err) {
             console.log(err);
         }
@@ -82,7 +106,7 @@ const VideoUpload = ({ onPress }) => {
     function varify() {
         let varified = true
         let error = null
-        if (Title == ""||discription=="" || Title == undefined || VideoLoaction == "" || VideoLoaction == undefined) {
+        if (Title == "" || discription == "" || Title == undefined || VideoLoaction == "" || VideoLoaction == undefined) {
             varified = false
             error = "Please add title Or video for Upload"
         }
@@ -94,16 +118,15 @@ const VideoUpload = ({ onPress }) => {
     const UploadOnServer = async () => {
 
         try {
-            const {varified,error}=varify()
-            if(!varified)
-            {
+            const { varified, error } = varify()
+            if (!varified) {
                 Alert.alert(error)
                 return
             }
-            const uri=await captureTumbnail()
-            const tags=maketags(Tags)
-            dispatch(uploadVideo(Title,tags,SongName,Duration,SongCover,VideoLoaction,uri,discription)) 
-          
+            const uri = await captureTumbnail()
+            const tags = maketags(Tags)
+            dispatch(uploadVideo(Title, tags, SongName, Duration, SongCover, VideoLoaction, uri, discription))
+
         }
         catch (err) {
             console.log(err)
@@ -140,7 +163,7 @@ const VideoUpload = ({ onPress }) => {
             }
 
         )
-     
+
     }
 
     return (
@@ -267,7 +290,11 @@ const VideoUpload = ({ onPress }) => {
 
             </ScrollView>
 
-            {uploadLoading && <UploadingLoad></UploadingLoad>}
+            <Modal
+                isVisible={uploadLoading}
+            >
+                {uploadLoading && <uploadLoading />}
+            </Modal>
 
         </View>
     )
@@ -305,12 +332,12 @@ const styles = StyleSheet.create
             {
                 borderWidth: 1,
                 margin: 15,
-                padding:10,
+                padding: 10,
                 borderRadius: 10
             },
             txtInputDesc:
             {
-               borderWidth: 1,
+                borderWidth: 1,
                 margin: 15,
                 height: 100,
                 borderRadius: 15
@@ -321,7 +348,7 @@ const styles = StyleSheet.create
                 borderWidth: 1,
                 margin: 15,
                 height: 100,
-                padding:20,
+                padding: 20,
                 borderRadius: 15,
                 color: 'blue'
             },
@@ -331,7 +358,7 @@ const styles = StyleSheet.create
                 backgroundColor: 'blue',
                 height: 50,
                 width: 100,
-                elevation:10,
+                elevation: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 15,
@@ -353,7 +380,7 @@ const styles = StyleSheet.create
                 backgroundColor: 'blue',
                 height: 50,
                 width: 100,
-                elevation:10,
+                elevation: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 15,

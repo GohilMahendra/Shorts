@@ -160,17 +160,16 @@ export default VideoPlayer = forwardRef((props, ref) => {
                             poster={data.VideoThumb}
                             bufferConfig={
                                 {
-                                    minBufferMs: 15000,
-                                    maxBufferMs: 18000,
-                                    bufferForPlaybackAfterRebufferMs: 15000,
-                                    bufferForPlaybackMs: 15000
+                                    minBufferMs: 5000,
+                                    maxBufferMs: 5000,
+                                    bufferForPlaybackAfterRebufferMs: 5000,
+                                    bufferForPlaybackMs: 5000
                                 }
                             }
                             onReadyForDisplay={() => setloading(false)}
-                            onLoadStart={() => setloading(true)}
+                            onLoad={()=>setloading(true)}
+                          //  onEnd={()=>setloading(false)}
                             onVideoLoadStart={(e) => console.log(e)}
-                            //onVideoProgress={(e)=>console.log(e)}
-                            // onProgress={(e)=>console.log(e)}
                             onVideoError={(err) => console.log(err)}
                             style={styles.videoPlayer}
                         >

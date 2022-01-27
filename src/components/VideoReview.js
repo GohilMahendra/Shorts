@@ -15,6 +15,7 @@ import Share from "react-native-share";
 import RNFS, { CachesDirectoryPath, downloadFile } from "react-native-fs";
 import { Dislike, isExist, LikeVideo } from "../functions/VideoPlayer/LikesOperations";
 import getPath from "@flyerhq/react-native-android-uri-path";
+import { configureFonts } from "react-native-paper";
 
 const VideoReview = forwardRef((props, ref) => {
 
@@ -86,19 +87,25 @@ const VideoReview = forwardRef((props, ref) => {
 
                         toFile: RNFS.DownloadDirectoryPath + '/' + data.Title + '.mp4',
 
-                        progress: (res) => console.log(
-                           res),
+                        progress: (res) => {
+                     
+                            
+                           
+                        }
+
 
                     },
 
                 ).promise.then
-                (
-                    share()
-                )
-                .catch(err)
+                ((r)=>
                 {
-                    console.log(err)
+                    if(r.statusCode==200)
+                    {
+                        share()
+                    }
                 }
+                )
+                .catch(err=>console.log(err))
         }
         catch (err) {
             console.log(err)

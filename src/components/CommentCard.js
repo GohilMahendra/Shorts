@@ -111,7 +111,6 @@ const styles = StyleSheet.create
 
             {
                 flex: 1,
-
                 position: "absolute",
                 alignItems: "center",
                 backgroundColor: "transparent"

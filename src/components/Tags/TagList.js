@@ -15,7 +15,7 @@ import VideoPreviewCard from '../VideoPreviewCard'
 import { Colors } from "../../constants/colors"
 import firestore from '@react-native-firebase/firestore'
 import { useDispatch, useSelector } from "react-redux"
-import { getTagVideos } from "../../redux/Actions/TagActions"
+import { getMoreTagVideos, getTagVideos } from "../../redux/Actions/TagActions"
 
 const TagList = ({tags}) => {
 
@@ -69,7 +69,7 @@ const TagList = ({tags}) => {
    const fetchMoreTagVideos=()=>
    {
        
-    fetcmr
+    getMoreTagVideos(tags)
    }
 
    const fetchTagVideos=()=>

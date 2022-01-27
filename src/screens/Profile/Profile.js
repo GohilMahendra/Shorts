@@ -24,6 +24,7 @@ import { Colors } from '../../constants/colors'
 import InfoBox from '../../components/UserDetails/InfoBox'
 import LinearGradient from 'react-native-linear-gradient'
 import { themeContext } from '../../../App'
+
 import { themes } from '../../constants/themes'
 
 const Profile = ({ navigation }) => {
@@ -34,6 +35,7 @@ const Profile = ({ navigation }) => {
     const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
 
    
+    const {theme}=useContext(themeContext)
 
     const videos = useSelector(
         state => state.Profile.UserVideos
