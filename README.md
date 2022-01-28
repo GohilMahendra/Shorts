@@ -37,23 +37,18 @@ Ci/cd
 <div>
  <div align="center">
   <img src="https://i.ibb.co/xLGGVtQ/Screenshot-20220121-150058-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/bHx6JNR/Screenshot-20220121-150302-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/ts30GVR/Screenshot-20220121-150249-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/KV73cMC/Screenshot-20220121-150223-com-shorts.jpg" height="400px" width="200px"/>
  </div>
+  <div align="center">
+  <img src="https://i.ibb.co/3MNG5dr/Screenshot-20220121-150709-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/DfyCj38/Screenshot-20220121-150821-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/CBn8h33/Screenshot-20220121-150836-com-shorts.jpg" height="400px" width="200px"/>
+   <img src="https://i.ibb.co/dJgrfvw/Screenshot-20220121-150844-com-shorts.jpg" height="400px" width="200px"/>
+ </div>
+
 </div>
-![App Screenshot](https://i.ibb.co/xLGGVtQ/Screenshot-20220121-150058-com-shorts.jpg)
-
-![App Screenshot](https://i.ibb.co/bHx6JNR/Screenshot-20220121-150302-com-shorts.jpg)
-![App Screenshot](https://i.ibb.co/ts30GVR/Screenshot-20220121-150249-com-shorts.jpg)
-
-
-![App Screenshot](https://i.ibb.co/KV73cMC/Screenshot-20220121-150223-com-shorts.jpg)
-
-
-![App Screenshot](https://i.ibb.co/3MNG5dr/Screenshot-20220121-150709-com-shorts.jpg)
-
-![App Screenshot](https://i.ibb.co/DfyCj38/Screenshot-20220121-150821-com-shorts.jpg)
-![App Screenshot](https://i.ibb.co/CBn8h33/Screenshot-20220121-150836-com-shorts.jpg)
-![App Screenshot](https://i.ibb.co/dJgrfvw/Screenshot-20220121-150844-com-shorts.jpg)
-
 
 
 
