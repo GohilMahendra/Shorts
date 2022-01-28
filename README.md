@@ -34,6 +34,11 @@ Ci/cd
 ## Screenshots
 
 
+<div>
+ <div align="center">
+  <img src="https://i.ibb.co/xLGGVtQ/Screenshot-20220121-150058-com-shorts.jpg" height="400px" width="200px"/>
+ </div>
+</div>
 ![App Screenshot](https://i.ibb.co/xLGGVtQ/Screenshot-20220121-150058-com-shorts.jpg)
 
 ![App Screenshot](https://i.ibb.co/bHx6JNR/Screenshot-20220121-150302-com-shorts.jpg)
