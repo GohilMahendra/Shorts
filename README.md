@@ -56,7 +56,7 @@ Ci/cd
 
 ## 🔗 Links
 
-[![Mahendra Gohil](https://www.linkedin.com/in/mahendra-gohil-175678183)](https://www.linkedin.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahendra-gohil-175678183)
 
 
 ## 🛠 Skills
