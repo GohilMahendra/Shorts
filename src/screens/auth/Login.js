@@ -26,27 +26,27 @@ const Login = ({ navigation }) => {
         setPasswordForgot(false)
     }
 
-    useEffect
-        (
-            () => {
+    // useEffect
+    //     (
+    //         () => {
 
 
-                const subscription = auth().onAuthStateChanged
-                    (
-                        (user) => {
+    //             const subscription = auth().onAuthStateChanged
+    //                 (
+    //                     (user) => {
 
-                            if (user) {
-                                navigation.navigate("HomeTabs")
-                            }
-                        }
-                    )
+    //                         if (user) {
+    //                             navigation.navigate("HomeTabs")
+    //                         }
+    //                     }
+    //                 )
 
-                return () => subscription()
-            },
+    //             return () => subscription()
+    //         },
 
-            []
-        )
-    const onSignIn = async () => {
+    //         []
+    //     )
+     const onSignIn = async () => {
 
         if(email==="" || password==="")
         {

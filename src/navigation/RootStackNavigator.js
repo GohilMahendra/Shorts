@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from "react-native"
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -8,13 +8,37 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Login from '../screens/auth/Login'
 import SignUp from '../screens/auth/SignUp'
-
-import comments from '../screens/Comments'
+import Auth from "@react-native-firebase/auth"
 import Comments from '../screens/Comments'
 import HomeTabs from '../screens/HomeTabs'
 const RootStackNavigator = () => {
 
     const RootStack = createStackNavigator()
+
+    const [isauthorised, setisauthorised] = useState(false)
+
+    useEffect
+        (
+
+            () => {
+                const subscription = Auth().onAuthStateChanged(
+                    user => {
+                        if (user) {
+                            setisauthorised(true)
+                        }
+                        else {
+                            setisauthorised(false)
+                        }
+                    }
+                )
+
+                return () => subscription()
+            }
+
+
+            , []
+
+        )
 
     return (
 
@@ -22,8 +46,12 @@ const RootStackNavigator = () => {
             <RootStack.Navigator
 
 
-                initialRouteName="Login"
+                initialRouteName={(!isauthorised) ? "Login" : "HomeTabs"}
             >
+                {
+                    (!isauthorised)?
+                (
+                    <>
                 <RootStack.Screen
 
                     options={
@@ -37,6 +65,21 @@ const RootStackNavigator = () => {
                 />
 
                 <RootStack.Screen
+
+                    options={
+                        {
+                            headerShown: false
+                        }
+                    }
+                    name="SignUp"
+                    component={SignUp}
+
+                />
+                    </>):
+                    (
+                        <>
+
+                        <RootStack.Screen
 
                     options={
                         {
@@ -70,20 +113,12 @@ const RootStackNavigator = () => {
                     component={Comments}
 
                 />
+                </>
+                    )
 
-                <RootStack.Screen
-
-                    options={
-                        {
-                            headerShown: false
-                        }
-                    }
-                    name="SignUp"
-                    component={SignUp}
-
-                />
-
+                }
             </RootStack.Navigator>
+                
 
         </NavigationContainer>
     )

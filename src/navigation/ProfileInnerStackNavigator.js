@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from "react-native"
 
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, TabRouter } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 
@@ -42,7 +42,12 @@ const ProfileInnerStackNavigator = () => {
                 name="Edit"
                 options={
                     {
-                        headerShown: false
+                        headerTitleAlign: "center",
+                        headerStyle: {
+                            backgroundColor: 'black'
+                        },
+                        headerTintColor: '#fff'
+
                     }
                 }
                 component={EditProfile}

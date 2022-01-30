@@ -100,8 +100,6 @@ const Home = ({ navigation }) => {
             setWatchFollowing(true)
         }
 
-
-
     }
 
 
@@ -201,13 +199,22 @@ const Home = ({ navigation }) => {
                 onViewableItemsChanged={onViewRef.current}
 
                 keyExtractor={(item) => item.id}
-                snapToInterval={height}
+                snapToInterval={height+50}
+                decelerationRate={'fast'}
+
+
 
 
                 onEndReached={
                     () => fetchMoreVideos()
                 }
                 renderItem={renderItem}
+
+              ItemSeparatorComponent={()=><View
+              style={{
+                  height:50,
+              }}
+              ></View>}
 
             >
 

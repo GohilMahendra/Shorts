@@ -33,15 +33,9 @@ const Profile = ({ navigation }) => {
     const userDetails = useSelector(state => state.Profile.userProfile)
     const UserDetailsLoad = useSelector(state => state.Profile.UserDetailsLoad)
     const UserDetailsError = useSelector(state => state.Profile.UserDetailsError)
-
-<<<<<<< HEAD
    
     const {theme}=useContext(themeContext)
-=======
-   const { theme } = useContext(themeContext)
-
->>>>>>> 170ab63f1def17110c9f8fb2add61b931255bdc3
-
+  
     const videos = useSelector(
         state => state.Profile.UserVideos
     )
@@ -55,7 +49,7 @@ const Profile = ({ navigation }) => {
     const logout = async () => {
         dispatch(logOut())
         auth().signOut()
-        navigation.navigate('Login')
+     //   navigation.navigate('Login')
     }
 
 
