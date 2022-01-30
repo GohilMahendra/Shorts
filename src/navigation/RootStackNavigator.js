@@ -32,7 +32,7 @@ const RootStackNavigator = () => {
                     }
                 )
 
-                return () => subscription()
+                return () => {subscription()}
             }
 
 
