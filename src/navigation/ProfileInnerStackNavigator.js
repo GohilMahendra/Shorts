@@ -143,10 +143,6 @@ const ProfileInnerStackNavigator = () => {
                 component={SongVideoPlayer}
             ></HomeStack.Screen>
 
-
-
-
-
         </HomeStack.Navigator>
     )
 
