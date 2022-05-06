@@ -3,8 +3,6 @@ import firestore, { firebase } from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 export const Dislike = async (videoID, channelID) => {
 
-
-
     try {
         const deleteFromlookup = await firestore()
             .collection('Likes')
